@@ -1,0 +1,86 @@
+Build 2 (29/11/2015 - 13.55)
+
+- [FIX] Creative player activating Long Arms desynced game mode
+- Implemented speed and jump boost from Well Trained
+- Implemented parkour ability
+- Implemented Landing ability
+- Implemented Adrenaline Rush
+- Added Recipes for 
+	> Bone Talisman
+	> Heroes' Knowledge
+	> Chainmail Armor
+	> Tomes
+- Added player extra inventories (not accessible yet)
+- Implemented Win Death (mechanism only, talisman not usable yet)
+- Implemented Knight
+- Implemented Wrath
+- Implemented Disarm
+- Implemented Boss Expertise
+- Implemented Fast Miner
+- Implemented Crumbling (Gravel Only - Filter not implemented)
+- Implemented Delicate Hands
+- Implemented Fortunate Hands
+- Implemented Joined Ores
+- Added Italian Translation (it_IT)
+- Added Yellow tint to uncomplete classes
+
+Build 3
+
+- Tweaked recipe for the tome of return. It now requires a map and an ender pearl instead of clock and compass
+- Implemented Designer
+- Implemented Bone Talisman Gui, now effective
+- Added textures for goldenBow, tomeEvocation, tomeExperience
+- Implemented Power Shot
+- Implemented Dodge
+- Implemented Eagle Eye
+- Implemented Shadow Form
+- Implemented Heavy Sleep
+- Added Inventories Buttons
+- Added Crafting inventory
+- Implemented Floor Laying 
+- [FIX] Perks resetting on death
+- Added creative commands for resetting and completing player abilities
+- [FIX] Synced Gui
+- Implemented Chainmail Forging
+- Added Extra Inventory Gui
+- Implemented Expert Eye
+- Implemented Portable Furnace
+- Packages Cleanup
+- ! - [FIX] Server/Client classes disaster-mix. Now I know. Never Again
+- ! - Rewrote player handling from the ground up -.- Bugs incoming, needs deep testing
+- Tweaked Shadow Form to last 2s instead of 0s, to prevent lag-flickering client side. (when client lagged, it didn't reapply invis immediatly and waited for server to reapply it, making player visible for a couple ms >1000ms latency still behaves this way)
+- ! - ExtendedPlayer now is nullplayer-proof, but may cause desync. Needs testing
+- walkSpeed is now modified directly via reflection. For some weird reason 'setWalkSpeed' method is client only. Minecraft code is ouch
+
+Build 4
+
+- [FIX] Only Sync a player to itself when logging in
+- [FIX] Portable Furnace using clientside code on server
+- Adjusted stun effects
+- [FIX] Adrenaline Rush wasn't triggered by players
+- [FIX] A near-death experience dropped all of the extra inventory, even if the player survived
+- Code should be really better now. no more client/server entity mix for singleplayer
+- [FIX] Jumping is not an excruciating experience anymore when well trained. Hopefully
+- Synced Player when using a creative command to avoid relogging every damn time
+
+Build 5
+
+- Added Config
+- Added Decanter
+- Decanter stops on redstone signal
+- Shadow form and Expert Traveller are nerfed. They now require experience
+
+Build 6
+
+- Implemented Golden Bow
+- Implemented Experience Tome
+- Implemented Tome of Return
+- Implemented Scaffolds and Scaffold Builder
+- Added config to prevent JVM Stack Overflow - This has its limitations on how many blocks a recursive function can do in a single call. this sucks, i should rewrite it
+- Implemented Evocation Tome
+- Added a command to reload configs. DEV only, will be removed on final version
+
+Build 7
+
+- Updated some textures
+- Added decanter recipe

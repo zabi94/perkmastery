@@ -1,0 +1,125 @@
+item.masterybook.name=Heroes' Knowledge
+item.boneAmulet.name=Bone Amulet
+item.chainmailCloth.name=Chainmail
+item.goldenBow.name=Golden Bow
+item.tomeEvocation.name=Tome of Evocation
+item.tomeExperience.name=Tome of Experience
+item.tomeReturn.name=Tome of Return
+item.scaffoldBuilder.name=Scaffold Builder
+item.soul.name=Soul
+
+tile.decanter.name=Decanter
+tile.scaffold.name=Scaffold
+
+itemGroup.perkmastery=Perk Mastery
+key.openGui=Open Perk Gui
+
+generic.requiredExp=Required Levels
+general.mustUnlockClass=You must complete the class you started!
+general.amuletShatter=Your bone talisman shatters
+general.machinery.notenabled=You are not really sure how to use this
+general.abilitiesReset=Your abilities are now reset
+general.allAbilitiesUnlocked=All Abilities unlocked
+general.cannotProcess=Cannot process the command
+general.notenoughexperience=You need more experience!
+general.scaffoldbuilder.boundto=Currently bound to:
+general.recursiveLimit=Limit reached, not all blocks have been processed
+general.scaffoldbuilder.cleanInstructions=Shift-Right click on a block to reset
+general.scaffoldbuilder.mode.empty=Empty cube [Place on a crafting grid to change]
+general.scaffoldbuilder.mode.full=Full cube [Place on a crafting grid to change]
+general.evocationNameTag=Evocation
+general.soul.destroyed.nobook=A soul found no item to bind to and vanished in your hands
+general.soul.destroyed.unable=The soul vanished in your hands
+general.collectedSouls=Collected Souls
+
+classes.mage=Mage (4/6 implemented)
+classes.archer=Archer
+classes.miner=Miner (5.6/6 implemented)
+classes.builder=Builder
+classes.warrior=Warrior
+classes.explorer=Explorer
+
+perk.mage.1=Decanter Mastery
+perk.mage.2=Enchanter Mastery [Not Implemented]
+perk.mage.3=Disenchanter [Not Implemented]
+perk.mage.4=Knowledge of the Tomes
+perk.mage.5=Experience Mastery
+perk.mage.6=Overcome Death
+
+perk.desc.mage.1=Allows the use of a Decanter._It brews multiple ingredients and up to_12 potions simultaneously._A redstone signal should stop it
+perk.desc.mage.2=Allows the use of an Enchanting Altar._It's like an Enchanting Table,_but uses 66% less experience
+perk.desc.mage.3=Allows the use of a Disenchanting Altar._Unbinds enchantments from tools and stores_them in other containers, at the cost of experience
+perk.desc.mage.4=Allows the use of an Evocation Tome and a Return Tome._The Evocation tome collects the souls of those_you killed, to be summoned under your control._Place the book on the right of your weapon (or hand)._The Return tome teleports you near your_bed, at the cost of experience._Hold right click for a couple seconds, then release
+perk.desc.mage.5=Allows the use of a Tome of Experience._It destroys itself and any nearby bookshelf_converting them into pure experience._Right click once to see what bookshelves will be affected._Right click and hold to tranform
+perk.desc.mage.6=Allows the use of a Bone Talisman._It shatters when you are about to die, but_it will save and heal you a bit
+
+perk.archer.1=Power Shot
+perk.archer.2=Dodge
+perk.archer.3=Bow Craftsmanship
+perk.archer.4=Stun
+perk.archer.5=Eagle Eye
+perk.archer.6=Shadow Form
+
+perk.desc.archer.1=Each arrow hits 10% harder
+perk.desc.archer.2=You have a 70% chance to dodge incoming projectiles
+perk.desc.archer.3=Allows the use of a golden bow that can rapid-fire._It comes with a random enchantment
+perk.desc.archer.4=You can shoot further._You have the chance to stun your enemies_and make them slow and confused
+perk.desc.archer.5=Grants night vision while aiming
+perk.desc.archer.6=Sneaking grants you invisibility._It costs some experience to mantain this form._Shadows take a toll on your vitality if you_don't have any
+
+perk.miner.1=Fast Miner
+perk.miner.2=Joined Ores
+perk.miner.3=Expert Eye
+perk.miner.4=Lucky Miner
+perk.miner.5=Crumbling
+perk.miner.6=Pocket Instruments [2/3 Implemented]
+
+perk.desc.miner.1=When holding a pickaxe, grants you haste
+perk.desc.miner.2=You mine multiple ores of the same type at the same time
+perk.desc.miner.3=You can sense nearby ores._Shift while holding a pick to activate
+perk.desc.miner.4=You are luckier when digging ores
+perk.desc.miner.5=Gravel drops together if you break the bottom block._All the items in the filter inventory are_destroyed instead of being picked up. This is_metadata aware, but ignores nbt.
+perk.desc.miner.6=Portable Furnace & Crafting table._Allows the creation of a grappling hook
+
+perk.builder.1=Long Arms
+perk.builder.2=Delicate digging
+perk.builder.3=Designer
+perk.builder.4=Parkour
+perk.builder.5=Floor laying
+perk.builder.6=Build Planner
+
+perk.desc.builder.1=Reach further
+perk.desc.builder.2=Silk Touch glass based blocks._Any tool will do, but pickaxes may be_a little too rough
+perk.desc.builder.3=Switch blocks' style._Place them in your 2x2 player crafting box
+perk.desc.builder.4=Climb walls and land softly
+perk.desc.builder.5=While sneaking places the blocks you_hold on the ground as you walk._Only works with full blocks
+perk.desc.builder.6=Allows the use of a Scaffold Placer._Place on a crafing grid to swap modes._Shift right click on a block to clear._Right click on two blocks to build a cube of scaffolds._Right click on a scaffold with a solid_block to replace all adjacent scaffolds._Shift click on a scaffold to break_all adjacent scaffolds.
+
+perk.warrior.1=Wrath
+perk.warrior.2=Disarm
+perk.warrior.3=Chainmail Forging
+perk.warrior.4=Knight
+perk.warrior.5=Boss Expertise
+perk.warrior.6=Adrenaline Rush
+
+perk.desc.warrior.1=Harder blows
+perk.desc.warrior.2=You have a 10% chance of disarming_an enemy when you attack
+perk.desc.warrior.3=Allows wearing chainmail underarmour._Enchantments don't work when placed in_the underarmor slots
+perk.desc.warrior.4=You hurt nearby creatures while riding an entity
+perk.desc.warrior.5=Hit bosses, harder
+perk.desc.warrior.6=Applies absorption when damaged_by an entity or player
+
+perk.explorer.1=Heavy Sleep
+perk.explorer.2=Backpack
+perk.explorer.3=Loot finder
+perk.explorer.4=Well trained
+perk.explorer.5=Landing
+perk.explorer.6=Expert Traveller
+
+perk.desc.explorer.1=Allows you to sleep under any condition,_except daylight
+perk.desc.explorer.2=Get some extra inventory
+perk.desc.explorer.3=You always seem to find cool stuff on your adventures._When you are at least 64 blocks away from your bed_random loot generates around you
+perk.desc.explorer.4=You jump higher, run faster and_are more agile on 1 block high steps
+perk.desc.explorer.5=If you are to die from falling, your agility_lets you always preserve half a heart
+perk.desc.explorer.6=Fills your stomach at the cost of experience
+

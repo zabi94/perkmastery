@@ -1,0 +1,16 @@
+[
+{
+  "modid": "perkmastery",
+  "name": "Perk Mastery",
+  "description": "Get cool stuff for levels",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Zabi94"],
+  "credits": "Zabi94, Zack_96, Moriz",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
