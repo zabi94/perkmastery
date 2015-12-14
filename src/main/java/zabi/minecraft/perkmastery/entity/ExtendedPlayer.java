@@ -18,37 +18,37 @@ import cpw.mods.fml.relauncher.Side;
 
 
 public class ExtendedPlayer {
-	
-	public final static String 
-		TAG_PREFIX = LibGeneral.MOD_ID+":PlayerExtraData",
-		INVENTORY = "inventory",
-		FILTER = "filter",
-		ABILITIES_KEY = "abilities",
-		ENABLED_KEY = "enabled",
-		FURNACE_KEY = "furnace";
 
-	
-	
-	
-	
-	
+	public final static String 
+	TAG_PREFIX = LibGeneral.MOD_ID+":PlayerExtraData",
+	INVENTORY = "inventory",
+	FILTER = "filter",
+	ABILITIES_KEY = "abilities",
+	ENABLED_KEY = "enabled",
+	FURNACE_KEY = "furnace";
+
+
+
+
+
+
 	public static int[] getAbilities(EntityPlayer p) {
 		genKey(p);
 		return ((NBTTagCompound)p.getEntityData().getTag(TAG_PREFIX)).getIntArray(ABILITIES_KEY);
 	}
-	
+
 	public static byte[] getEnabledAbilities(EntityPlayer p) {
 		genKey(p);
 		return ((NBTTagCompound)p.getEntityData().getTag(TAG_PREFIX)).getByteArray(ENABLED_KEY);
 	}
-	
+
 	public static ItemStack[] getExtraInventory(EntityPlayer p, InventoryType type) {
 		genKey(p);
 		if (type==InventoryType.FILTER) return pollFilter(p);
 		if (type==InventoryType.REAL) return pollExtraInventoryNoFilter(p);
 		return null;
 	}
-	
+
 	private static ItemStack[] pollExtraInventoryNoFilter(EntityPlayer p) {
 		ItemStack[] res=new ItemStack[26];
 		NBTTagCompound inv=(NBTTagCompound) ((NBTTagCompound) p.getEntityData().getTag(TAG_PREFIX)).getTag(INVENTORY);
@@ -57,7 +57,7 @@ public class ExtendedPlayer {
 		} catch (Exception e) {}
 		return res;
 	}
-	
+
 	private static ItemStack[] pollFilter(EntityPlayer p) {
 		ItemStack[] res=new ItemStack[5];
 		NBTTagCompound inv=(NBTTagCompound) ((NBTTagCompound) p.getEntityData().getTag(TAG_PREFIX)).getTag(FILTER);
@@ -66,9 +66,9 @@ public class ExtendedPlayer {
 				if (inv.hasKey(""+(i))) res[i]=ItemStack.loadItemStackFromNBT((NBTTagCompound) inv.getTag(""+(i)));
 			} catch (Exception e) {}
 		return res;
-		
+
 	}
-	
+
 	public static void setInventorySlot(EntityPlayer p, int slot, ItemStack is) {
 		if (p==null) return;
 		try {
@@ -81,7 +81,7 @@ public class ExtendedPlayer {
 			p.getEntityData().setTag(TAG_PREFIX, extraData);
 		} catch (Exception e) {}
 	}
-	
+
 	public static void setFilterSlot(EntityPlayer p, int slot, ItemStack is) {
 		try {
 			NBTTagCompound extraData=(NBTTagCompound) p.getEntityData().getTag(TAG_PREFIX);
@@ -97,18 +97,18 @@ public class ExtendedPlayer {
 	public static boolean isPlayer(EntityPlayer p, PlayerClass clas) {
 		return getAbilities(p)[clas.ordinal()]!=0;
 	}
-	
+
 	public static int getAbilityLevelFor(EntityPlayer p, PlayerClass clas) {
 		return getAbilities(p)[clas.ordinal()];
 	}
-	
-	
-	
-	
+
+
+
+
 	private static void genKey(EntityPlayer p) {
 		if (!p.getEntityData().hasKey(TAG_PREFIX)) {
 			NBTTagCompound tag = new NBTTagCompound();
-			
+
 			tag.setIntArray(ABILITIES_KEY, new int[6]);
 			tag.setByteArray(ENABLED_KEY, new byte[6]);
 			tag.setTag(INVENTORY, new NBTTagCompound());
@@ -117,30 +117,30 @@ public class ExtendedPlayer {
 			p.getEntityData().setTag(TAG_PREFIX,tag);
 		}
 	}
-	
+
 	public static void restoreTag(EntityPlayer p, NBTTagCompound tag) {
 		p.getEntityData().setTag(TAG_PREFIX, tag);
 	}
-	
+
 	public static NBTTagCompound backupTag(EntityPlayer p) {
 		return (NBTTagCompound) p.getEntityData().getTag(TAG_PREFIX).copy();
 	}
-	
+
 	public static boolean canAffordAbility(EntityPlayer player, int abilityLevel) {
 		return player.experienceLevel>=getRequiredLevelsForAbility(player,abilityLevel) || player.capabilities.isCreativeMode;
 	}
-	
+
 	public static int getRequiredLevelsForAbility(EntityPlayer p, int abilityLevel) {
 		if (abilityLevel==6) return 50;
 		if (abilityLevel==1 && hasAnyAbility(p)) return 100;
 		return 10+ (abilityLevel-1)*5;
 	}
-	
+
 	public static boolean hasAnyAbility(EntityPlayer p) {
 		for (PlayerClass pc:PlayerClass.values()) if (isPlayer(p,pc)) return true;
 		return false;
 	}
-	
+
 	public static boolean canPlayerAccessTree(EntityPlayer p,PlayerClass pc) {
 		boolean b0=isPlayer(p,pc);
 		b0=b0 || !hasAnyAbility(p);
@@ -176,7 +176,7 @@ public class ExtendedPlayer {
 		//SAVE?
 
 	}
-	
+
 	public static void setAbilityLevel(EntityPlayer p, int clas, int level) {
 		genKey(p);
 		int[] abs=getAbilities(p);
@@ -184,9 +184,9 @@ public class ExtendedPlayer {
 		NBTTagCompound tag=((NBTTagCompound)p.getEntityData().getTag(TAG_PREFIX));
 		tag.setIntArray(ABILITIES_KEY, abs);
 		p.getEntityData().setTag(TAG_PREFIX, tag);
-		
+
 	}
-	
+
 	public static void setEnabledAbilities(EntityPlayer p, int clas, byte abils) {
 		genKey(p);
 		byte[] ens=getEnabledAbilities(p);
@@ -194,14 +194,14 @@ public class ExtendedPlayer {
 		NBTTagCompound tag=((NBTTagCompound)p.getEntityData().getTag(TAG_PREFIX));
 		tag.setByteArray(ENABLED_KEY, ens);
 		p.getEntityData().setTag(TAG_PREFIX, tag);
-		
+
 	}
-	
+
 	public static void setInventory(EntityPlayer p, ItemStack[] inv) {
 		genKey(p);
 		for (int i=0;i<inv.length;i++) setInventorySlot(p, i, inv[i]);
 	}
-	
+
 	public static void setFilter(EntityPlayer p, ItemStack[] flt) {
 		genKey(p);
 		for (int i=0;i<flt.length;i++) setFilterSlot(p, i, flt[i]);
@@ -216,9 +216,9 @@ public class ExtendedPlayer {
 	public static void requestUnlockLevel(EntityPlayer p,PlayerClass pc, int level) {
 		PerkMastery.network.sendToServer(new UnlockAbility(pc.ordinal(), level));
 		unlockLevel(p,pc.ordinal(),level);
-//		save();
+		//		save();
 	}
-	
+
 	/**
 	 *
 	 * Auto syncs to server. Doesn't auto sync to client
@@ -232,7 +232,7 @@ public class ExtendedPlayer {
 			Log.e("Tried to toggle a non-owned ability");
 			return;
 		}
-		
+
 		byte res=getEnabledAbilities(p)[pc.ordinal()];
 		if (active) res|=getBit(level);
 		else res&=(~getBit(level));
@@ -257,24 +257,24 @@ public class ExtendedPlayer {
 	private static int getBit(int opt) {
 		return (int) Math.pow(2, opt-1);
 	}
-	
+
 	public static boolean hasDeathAmulet(EntityPlayer p) {
-//		Log.i("Verifying amulet");
+		//		Log.i("Verifying amulet");
 		boolean exists=getExtraInventory(p, InventoryType.REAL)[18]!=null;
-//		Log.i("Boolean does "+(exists?"":"not ")+"exist");
+		//		Log.i("Boolean does "+(exists?"":"not ")+"exist");
 		return exists;
 	}
-	
+
 	public static void destroyAmulet(EntityPlayer p) {
 		setInventorySlot(p, 18, null);
 		if (FMLCommonHandler.instance().getEffectiveSide()==Side.SERVER) PerkMastery.network.sendToDimension(new AmuletShatter(p.getDisplayName()), p.dimension);
 	}
-	
+
 	public static void setFurnaceData(EntityPlayer p, int[] data) {
 		genKey(p);
 		((NBTTagCompound)p.getEntityData().getTag(TAG_PREFIX)).setIntArray(FURNACE_KEY, data);
 	}
-	
+
 	public static int[] getFurnaceData(EntityPlayer p) {
 		genKey(p);
 		try {
@@ -283,26 +283,26 @@ public class ExtendedPlayer {
 			return null;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public enum PlayerClass {
 		MAGE,ARCHER,MINER,BUILDER,WARRIOR,EXPLORER
 	}
-	
+
 	public enum InventoryType {
 		FILTER, REAL
 	}
@@ -317,14 +317,14 @@ public class ExtendedPlayer {
 	public static void dropItemsOnDeath(EntityPlayer player) {
 		for (int i=0;i<getExtraInventory(player, InventoryType.REAL).length;i++) {
 			try {
-			player.worldObj.spawnEntityInWorld(
-					new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, getExtraInventory(player, InventoryType.REAL)[i].copy())
-			);
+				player.worldObj.spawnEntityInWorld(
+						new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, getExtraInventory(player, InventoryType.REAL)[i].copy())
+						);
 			} catch (NullPointerException e) {}
 			ExtendedPlayer.setInventorySlot(player, i, null);
 		}
-		
+
 	}
-	
-	
+
+
 }
