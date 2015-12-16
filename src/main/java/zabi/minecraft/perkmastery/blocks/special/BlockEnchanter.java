@@ -3,9 +3,17 @@ package zabi.minecraft.perkmastery.blocks.special;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
+import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.blocks.TileBlock;
+import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
+import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
+import zabi.minecraft.perkmastery.gui.GuiHandler;
 import zabi.minecraft.perkmastery.libs.LibGeneral;
 import zabi.minecraft.perkmastery.tileentity.TileEntityEnchanter;
 import cpw.mods.fml.relauncher.Side;
@@ -45,4 +53,11 @@ public class BlockEnchanter extends TileBlock {
 	public boolean isOpaqueCube() {
 		return false;
 	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int int1, float f1, float f2, float f3) {
+		if (ExtendedPlayer.isEnabled(player, PlayerClass.MAGE, 2)) player.openGui(PerkMastery.instance, GuiHandler.IDs.GUI_ENCHANTER.ordinal(), world, x, y, z);
+		else if (world.isRemote) player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("general.machinery.notenabled")));
+		return true;
+    }
 }

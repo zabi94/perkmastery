@@ -23,6 +23,7 @@ public class Recipes {
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.goldenBow), " GS","D S", " GS", 'G', Items.gold_ingot, 'D', Items.diamond, 'S', Items.string);
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.scaffoldBuilder,1,0), "IWI","WPW","IWI", 'I', Items.iron_ingot, 'W', Items.stick, 'P', Items.diamond_pickaxe);
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.decanter), " B ","GCG","III", 'B', Blocks.brewing_stand, 'G', Items.gold_ingot, 'C', Blocks.cauldron, 'I', Items.iron_ingot);
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.enchanter), " E ","BLB","GGG", 'E', Blocks.enchanting_table, 'G', Items.gold_ingot, 'L', Blocks.lapis_block, 'B', Items.book);
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.tomeEvocation), Items.book, Items.fermented_spider_eye, Items.name_tag);
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.tomeExperience), Items.book, Items.poisonous_potato, Items.snowball);

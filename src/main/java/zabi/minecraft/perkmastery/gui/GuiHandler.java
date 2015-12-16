@@ -21,6 +21,7 @@ import zabi.minecraft.perkmastery.gui.guis.GuiPerks;
 import zabi.minecraft.perkmastery.gui.guis.GuiPortableFurnace;
 import zabi.minecraft.perkmastery.misc.Log;
 import zabi.minecraft.perkmastery.tileentity.TileEntityDecanter;
+import zabi.minecraft.perkmastery.tileentity.TileEntityEnchanter;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
@@ -48,7 +49,7 @@ public class GuiHandler implements IGuiHandler {
 		case GUI_FILTER:
 			return new ContainerFilter(player);
 		case GUI_ENCHANTER:
-			return new ContainerEnchanter(player);
+			return new ContainerEnchanter(player, (TileEntityEnchanter) world.getTileEntity(x, y, z));
 		default:
 			Log.w("invalid GUI requested: "+ID);
 			return null;

@@ -10,6 +10,7 @@ item.soul.name=Soul
 
 tile.decanter.name=Decanter
 tile.scaffold.name=Scaffold
+tile.enchanter.name=Enchanter
 
 itemGroup.perkmastery=Perk Mastery
 key.openGui=Open Perk Gui
