@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import zabi.minecraft.perkmastery.container.ContainerBoneAmulet;
 import zabi.minecraft.perkmastery.container.ContainerChainmail;
 import zabi.minecraft.perkmastery.container.ContainerDecanter;
+import zabi.minecraft.perkmastery.container.ContainerEnchanter;
 import zabi.minecraft.perkmastery.container.ContainerFilter;
 import zabi.minecraft.perkmastery.container.ContainerPortableFurnace;
 import zabi.minecraft.perkmastery.container.ContainerExtendedInventory;
@@ -13,6 +14,7 @@ import zabi.minecraft.perkmastery.container.ContainerBase;
 import zabi.minecraft.perkmastery.gui.guis.GuiBoneAmulet;
 import zabi.minecraft.perkmastery.gui.guis.GuiChainMail;
 import zabi.minecraft.perkmastery.gui.guis.GuiDecanter;
+import zabi.minecraft.perkmastery.gui.guis.GuiEnchanter;
 import zabi.minecraft.perkmastery.gui.guis.GuiExtendedInventory;
 import zabi.minecraft.perkmastery.gui.guis.GuiFilter;
 import zabi.minecraft.perkmastery.gui.guis.GuiPerks;
@@ -24,7 +26,7 @@ import cpw.mods.fml.common.network.IGuiHandler;
 public class GuiHandler implements IGuiHandler {
 
 	public enum IDs {
-		GUI_BOOK,GUI_BONE_AMULET,GUI_EXTENDED_INVENTORY,GUI_CHAINMAIL, GUI_FURNACE, GUI_DECANTER, GUI_FILTER
+		GUI_BOOK,GUI_BONE_AMULET,GUI_EXTENDED_INVENTORY,GUI_CHAINMAIL, GUI_FURNACE, GUI_DECANTER, GUI_FILTER, GUI_ENCHANTER, GUI_DISENCHANTER
 	}
 
 	@Override
@@ -45,6 +47,8 @@ public class GuiHandler implements IGuiHandler {
 			return new ContainerDecanter(player, (TileEntityDecanter) world.getTileEntity(x, y, z));
 		case GUI_FILTER:
 			return new ContainerFilter(player);
+		case GUI_ENCHANTER:
+			return new ContainerEnchanter(player);
 		default:
 			Log.w("invalid GUI requested: "+ID);
 			return null;
@@ -69,6 +73,8 @@ public class GuiHandler implements IGuiHandler {
 			return new GuiDecanter((Container) getServerGuiElement(ID, player, world, x, y, z), (TileEntityDecanter) world.getTileEntity(x, y, z));
 		case GUI_FILTER:
 			return new GuiFilter((Container) getServerGuiElement(ID, player, world, x, y, z));
+		case GUI_ENCHANTER:
+			return new GuiEnchanter((Container) getServerGuiElement(ID, player, world, x, y, z));
 		default:
 			Log.w("invalid GUI requested");
 			return null;
