@@ -23,9 +23,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EvocationTome extends ItemBase {
-
-//	public static final String TAG="spawnType";
-//	public static final String ENTITY_LOCK="lockedTo";
 	
 	public EvocationTome(String modName, CreativeTabs tab) {
 		super(modName,tab);
@@ -57,18 +54,15 @@ public class EvocationTome extends ItemBase {
 		if (is.stackTagCompound==null) {
 			is.stackTagCompound=new NBTTagCompound();
 			for (UndeadType s:UndeadType.values()) is.stackTagCompound.setInteger(s.name(), 0);
-//			is.stackTagCompound.setInteger(TAG, 0);
 		}
 	}
 	
 	public static void summonAtPlayer(ItemStack is, EntityPlayer p, EntityLiving target) {
-//		for (int i=0;i<4;i++) 
-		spawnEntity(is, p, target);
+		if (!p.worldObj.isRemote) spawnEntity(is, p, target);
 	}
 	
 	private static void spawnEntity(ItemStack is, EntityPlayer p, EntityLiving target) {
 		int types=UndeadType.values().length;
-//		Log.i(types);
 		int soulIndex=(int)(Math.random()*types);
 		for (int i=0;i<types;i++) {
 			UndeadType soul=UndeadType.values()[(i+soulIndex)%types];
@@ -78,18 +72,11 @@ public class EvocationTome extends ItemBase {
 					Log.e("Null entity generated!");
 					continue;
 				}
-				
 				e.setPosition(p.posX, p.posY, p.posZ);
 				e.setHealth(6F);
-				
 				p.worldObj.spawnEntityInWorld(e);	
-				
-//				Log.i(target);
-				
 				e.setCustomNameTag(p.getDisplayName()+" - "+StatCollector.translateToLocal("general.evocationNameTag"));
-
-				
-				e.tasks.addTask(2, new EntityAIAttackOnCollide((EntityCreature) e, EntityLiving.class, 1.0D, true));
+				e.tasks.addTask(0, new EntityAIAttackOnCollide((EntityCreature) e, EntityLiving.class, 1.6D, true));
 				e.targetTasks.addTask(2, new EntityAINearestAttackableTarget((EntityCreature) e, EntityLiving.class, 0, false, false, new TargetSelector(p, target)));
 				e.setAttackTarget(target);
 			}
@@ -101,11 +88,9 @@ public class EvocationTome extends ItemBase {
 		if (soul.equals(UndeadType.SKELETON)) {
 			EntitySkeleton e=new EntitySkeleton(p.worldObj);
 			e.setSkeletonType(0);
-//			e.setTarget(target);
 			return e;
 		} else if (soul.equals(UndeadType.ZOMBIE)) {
 			EntityZombie e=new EntityZombie(p.worldObj);
-//			e.setTarget(target);
 			return e;
 		}
 		

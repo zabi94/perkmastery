@@ -75,7 +75,7 @@ public class GoldenBow extends ItemBase {
     }
 	
 	public int getMaxItemUseDuration(ItemStack stack) {
-        return 20;
+        return 15;
     }
 	
 	public EnumAction getItemUseAction(ItemStack stack) {

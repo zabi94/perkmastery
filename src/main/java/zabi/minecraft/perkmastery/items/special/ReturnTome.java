@@ -33,7 +33,7 @@ public class ReturnTome extends ItemBase {
     }
 
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		if (ExtendedPlayer.isEnabled(player, PlayerClass.MAGE, 5)) {
+		if (ExtendedPlayer.isEnabled(player, PlayerClass.MAGE, 4)) {
 			
 			if (player.experienceTotal<Config.teleportationCost) {
 				if (world.isRemote) player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("general.notenoughexperience")));

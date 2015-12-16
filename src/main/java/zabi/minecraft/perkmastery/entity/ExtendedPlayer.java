@@ -267,7 +267,7 @@ public class ExtendedPlayer {
 
 	public static void destroyAmulet(EntityPlayer p) {
 		setInventorySlot(p, 18, null);
-		if (FMLCommonHandler.instance().getEffectiveSide()==Side.SERVER) PerkMastery.network.sendToDimension(new AmuletShatter(p.getDisplayName()), p.dimension);
+		if (FMLCommonHandler.instance().getEffectiveSide()==Side.SERVER) PerkMastery.network.sendTo(new AmuletShatter(), (EntityPlayerMP) p);
 	}
 
 	public static void setFurnaceData(EntityPlayer p, int[] data) {

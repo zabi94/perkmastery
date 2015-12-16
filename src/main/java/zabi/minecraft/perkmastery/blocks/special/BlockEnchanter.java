@@ -14,7 +14,6 @@ import zabi.minecraft.perkmastery.blocks.TileBlock;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
 import zabi.minecraft.perkmastery.gui.GuiHandler;
-import zabi.minecraft.perkmastery.libs.LibGeneral;
 import zabi.minecraft.perkmastery.tileentity.TileEntityEnchanter;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,14 +43,19 @@ public class BlockEnchanter extends TileBlock {
 	
 	@SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iir){
-		texture_bottom=iir.registerIcon(LibGeneral.MOD_ID+":"+textureName+"_bottom");
-		texture_top=iir.registerIcon(LibGeneral.MOD_ID+":"+textureName+"_top");
-		blockIcon=iir.registerIcon(LibGeneral.MOD_ID+":"+textureName);
+		texture_bottom=iir.registerIcon(textureName+"_bottom");
+		texture_top=iir.registerIcon(textureName+"_top");
+		blockIcon=iir.registerIcon(textureName);
     }
 
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return 0;
 	}
 	
 	@Override
