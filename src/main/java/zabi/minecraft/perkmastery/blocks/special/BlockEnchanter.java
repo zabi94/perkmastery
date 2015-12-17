@@ -1,6 +1,9 @@
 package zabi.minecraft.perkmastery.blocks.special;
 
+import java.util.Random;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +18,7 @@ import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
 import zabi.minecraft.perkmastery.gui.GuiHandler;
 import zabi.minecraft.perkmastery.tileentity.TileEntityEnchanter;
+import zabi.minecraft.perkmastery.visual.effects.RuneFadeFX;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -63,5 +67,16 @@ public class BlockEnchanter extends TileBlock {
 		if (ExtendedPlayer.isEnabled(player, PlayerClass.MAGE, 2)) player.openGui(PerkMastery.instance, GuiHandler.IDs.GUI_ENCHANTER.ordinal(), world, x, y, z);
 		else if (world.isRemote) player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("general.machinery.notenabled")));
 		return true;
+    }
+	
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random rnd) {
+    	Minecraft.getMinecraft().effectRenderer.addEffect(new RuneFadeFX(world, x+0.5, y+0.4, z+0.5));
+    }
+    
+    public boolean renderAsNormalBlock() {
+        return false;
     }
 }

@@ -87,7 +87,7 @@ public class ExperienceTome extends ItemBase {
 		for (int sx=-radius;sx<=radius;sx++) for (int sy=-radius;sy<=radius;sy++) for (int sz=-radius;sz<=radius;sz++) {
 			if (world.getBlock((int)player.posX+sx,(int) player.posY+sy,(int) player.posZ+sz).equals(Blocks.bookshelf))
 				listaBlocchi.add(new ChunkCoordinates((int)player.posX+sx,(int) player.posY+sy,(int) player.posZ+sz));
-			if (listaBlocchi.size()>=Config.maxBookshelvesScanned) break;
+			if (listaBlocchi.size()>=Config.maxBookshelvesScanned && Config.maxBookshelvesScanned>0) break;
 		}
 		return listaBlocchi;
 	}

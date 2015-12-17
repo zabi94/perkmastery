@@ -65,15 +65,6 @@ public class BlockScaffold extends Block6EqualFaces {
 					for (int dz=-1;dz<=1;dz++)
 						if (dx!=0 || dy!=0 || dz!=0)
 							recursiveSubstitution(world, x+dx, y+dy, z+dz, itemInUse, isCreative,iteration+1);
-			
-			
-			
-//			recursiveSubstitution(world, x+1, y, z, itemInUse, isCreative,iteration+1);
-//			recursiveSubstitution(world, x-1, y, z, itemInUse, isCreative,iteration+1);
-//			recursiveSubstitution(world, x, y+1, z, itemInUse, isCreative,iteration+1);
-//			recursiveSubstitution(world, x, y-1, z, itemInUse, isCreative,iteration+1);
-//			recursiveSubstitution(world, x, y, z+1, itemInUse, isCreative,iteration+1);
-//			recursiveSubstitution(world, x, y, z-1, itemInUse, isCreative,iteration+1);
 		}
 	}
 

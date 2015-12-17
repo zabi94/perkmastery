@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import zabi.minecraft.perkmastery.Config;
 import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.handlers.ToggleHandler;
 import zabi.minecraft.perkmastery.libs.LibGeneral;
@@ -132,7 +133,7 @@ public class ExtendedPlayer {
 
 	public static int getRequiredLevelsForAbility(EntityPlayer p, int abilityLevel) {
 		if (abilityLevel==6) return 50;
-		if (abilityLevel==1 && hasAnyAbility(p)) return 100;
+		if (abilityLevel==1 && hasAnyAbility(p)) return Config.newPerkTreeCost;
 		return 10+ (abilityLevel-1)*5;
 	}
 
@@ -145,7 +146,6 @@ public class ExtendedPlayer {
 		boolean b0=isPlayer(p,pc);
 		b0=b0 || !hasAnyAbility(p);
 		b0=b0 || canAquireAnyNewTree(p);
-
 		return b0;
 	}
 
@@ -153,7 +153,7 @@ public class ExtendedPlayer {
 		boolean b0=true;
 		for (PlayerClass pc:PlayerClass.values()) b0=b0&&isPlayer(p,pc);
 		if (b0) return false; //Ha tutte le abilità
-		return !hasUnfinishedTrees(p);
+		return !hasUnfinishedTrees(p) && Config.newPerkTreeCost>=0;
 	}
 
 	public static boolean hasUnfinishedTrees(EntityPlayer p) {
@@ -173,7 +173,6 @@ public class ExtendedPlayer {
 
 		if (!p.capabilities.isCreativeMode) requestXP(p,level);
 		setAbilityLevel(p, clazz, level);
-		//SAVE?
 
 	}
 
@@ -216,14 +215,8 @@ public class ExtendedPlayer {
 	public static void requestUnlockLevel(EntityPlayer p,PlayerClass pc, int level) {
 		PerkMastery.network.sendToServer(new UnlockAbility(pc.ordinal(), level));
 		unlockLevel(p,pc.ordinal(),level);
-		//		save();
 	}
 
-	/**
-	 *
-	 * Auto syncs to server. Doesn't auto sync to client
-	 *
-	 **/
 	public static void toggle(EntityPlayer p, boolean active, PlayerClass pc, int level) {
 		Log.i("Toggling to "+active);
 		if (FMLCommonHandler.instance().getEffectiveSide()==Side.CLIENT) PerkMastery.network.sendToServer(new ToggleAbility(active, pc.ordinal(), level));
@@ -259,9 +252,7 @@ public class ExtendedPlayer {
 	}
 
 	public static boolean hasDeathAmulet(EntityPlayer p) {
-		//		Log.i("Verifying amulet");
 		boolean exists=getExtraInventory(p, InventoryType.REAL)[18]!=null;
-		//		Log.i("Boolean does "+(exists?"":"not ")+"exist");
 		return exists;
 	}
 

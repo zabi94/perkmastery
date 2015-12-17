@@ -84,3 +84,6 @@ Build 7
 
 - Updated some textures
 - Added decanter recipe
+- Added base for enchanter
+- Fancy enchanter Particles 
+- Now loot finder gives loot from dungeon corridor chests instead of a custom list

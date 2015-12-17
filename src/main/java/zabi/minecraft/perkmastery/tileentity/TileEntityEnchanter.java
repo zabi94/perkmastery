@@ -1,20 +1,35 @@
 package zabi.minecraft.perkmastery.tileentity;
 
-import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
-import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
+import java.util.List;
+import java.util.Random;
+
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
+import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
 
 public class TileEntityEnchanter extends TileBase implements IInventory {
 
 	private ItemStack content=null;
+	private int ticks=0;
+	private Random rnd;
 	private static final String TAG="tile_data";
+	private static final String T_TAG="req_ticks";
+	private static final int REQUIRED_TICKS=2;
+	
+	public TileEntityEnchanter() {
+		rnd=new Random();
+	}
 	
 	@Override
 	protected void NBTLoad(NBTTagCompound tag) {
 		if (tag.hasKey(TAG)) content=ItemStack.loadItemStackFromNBT(tag.getCompoundTag(TAG));
+//		content=null;
+		if (tag.hasKey(T_TAG)) ticks=tag.getInteger(T_TAG);
 	}
 
 	@Override
@@ -23,11 +38,28 @@ public class TileEntityEnchanter extends TileBase implements IInventory {
 			NBTTagCompound data=new NBTTagCompound();
 			content.writeToNBT(data);
 			tag.setTag(TAG, data);
+			if (ticks!=0) tag.setInteger(T_TAG, ticks);
 		}
 	}
 
 	@Override
-	protected void tick() {} //Doesn't tick
+	protected void tick() {
+		
+		if (worldObj.isRemote) return;
+		
+		if (content!=null && !content.isItemEnchanted() && ticks<=REQUIRED_TICKS) {
+			if (ticks==REQUIRED_TICKS) enchant();
+			ticks++;
+		} else {
+			ticks=0;
+		}
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private void enchant() {
+		List<EnchantmentData> enchantments=EnchantmentHelper.buildEnchantmentList(rnd, content, EnchantmentHelper.calcItemStackEnchantability(rnd, 2, 3, content)*2);
+		for (EnchantmentData data:enchantments) content.addEnchantment(data.enchantmentobj, data.enchantmentLevel);
+	}
 
 	@Override
 	public int getSizeInventory() {

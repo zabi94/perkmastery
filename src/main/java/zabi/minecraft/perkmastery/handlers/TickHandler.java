@@ -8,7 +8,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -16,6 +15,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ChestGenHooks;
 import zabi.minecraft.perkmastery.Config;
 import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
@@ -279,14 +279,9 @@ public class TickHandler {
 	//Sezione metodi servizio 
 	
 	private ItemStack getRandomLoot(Random rnd) {
-		double ext=rnd.nextDouble()*1000;
-		if (ext<10) 	return new ItemStack(Items.diamond,1);
-		if (ext<100)	return new ItemStack(Items.gold_ingot,1);
-		if (ext<200)	return new ItemStack(Items.ender_pearl,1);
-		if (ext<400)	return new ItemStack(Items.iron_ingot,rnd.nextInt(2));
-		if (ext<600)	return new ItemStack(Items.bread,rnd.nextInt(6));
-		return new ItemStack(Items.apple,rnd.nextInt(10));
-		
+		ItemStack res=null;
+		while (res==null) ChestGenHooks.getOneItem(ChestGenHooks.STRONGHOLD_CORRIDOR, rnd);
+		return res;
 	}
 	
 	public void testAndPlace(ItemStack is,int px,int y,int pz,EntityPlayer player) {
