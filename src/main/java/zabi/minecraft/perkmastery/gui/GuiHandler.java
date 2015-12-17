@@ -75,7 +75,7 @@ public class GuiHandler implements IGuiHandler {
 		case GUI_FILTER:
 			return new GuiFilter((Container) getServerGuiElement(ID, player, world, x, y, z));
 		case GUI_ENCHANTER:
-			return new GuiEnchanter((Container) getServerGuiElement(ID, player, world, x, y, z));
+			return new GuiEnchanter((Container) getServerGuiElement(ID, player, world, x, y, z), (TileEntityEnchanter) world.getTileEntity(x, y, z));
 		default:
 			Log.w("invalid GUI requested");
 			return null;

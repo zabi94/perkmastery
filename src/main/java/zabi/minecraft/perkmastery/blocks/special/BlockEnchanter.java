@@ -73,7 +73,7 @@ public class BlockEnchanter extends TileBlock {
     @SideOnly(Side.CLIENT)
     @Override
     public void randomDisplayTick(World world, int x, int y, int z, Random rnd) {
-    	Minecraft.getMinecraft().effectRenderer.addEffect(new RuneFadeFX(world, x+0.5, y+0.4, z+0.5));
+    	Minecraft.getMinecraft().effectRenderer.addEffect(new RuneFadeFX(world, x+0.5, y+0.4, z+0.5, ((TileEntityEnchanter)world.getTileEntity(x, y, z)).isErrored()));
     }
     
     public boolean renderAsNormalBlock() {

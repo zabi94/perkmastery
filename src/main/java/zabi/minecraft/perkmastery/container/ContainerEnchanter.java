@@ -12,7 +12,7 @@ public class ContainerEnchanter extends ContainerBase {
 	public ContainerEnchanter(EntityPlayer player, TileEntityEnchanter inv) {
 		this.player=player;
 		addPlayerSlots(this.player.inventory);
-		int x=0,y=0;
+		int x=80,y=34;
 		this.addSlotToContainer(new Slot(inv, 0, x, y) {
 			@Override
 			public boolean isItemValid(ItemStack is)  {

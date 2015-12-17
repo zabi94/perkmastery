@@ -295,9 +295,6 @@ public class TickHandler {
 		}
 	}
 	
-	public void initValidItems() {
 
-				
-	}
 	
 }

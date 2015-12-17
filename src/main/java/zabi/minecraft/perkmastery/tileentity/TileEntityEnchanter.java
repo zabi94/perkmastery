@@ -17,9 +17,10 @@ public class TileEntityEnchanter extends TileBase implements IInventory {
 	private ItemStack content=null;
 	private int ticks=0;
 	private Random rnd;
+	private boolean errored=false;
 	private static final String TAG="tile_data";
 	private static final String T_TAG="req_ticks";
-	private static final int REQUIRED_TICKS=2;
+	private static final int REQUIRED_TICKS=1000;
 	
 	public TileEntityEnchanter() {
 		rnd=new Random();
@@ -28,7 +29,6 @@ public class TileEntityEnchanter extends TileBase implements IInventory {
 	@Override
 	protected void NBTLoad(NBTTagCompound tag) {
 		if (tag.hasKey(TAG)) content=ItemStack.loadItemStackFromNBT(tag.getCompoundTag(TAG));
-//		content=null;
 		if (tag.hasKey(T_TAG)) ticks=tag.getInteger(T_TAG);
 	}
 
@@ -45,7 +45,7 @@ public class TileEntityEnchanter extends TileBase implements IInventory {
 	@Override
 	protected void tick() {
 		
-		if (worldObj.isRemote) return;
+//		 return;
 		
 		if (content!=null && !content.isItemEnchanted() && ticks<=REQUIRED_TICKS) {
 			if (ticks==REQUIRED_TICKS) enchant();
@@ -58,7 +58,12 @@ public class TileEntityEnchanter extends TileBase implements IInventory {
 	@SuppressWarnings({ "unchecked" })
 	private void enchant() {
 		List<EnchantmentData> enchantments=EnchantmentHelper.buildEnchantmentList(rnd, content, EnchantmentHelper.calcItemStackEnchantability(rnd, 2, 3, content)*2);
-		for (EnchantmentData data:enchantments) content.addEnchantment(data.enchantmentobj, data.enchantmentLevel);
+		try {
+			for (EnchantmentData data:enchantments) content.addEnchantment(data.enchantmentobj, data.enchantmentLevel);
+			errored=false;
+		} catch (NullPointerException e) {
+			errored=true;
+		}
 	}
 
 	@Override
@@ -78,6 +83,7 @@ public class TileEntityEnchanter extends TileBase implements IInventory {
 		if (content.stackSize>qt) return content.splitStack(qt);
 		ItemStack res=content.copy();
 		content=null;
+		errored=false;
 		return res;
 	}
 
@@ -122,6 +128,14 @@ public class TileEntityEnchanter extends TileBase implements IInventory {
 	public boolean isItemValidForSlot(int slot, ItemStack is) {
 		if (slot!=0) return false;
 		return is.isItemEnchantable();
+	}
+	
+	public double getProgress() {
+		return (double)ticks/(double) REQUIRED_TICKS;
+	}
+	
+	public boolean isErrored() {
+		return errored;
 	}
 
 }
