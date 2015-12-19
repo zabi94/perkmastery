@@ -4,10 +4,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import zabi.minecraft.perkmastery.gui.GuiBase;
 
+
 public class GuiFilter extends GuiBase {
 
-	private static final ResourceLocation texture=new ResourceLocation("textures/gui/container/hopper.png");
-	
+	private static final ResourceLocation texture = new ResourceLocation("textures/gui/container/hopper.png");
+
 	public GuiFilter(Container container) {
 		super(container);
 	}
@@ -16,7 +17,7 @@ public class GuiFilter extends GuiBase {
 	protected ResourceLocation getTexture() {
 		return texture;
 	}
-	
+
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float ptick, int x, int y) {
 		mc.getTextureManager().bindTexture(getTexture());

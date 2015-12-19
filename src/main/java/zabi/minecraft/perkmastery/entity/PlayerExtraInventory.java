@@ -6,14 +6,15 @@ import net.minecraft.item.ItemStack;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.InventoryType;
 import zabi.minecraft.perkmastery.items.ItemList;
 
+
 public class PlayerExtraInventory implements IInventory {
 
 	EntityPlayer player;
-	
+
 	public PlayerExtraInventory(EntityPlayer p) {
-		player=p;
+		player = p;
 	}
-	
+
 	@Override
 	public int getSizeInventory() {
 		return 26;
@@ -26,17 +27,17 @@ public class PlayerExtraInventory implements IInventory {
 
 	@Override
 	public ItemStack decrStackSize(int slot, int qt) {
-//		Log.i("Decr ss");
-		ItemStack s=getStackInSlot(slot);
-		if (s==null) return null;
+		// Log.i("Decr ss");
+		ItemStack s = getStackInSlot(slot);
+		if (s == null) return null;
 		ItemStack res;
-		if (s.stackSize>qt) res=s.splitStack(qt);
+		if (s.stackSize > qt) res = s.splitStack(qt);
 		else {
-			res=s.copy();
-			s=null;
+			res = s.copy();
+			s = null;
 		}
 		ExtendedPlayer.setInventorySlot(player, slot, s);
-		
+
 		return res;
 	}
 
@@ -67,7 +68,8 @@ public class PlayerExtraInventory implements IInventory {
 	}
 
 	@Override
-	public void markDirty() {}
+	public void markDirty() {
+	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer user) {
@@ -75,14 +77,16 @@ public class PlayerExtraInventory implements IInventory {
 	}
 
 	@Override
-	public void openInventory() {}
+	public void openInventory() {
+	}
 
 	@Override
-	public void closeInventory() {}
+	public void closeInventory() {
+	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (slot==18) return stack.getItem().equals(ItemList.boneAmulet);
+		if (slot == 18) return stack.getItem().equals(ItemList.boneAmulet);
 		return true;
 	}
 

@@ -5,10 +5,11 @@ import net.minecraft.util.ResourceLocation;
 import zabi.minecraft.perkmastery.gui.GuiBase;
 import zabi.minecraft.perkmastery.libs.LibGeneral;
 
+
 public class GuiChainMail extends GuiBase {
 
-	private static final ResourceLocation texture=new ResourceLocation(LibGeneral.MOD_ID,"textures/gui/chainmail.png");
-	
+	private static final ResourceLocation texture = new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/chainmail.png");
+
 	public GuiChainMail(Container p_i1072_1_) {
 		super(p_i1072_1_);
 	}
@@ -18,8 +19,7 @@ public class GuiChainMail extends GuiBase {
 		mc.getTextureManager().bindTexture(texture);
 		this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
-	
-	
+
 	@Override
 	protected ResourceLocation getTexture() {
 		return texture;

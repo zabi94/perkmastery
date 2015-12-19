@@ -1,28 +1,28 @@
 package zabi.minecraft.perkmastery.network.packets;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+
 
 public class AmuletShatter implements IMessage {
-	
 
-	
-	public AmuletShatter() {}
-
+	public AmuletShatter() {
+	}
 
 	@Override
-	public void fromBytes(ByteBuf buf) {}
+	public void fromBytes(ByteBuf buf) {
+	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {}
-	
-	
+	public void toBytes(ByteBuf buf) {
+	}
+
 	public static class Handler implements IMessageHandler<AmuletShatter, IMessage> {
 
 		@Override
@@ -31,9 +31,7 @@ public class AmuletShatter implements IMessage {
 			PerkMastery.proxy.getSinglePlayer().addChatMessage(new ChatComponentText(StatCollector.translateToLocal("general.amuletShatter")));
 			return null;
 		}
-		
+
 	}
-	
-	
 
 }

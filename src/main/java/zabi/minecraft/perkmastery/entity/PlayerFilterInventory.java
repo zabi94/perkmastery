@@ -5,14 +5,15 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.InventoryType;
 
+
 public class PlayerFilterInventory implements IInventory {
 
 	EntityPlayer player;
-	
+
 	public PlayerFilterInventory(EntityPlayer p) {
-		player=p;
+		player = p;
 	}
-	
+
 	@Override
 	public int getSizeInventory() {
 		return 5;
@@ -25,8 +26,8 @@ public class PlayerFilterInventory implements IInventory {
 
 	@Override
 	public ItemStack decrStackSize(int slot, int qt) {
-		ItemStack res=getStackInSlot(slot);
-		ExtendedPlayer.setFilterSlot(player, slot, null);		
+		ItemStack res = getStackInSlot(slot);
+		ExtendedPlayer.setFilterSlot(player, slot, null);
 		return res;
 	}
 
@@ -57,7 +58,8 @@ public class PlayerFilterInventory implements IInventory {
 	}
 
 	@Override
-	public void markDirty() {}
+	public void markDirty() {
+	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer user) {
@@ -65,10 +67,12 @@ public class PlayerFilterInventory implements IInventory {
 	}
 
 	@Override
-	public void openInventory() {}
+	public void openInventory() {
+	}
 
 	@Override
-	public void closeInventory() {}
+	public void closeInventory() {
+	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {

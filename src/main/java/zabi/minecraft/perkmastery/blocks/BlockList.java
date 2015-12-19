@@ -9,14 +9,14 @@ import zabi.minecraft.perkmastery.blocks.special.BlockScaffold;
 
 public class BlockList {
 
-	public static final BlockEnchanter enchanter=new BlockEnchanter("enchanter", 3.0F, Material.rock, CreativeTabs.tabBlock);
-	public static final BlockDecanter decanter=new BlockDecanter("decanter");
-	public static final BlockScaffold scaffold=new BlockScaffold("scaffold", 0F, Material.wood, CreativeTabs.tabBlock);
-	
+	public static final BlockEnchanter	enchanter	= new BlockEnchanter("enchanter", 3.0F, Material.rock, CreativeTabs.tabBlock);
+	public static final BlockDecanter	decanter	= new BlockDecanter("decanter");
+	public static final BlockScaffold	scaffold	= new BlockScaffold("scaffold", 0F, Material.wood, CreativeTabs.tabBlock);
+
 	public static void register() {
 		enchanter.register();
 		decanter.register();
 		scaffold.register();
 	}
-	
+
 }

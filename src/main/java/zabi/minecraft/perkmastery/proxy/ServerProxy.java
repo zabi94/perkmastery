@@ -6,6 +6,7 @@ import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.network.packets.SyncFilterToClient;
 import zabi.minecraft.perkmastery.network.packets.SyncInventoryToClient;
 
+
 public class ServerProxy extends CommonProxy {
 
 	@Override
@@ -19,10 +20,12 @@ public class ServerProxy extends CommonProxy {
 	}
 
 	@Override
-	public void registerKeyBindings() {}
+	public void registerKeyBindings() {
+	}
 
 	@Override
-	public void registerAnimationHelper() {}
+	public void registerAnimationHelper() {
+	}
 
 	@Override
 	public EntityPlayer getSinglePlayer() {
@@ -30,9 +33,11 @@ public class ServerProxy extends CommonProxy {
 	}
 
 	@Override
-	public void setupHackyController(boolean enable) {}
+	public void setupHackyController(boolean enable) {
+	}
 
 	@Override
-	public void registerTESR() {}
+	public void registerTESR() {
+	}
 
 }

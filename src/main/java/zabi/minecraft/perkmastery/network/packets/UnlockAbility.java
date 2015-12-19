@@ -1,27 +1,29 @@
 package zabi.minecraft.perkmastery.network.packets;
 
-import io.netty.buffer.ByteBuf;
-import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import io.netty.buffer.ByteBuf;
+import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
+
 
 public class UnlockAbility implements IMessage {
-	
+
 	private int tree, level;
-	
-	public UnlockAbility() {}
-	
+
+	public UnlockAbility() {
+	}
+
 	public UnlockAbility(int tree, int level) {
-		this.tree=tree;
-		this.level=level;
+		this.tree = tree;
+		this.level = level;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		tree=buf.readInt();
-		level=buf.readInt();
-		
+		tree = buf.readInt();
+		level = buf.readInt();
+
 	}
 
 	@Override
@@ -29,18 +31,15 @@ public class UnlockAbility implements IMessage {
 		buf.writeInt(tree);
 		buf.writeInt(level);
 	}
-	
-	
+
 	public static class Handler implements IMessageHandler<UnlockAbility, IMessage> {
 
 		@Override
 		public IMessage onMessage(UnlockAbility message, MessageContext ctx) {
-			ExtendedPlayer.unlockLevel(ctx.getServerHandler().playerEntity, message.tree,message.level);
+			ExtendedPlayer.unlockLevel(ctx.getServerHandler().playerEntity, message.tree, message.level);
 			return null;
 		}
-		
+
 	}
-	
-	
 
 }

@@ -1,12 +1,14 @@
+//@noformat
 package zabi.minecraft.perkmastery.crafting;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import zabi.minecraft.perkmastery.blocks.BlockList;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
 import zabi.minecraft.perkmastery.items.ItemList;
-import cpw.mods.fml.common.registry.GameRegistry;
+
 
 public class Recipes {
 	public static void registerRecipes() {
@@ -30,7 +32,6 @@ public class Recipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.tomeReturn), Items.book, Items.map, Items.ender_pearl);
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.scaffoldBuilder,1,0),new ItemStack(ItemList.scaffoldBuilder,1,1));
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.scaffoldBuilder,1,1),new ItemStack(ItemList.scaffoldBuilder,1,0));
-		
 		
 		//Designer
 		for (int i=0;i<6;i++)  GameRegistry.addRecipe(new LockedRecipe(1, 1, new ItemStack[] {new ItemStack(Blocks.planks,1,i)}, 					new ItemStack(Blocks.planks,1,(i+1)%6), PlayerClass.BUILDER, 3));
