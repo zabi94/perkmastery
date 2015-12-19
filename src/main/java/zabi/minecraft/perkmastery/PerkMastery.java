@@ -14,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import zabi.minecraft.perkmastery.blocks.BlockList;
 import zabi.minecraft.perkmastery.crafting.Recipes;
 import zabi.minecraft.perkmastery.gui.GuiHandler;
+import zabi.minecraft.perkmastery.handlers.EventModHandler;
 import zabi.minecraft.perkmastery.handlers.TickHandler;
 import zabi.minecraft.perkmastery.items.ItemList;
 import zabi.minecraft.perkmastery.libs.LibGeneral;
@@ -27,15 +28,15 @@ import zabi.minecraft.perkmastery.tileentity.TileList;
 @Mod(modid = LibGeneral.MOD_ID, name = LibGeneral.MOD_NAME, version = LibGeneral.MOD_VERSION)
 public class PerkMastery {
 
-	public static SimpleNetworkWrapper								network	= NetworkRegistry.INSTANCE.newSimpleChannel(LibGeneral.MOD_ID);
-	public static TickHandler										tickHandler;
-	public static zabi.minecraft.perkmastery.handlers.EventHandler	eventi;
+	public static SimpleNetworkWrapper	network	= NetworkRegistry.INSTANCE.newSimpleChannel(LibGeneral.MOD_ID);
+	public static TickHandler			tickHandler;
+	public static EventModHandler		eventi;
 
 	@Instance
-	public static PerkMastery										instance;
+	public static PerkMastery			instance;
 
 	@SidedProxy(clientSide = LibGeneral.PROXY_CLIENT, serverSide = LibGeneral.PROXY_SERVER)
-	public static CommonProxy										proxy;
+	public static CommonProxy			proxy;
 
 	@EventHandler
 	public static void PreInit(FMLPreInitializationEvent evt) {
@@ -47,7 +48,7 @@ public class PerkMastery {
 		Log.i("Registering classes on their bus");
 		tickHandler = new TickHandler();
 		FMLCommonHandler.instance().bus().register(tickHandler);
-		eventi = new zabi.minecraft.perkmastery.handlers.EventHandler();
+		eventi = new zabi.minecraft.perkmastery.handlers.EventModHandler();
 		MinecraftForge.EVENT_BUS.register(eventi);
 		proxy.registerAnimationHelper();
 

@@ -54,7 +54,7 @@ import zabi.minecraft.perkmastery.visual.effects.EffectRegistry;
 import zabi.minecraft.perkmastery.visual.effects.IRenderGeneral;
 
 
-public class EventHandler {
+public class EventModHandler {
 
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
