@@ -17,11 +17,13 @@ public class Block6EqualFaces extends ModBlockBase {
 		super(string, hardness, material);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		return blockTexture;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iir) {
 		this.blockTexture = iir.registerIcon(LibGeneral.MOD_ID + ":" + textureName);
