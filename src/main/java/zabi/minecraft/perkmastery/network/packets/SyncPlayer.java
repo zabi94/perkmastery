@@ -11,6 +11,8 @@ import net.minecraft.network.PacketBuffer;
 import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.InventoryType;
+import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
+import zabi.minecraft.perkmastery.handlers.ToggleHandler;
 import zabi.minecraft.perkmastery.misc.Log;
 
 
@@ -32,7 +34,6 @@ public class SyncPlayer implements IMessage {
 	}
 
 	public SyncPlayer(EntityPlayer p) {
-		// Log.i("Syncing to single player - Sending");
 		this.p = p;
 		filter = ExtendedPlayer.getExtraInventory(p, InventoryType.FILTER);
 		inventory = ExtendedPlayer.getExtraInventory(p, InventoryType.REAL);
@@ -102,23 +103,13 @@ public class SyncPlayer implements IMessage {
 		}
 		if (furn != null) for (int i : furn)
 			buf.writeInt(i);
-		// Log.i("Encoded");
-
 	}
 
 	public static class Handler implements IMessageHandler<SyncPlayer, IMessage> {
 
 		@Override
 		public IMessage onMessage(SyncPlayer message, MessageContext ctx) {
-
-			// Log.i("Syncing to single player - Received");
-
 			EntityPlayer p = PerkMastery.proxy.getSinglePlayer();
-
-			// Log.i("Before sync singleplayer:");
-			// NBTTagCompound tg=(NBTTagCompound) p.getEntityData().getTag(ExtendedPlayer.TAG_PREFIX);
-			// Log.i(tg.toString());
-
 			for (int i = 0; i < 6; i++)
 				ExtendedPlayer.setAbilityLevel(p, i, message.abs[i]);
 			for (int i = 0; i < 6; i++)
@@ -126,11 +117,9 @@ public class SyncPlayer implements IMessage {
 			ExtendedPlayer.setInventory(p, message.inventory);
 			ExtendedPlayer.setFilter(p, message.filter);
 			ExtendedPlayer.setFurnaceData(p, message.furn);
-
-			// Log.i("After Sync singleplayer:");
-			// tg=(NBTTagCompound) p.getEntityData().getTag(ExtendedPlayer.TAG_PREFIX);
-			// Log.i(tg.toString());
-
+			ToggleHandler.toggleReachDistance(p, ExtendedPlayer.isEnabled(p, PlayerClass.BUILDER, 1));
+			ToggleHandler.toggleWellTrained(p, ExtendedPlayer.isEnabled(p, PlayerClass.EXPLORER, 4));
+			ToggleHandler.toggleExpertEye(p, ExtendedPlayer.isEnabled(p, PlayerClass.MINER, 3));
 			return null;
 		}
 

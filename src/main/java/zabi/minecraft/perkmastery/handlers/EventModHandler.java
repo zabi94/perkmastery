@@ -59,22 +59,21 @@ public class EventModHandler {
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		if (event.entity instanceof EntityPlayer) {
-			EntityPlayer player = null;
 
 			if (!event.entity.worldObj.isRemote) {
-				player = (EntityPlayer) event.entity;
+				EntityPlayer player = (EntityPlayer) event.entity;
+
+				// Fa un toggle dell'attività per sincronizzare il
+				// HackyPlayerControllerMP
+				ToggleHandler.toggleReachDistance(player, ExtendedPlayer.isEnabled(player, PlayerClass.BUILDER, 1));
+				ToggleHandler.toggleWellTrained(player, ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 4));
+				ToggleHandler.toggleExpertEye(player, ExtendedPlayer.isEnabled(player, PlayerClass.MINER, 3));
+
 				// Sincronizza al client connesso
 				ExtendedPlayer.syncToClient(player);
 
-			} else {
-				player = PerkMastery.proxy.getSinglePlayer();
 			}
 
-			// Fa un toggle dell'attività per sincronizzare il
-			// HackyPlayerControllerMP
-			ToggleHandler.toggleReachDistance(player, ExtendedPlayer.isEnabled(player, PlayerClass.BUILDER, 1));
-			ToggleHandler.toggleWellTrained(player, ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 4));
-			ToggleHandler.toggleExpertEye(player, ExtendedPlayer.isEnabled(player, PlayerClass.MINER, 3));
 		}
 
 	}
@@ -100,7 +99,6 @@ public class EventModHandler {
 			if (ExtendedPlayer.isEnabled(player, PlayerClass.BUILDER, 4)) {
 				player.fallDistance = player.fallDistance / 2F;
 			}
-
 		}
 	}
 
@@ -118,7 +116,6 @@ public class EventModHandler {
 				ExtendedPlayer.destroyAmulet(player);
 				player.setHealth(10);
 				event.setCanceled(true);
-
 			}
 
 			if (!player.worldObj.isRemote && !event.isCanceled()) {
@@ -216,9 +213,7 @@ public class EventModHandler {
 		boolean silk = EnchantmentHelper.getSilkTouchModifier(evt.getPlayer());
 		if (ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 4)) fortuneLevel++;
 		if (ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 5)) DigHandler.applyCrumbling(evt.x, evt.y + 1, evt.z, evt.world, 0);
-		if (ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 2)) DigHandler.applyVeinminer(evt, evt.x, evt.y, evt.z, new int[] {
-				0, 0
-		}, true, silk, fortuneLevel, 0);
+		if (ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 2)) DigHandler.applyVeinminer(evt, evt.x, evt.y, evt.z, new int[] { 0, 0 }, true, silk, fortuneLevel, 0);
 		else if (!silk && ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 4)) DigHandler.applyFortune(evt);
 		if (delicate) {
 			if (evt.block.canSilkHarvest(evt.world, evt.getPlayer(), evt.x, evt.y, evt.z, evt.blockMetadata) && DigHandler.containsGlass(evt.block.getUnlocalizedName().toLowerCase())) {
@@ -236,7 +231,6 @@ public class EventModHandler {
 			evt.result = EnumStatus.OK;
 			if (evt.entityPlayer.isRiding()) evt.entityPlayer.mountEntity((Entity) null);
 			evt.entityPlayer.yOffset = 0.2F;
-
 			if (evt.entityPlayer.worldObj.blockExists(evt.x, evt.y, evt.z)) {
 				int l = evt.entityPlayer.worldObj.getBlock(evt.x, evt.y, evt.z).getBedDirection(evt.entityPlayer.worldObj, evt.x, evt.y, evt.z);
 				float f1 = 0.5F;

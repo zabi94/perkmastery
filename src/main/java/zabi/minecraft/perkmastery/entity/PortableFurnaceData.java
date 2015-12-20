@@ -24,18 +24,18 @@ public class PortableFurnaceData {
 		player = p;
 		int[] fdata = ExtendedPlayer.getFurnaceData(player);
 		if (fdata != null) {
+			if (fdata.length != 3) fdata = new int[] { 0, 0, 0 };
 			furnaceCookTime = fdata[0];
 			furnaceBurnTime = fdata[1];
 			currentItemBurnTime = fdata[2];
 		} else {
 			furnaceBurnTime = furnaceCookTime = currentItemBurnTime = 0;
 		}
+		write();
 	}
 
 	public void write() {
-		ExtendedPlayer.setFurnaceData(player, new int[] {
-				furnaceCookTime, furnaceBurnTime, currentItemBurnTime
-		});
+		ExtendedPlayer.setFurnaceData(player, new int[] { furnaceCookTime, furnaceBurnTime, currentItemBurnTime });
 	}
 
 	public static PortableFurnaceData getDataFor(EntityPlayer player) {

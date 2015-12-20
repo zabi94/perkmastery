@@ -17,10 +17,10 @@ import zabi.minecraft.perkmastery.network.packets.SyncPlayer;
 import zabi.minecraft.perkmastery.network.packets.ToggleAbility;
 import zabi.minecraft.perkmastery.network.packets.UnlockAbility;
 
+
 public class ExtendedPlayer {
 
-	public final static String TAG_PREFIX = LibGeneral.MOD_ID + ":PlayerExtraData", INVENTORY = "inventory",
-			FILTER = "filter", ABILITIES_KEY = "abilities", ENABLED_KEY = "enabled", FURNACE_KEY = "furnace";
+	public final static String TAG_PREFIX = LibGeneral.MOD_ID + ":PlayerExtraData", INVENTORY = "inventory", FILTER = "filter", ABILITIES_KEY = "abilities", ENABLED_KEY = "enabled", FURNACE_KEY = "furnace";
 
 	public static int[] getAbilities(EntityPlayer p) {
 		genKey(p);
@@ -34,10 +34,8 @@ public class ExtendedPlayer {
 
 	public static ItemStack[] getExtraInventory(EntityPlayer p, InventoryType type) {
 		genKey(p);
-		if (type == InventoryType.FILTER)
-			return pollFilter(p);
-		if (type == InventoryType.REAL)
-			return pollExtraInventoryNoFilter(p);
+		if (type == InventoryType.FILTER) return pollFilter(p);
+		if (type == InventoryType.REAL) return pollExtraInventoryNoFilter(p);
 		return null;
 	}
 
@@ -46,8 +44,7 @@ public class ExtendedPlayer {
 		NBTTagCompound inv = (NBTTagCompound) ((NBTTagCompound) p.getEntityData().getTag(TAG_PREFIX)).getTag(INVENTORY);
 		for (int i = 0; i < 26; i++)
 			try {
-				if (inv.hasKey("" + (i)))
-					res[i] = ItemStack.loadItemStackFromNBT((NBTTagCompound) inv.getTag("" + (i)));
+				if (inv.hasKey("" + (i))) res[i] = ItemStack.loadItemStackFromNBT((NBTTagCompound) inv.getTag("" + (i)));
 			} catch (Exception e) {
 			}
 		return res;
@@ -58,8 +55,7 @@ public class ExtendedPlayer {
 		NBTTagCompound inv = (NBTTagCompound) ((NBTTagCompound) p.getEntityData().getTag(TAG_PREFIX)).getTag(FILTER);
 		for (int i = 0; i < 5; i++)
 			try {
-				if (inv.hasKey("" + (i)))
-					res[i] = ItemStack.loadItemStackFromNBT((NBTTagCompound) inv.getTag("" + (i)));
+				if (inv.hasKey("" + (i))) res[i] = ItemStack.loadItemStackFromNBT((NBTTagCompound) inv.getTag("" + (i)));
 			} catch (Exception e) {
 			}
 		return res;
@@ -67,14 +63,12 @@ public class ExtendedPlayer {
 	}
 
 	public static void setInventorySlot(EntityPlayer p, int slot, ItemStack is) {
-		if (p == null)
-			return;
+		if (p == null) return;
 		try {
 			NBTTagCompound extraData = (NBTTagCompound) p.getEntityData().getTag(TAG_PREFIX);
 			NBTTagCompound inventoryTag = (NBTTagCompound) extraData.getTag(INVENTORY);
 			NBTTagCompound content = new NBTTagCompound();
-			if (is != null)
-				is.writeToNBT(content);
+			if (is != null) is.writeToNBT(content);
 			inventoryTag.setTag("" + slot, content);
 			extraData.setTag(INVENTORY, inventoryTag);
 			p.getEntityData().setTag(TAG_PREFIX, extraData);
@@ -87,8 +81,7 @@ public class ExtendedPlayer {
 			NBTTagCompound extraData = (NBTTagCompound) p.getEntityData().getTag(TAG_PREFIX);
 			NBTTagCompound inventoryTag = (NBTTagCompound) (extraData).getTag(FILTER);
 			NBTTagCompound content = new NBTTagCompound();
-			if (is != null)
-				is.writeToNBT(content);
+			if (is != null) is.writeToNBT(content);
 			inventoryTag.setTag("" + slot, content);
 			extraData.setTag(FILTER, inventoryTag);
 			p.getEntityData().setTag(TAG_PREFIX, extraData);
@@ -126,22 +119,18 @@ public class ExtendedPlayer {
 	}
 
 	public static boolean canAffordAbility(EntityPlayer player, int abilityLevel) {
-		return player.experienceLevel >= getRequiredLevelsForAbility(player, abilityLevel)
-				|| player.capabilities.isCreativeMode;
+		return player.experienceLevel >= getRequiredLevelsForAbility(player, abilityLevel) || player.capabilities.isCreativeMode;
 	}
 
 	public static int getRequiredLevelsForAbility(EntityPlayer p, int abilityLevel) {
-		if (abilityLevel == 6)
-			return 50;
-		if (abilityLevel == 1 && hasAnyAbility(p))
-			return Config.newPerkTreeCost;
+		if (abilityLevel == 6) return 50;
+		if (abilityLevel == 1 && hasAnyAbility(p)) return Config.newPerkTreeCost;
 		return 10 + (abilityLevel - 1) * 5;
 	}
 
 	public static boolean hasAnyAbility(EntityPlayer p) {
 		for (PlayerClass pc : PlayerClass.values())
-			if (isPlayer(p, pc))
-				return true;
+			if (isPlayer(p, pc)) return true;
 		return false;
 	}
 
@@ -156,30 +145,25 @@ public class ExtendedPlayer {
 		boolean b0 = true;
 		for (PlayerClass pc : PlayerClass.values())
 			b0 = b0 && isPlayer(p, pc);
-		if (b0)
-			return false; // Ha tutte le abilità
+		if (b0) return false; // Ha tutte le abilità
 		return !hasUnfinishedTrees(p) && Config.newPerkTreeCost >= 0;
 	}
 
 	public static boolean hasUnfinishedTrees(EntityPlayer p) {
 		for (PlayerClass pc : PlayerClass.values())
-			if (isPlayer(p, pc) && getAbilityLevelFor(p, pc) < 6)
-				return true;
+			if (isPlayer(p, pc) && getAbilityLevelFor(p, pc) < 6) return true;
 		return false;
 	}
 
 	public static void unlockLevel(EntityPlayer p, int clazz, int level) {
-		if (!canAffordAbility(p, level)) {
-			return;
-		}
+		if (!canAffordAbility(p, level)) { return; }
 
 		if (getAbilities(p)[clazz] != level - 1 && !p.capabilities.isCreativeMode) {
 			Log.e("Cannot unlock ability!");
 			return;
 		}
 
-		if (!p.capabilities.isCreativeMode)
-			requestXP(p, level);
+		if (!p.capabilities.isCreativeMode) requestXP(p, level);
 		setAbilityLevel(p, clazz, level);
 
 	}
@@ -227,8 +211,7 @@ public class ExtendedPlayer {
 
 	public static void toggle(EntityPlayer p, boolean active, PlayerClass pc, int level) {
 		Log.i("Toggling to " + active);
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
-			PerkMastery.network.sendToServer(new ToggleAbility(active, pc.ordinal(), level));
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) PerkMastery.network.sendToServer(new ToggleAbility(active, pc.ordinal(), level));
 
 		if (getAbilityLevelFor(p, pc) < level) {
 			Log.e("Tried to toggle a non-owned ability");
@@ -236,18 +219,14 @@ public class ExtendedPlayer {
 		}
 
 		byte res = getEnabledAbilities(p)[pc.ordinal()];
-		if (active)
-			res |= getBit(level);
+		if (active) res |= getBit(level);
 		else
 			res &= (~getBit(level));
 		setEnabledAbilities(p, pc.ordinal(), res);
 
-		if (pc.equals(PlayerClass.BUILDER) && level == 1)
-			ToggleHandler.toggleReachDistance(p, active);
-		if (pc.equals(PlayerClass.EXPLORER) && level == 4)
-			ToggleHandler.toggleWellTrained(p, active);
-		if (pc.equals(PlayerClass.MINER) && level == 3)
-			ToggleHandler.toggleExpertEye(p, active);
+		if (pc.equals(PlayerClass.BUILDER) && level == 1) ToggleHandler.toggleReachDistance(p, active);
+		if (pc.equals(PlayerClass.EXPLORER) && level == 4) ToggleHandler.toggleWellTrained(p, active);
+		if (pc.equals(PlayerClass.MINER) && level == 3) ToggleHandler.toggleExpertEye(p, active);
 
 	}
 
@@ -272,8 +251,7 @@ public class ExtendedPlayer {
 
 	public static void destroyAmulet(EntityPlayer p) {
 		setInventorySlot(p, 18, null);
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
-			PerkMastery.network.sendTo(new AmuletShatter(), (EntityPlayerMP) p);
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) PerkMastery.network.sendTo(new AmuletShatter(), (EntityPlayerMP) p);
 	}
 
 	public static void setFurnaceData(EntityPlayer p, int[] data) {
@@ -286,7 +264,7 @@ public class ExtendedPlayer {
 		try {
 			return ((NBTTagCompound) p.getEntityData().getTag(TAG_PREFIX)).getIntArray(FURNACE_KEY);
 		} catch (Exception e) {
-			return null;
+			return new int[] { 0, 0, 0 };
 		}
 	}
 
@@ -305,8 +283,7 @@ public class ExtendedPlayer {
 	public static void dropItemsOnDeath(EntityPlayer player) {
 		for (int i = 0; i < getExtraInventory(player, InventoryType.REAL).length; i++) {
 			try {
-				player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY,
-						player.posZ, getExtraInventory(player, InventoryType.REAL)[i].copy()));
+				player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, getExtraInventory(player, InventoryType.REAL)[i].copy()));
 			} catch (NullPointerException e) {
 			}
 			ExtendedPlayer.setInventorySlot(player, i, null);

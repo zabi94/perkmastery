@@ -88,3 +88,8 @@ Build 7
 - Fancy enchanter Particles 
 - Now loot finder gives loot from dungeon corridor chests instead of a custom list
 - Implemented Enchanter
+
+Build 8
+
+- Fixed Stuff
+- Code Cleanup
