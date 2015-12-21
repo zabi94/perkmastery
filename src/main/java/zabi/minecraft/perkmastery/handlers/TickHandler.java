@@ -13,7 +13,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -201,7 +200,7 @@ public class TickHandler {
 
 	private void handleFastMiner(EntityPlayer player) {// MINER
 		if (ExtendedPlayer.isEnabled(player, PlayerClass.MINER, 1)) {
-			if (player.getHeldItem() != null && (/* validItems.contains(player.getHeldItem().getItem()) || */player.getHeldItem().getItem() instanceof ItemPickaxe) && !player.isPotionActive(Potion.digSpeed.id)) {
+			if (player.getHeldItem() != null && (/* validItems.contains(player.getHeldItem().getItem()) || */IntegrationHandler.isPickaxe(player.getHeldItem())) && !player.isPotionActive(Potion.digSpeed.id)) {
 				PotionEffect pfx = new PotionEffect(Potion.digSpeed.id, 0, 0, false);// Haste
 				pfx.getCurativeItems().clear();
 				player.addPotionEffect(pfx);

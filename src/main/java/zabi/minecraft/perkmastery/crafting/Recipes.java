@@ -5,28 +5,33 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 import zabi.minecraft.perkmastery.blocks.BlockList;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
 import zabi.minecraft.perkmastery.items.ItemList;
+import zabi.minecraft.perkmastery.libs.LibGeneral;
 
 
 public class Recipes {
 	public static void registerRecipes() {
+		RecipeSorter.register(LibGeneral.MOD_ID+":lockedRecipe", LockedRecipe.class, Category.UNKNOWN, "after:minecraft:shaped");
 		registerVanilla();
 	}
 
 	private static void registerVanilla() {
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.boneAmulet), "BBB","B B","NDN", 'B', Items.bone, 'N', Items.gold_nugget, 'D', Items.diamond);
+		ItemStack chainmailStack=new ItemStack(ItemList.chainmailCloth,1,0);
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.chainmailCloth,3), " i ","i i"," i ",'i', Items.iron_ingot);
-		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_helmet), "iii", "i i", 'i', ItemList.chainmailCloth);
-		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_leggings), "iii", "i i","i i", 'i', ItemList.chainmailCloth);
-		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_boots), "i i", "i i", 'i', ItemList.chainmailCloth);
-		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_chestplate), "i i", "iii", "iii", 'i', ItemList.chainmailCloth);
+		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_helmet), "iii", "i i", 'i', chainmailStack);
+		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_leggings), "iii", "i i","i i", 'i', chainmailStack);
+		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_boots), "i i", "i i", 'i', chainmailStack);
+		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_chestplate), "i i", "iii", "iii", 'i', chainmailStack);
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.goldenBow), "SG ","S D", "SG ", 'G', Items.gold_ingot, 'D', Items.diamond, 'S', Items.string);
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.goldenBow), " GS","D S", " GS", 'G', Items.gold_ingot, 'D', Items.diamond, 'S', Items.string);
-		GameRegistry.addShapedRecipe(new ItemStack(ItemList.hook), " B ","BIB", "LIL", 'B', Blocks.iron_bars, 'I', Items.iron_ingot, 'L', Items.lead);
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.hook), " B ","BIB", "LIL", 'B', new ItemStack(Blocks.iron_bars), 'I', Items.iron_ingot, 'L', Items.lead);
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.scaffoldBuilder,1,0), "IWI","WPW","IWI", 'I', Items.iron_ingot, 'W', Items.stick, 'P', Items.diamond_pickaxe);
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.decanter), " B ","GCG","III", 'B', Blocks.brewing_stand, 'G', Items.gold_ingot, 'C', Blocks.cauldron, 'I', Items.iron_ingot);
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.decanter), " B ", "GCG","III", 'B', Items.brewing_stand, 'G', Items.gold_ingot, 'C', Items.cauldron, 'I', Items.iron_ingot);
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.enchanter), " E ","BLB","GGG", 'E', Blocks.enchanting_table, 'G', Items.gold_ingot, 'L', Blocks.lapis_block, 'B', Items.book);
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.disenchanter), " E ","SLS","CCC", 'E', Blocks.enchanting_table, 'C', Blocks.cobblestone, 'L', Blocks.lapis_block, 'S', Items.emerald);
 		

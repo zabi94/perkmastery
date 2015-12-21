@@ -5,7 +5,6 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
@@ -27,7 +26,7 @@ public class DigHandler {
 	public static boolean isToolDelicate(BreakEvent evt) {
 		if (!(evt.block.canSilkHarvest(evt.world, evt.getPlayer(), evt.x, evt.y, evt.z, evt.blockMetadata) && containsGlass(evt.block.getUnlocalizedName().toLowerCase()))) return false;
 		ItemStack held = evt.getPlayer().getHeldItem();
-		if (held == null || !(held.getItem() instanceof ItemPickaxe)) return true;
+		if (held == null || !(IntegrationHandler.isPickaxe(held))) return true;
 		return false;
 	}
 

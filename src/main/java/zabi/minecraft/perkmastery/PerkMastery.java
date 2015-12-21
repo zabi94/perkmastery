@@ -6,6 +6,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -15,6 +16,7 @@ import zabi.minecraft.perkmastery.blocks.BlockList;
 import zabi.minecraft.perkmastery.crafting.Recipes;
 import zabi.minecraft.perkmastery.gui.GuiHandler;
 import zabi.minecraft.perkmastery.handlers.EventModHandler;
+import zabi.minecraft.perkmastery.handlers.IntegrationHandler;
 import zabi.minecraft.perkmastery.handlers.TickHandler;
 import zabi.minecraft.perkmastery.items.ItemList;
 import zabi.minecraft.perkmastery.libs.LibGeneral;
@@ -60,9 +62,6 @@ public class PerkMastery {
 		Log.i("Registering Keybindings");
 		proxy.registerKeyBindings();
 
-		Log.i("Registering recipes");
-		Recipes.registerRecipes();
-
 		Log.i("Registering GUIs");
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
@@ -75,6 +74,14 @@ public class PerkMastery {
 	public static void Init(FMLInitializationEvent evt) {
 		Log.i("Registering network messages");
 		NetworkModRegistry.registerMessages(network);
+	}
+
+	@EventHandler
+	public static void PostInit(FMLPostInitializationEvent evt) {
+		Log.i("Registering recipes");
+		Recipes.registerRecipes();
+		Log.i("Checking for known mods");
+		IntegrationHandler.checkLoadedMods();
 	}
 
 	@EventHandler
