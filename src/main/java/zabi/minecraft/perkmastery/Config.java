@@ -18,6 +18,7 @@ public class Config {
 	public static int			teleportationCost;
 	public static int			maxIterations;
 	public static int			newPerkTreeCost;
+	public static String		updateBranch;
 
 	public static void init(File configFile) {
 		Log.i("Loading configuration...");
@@ -42,7 +43,7 @@ public class Config {
 		teleportationCost = configuration.getInt("teleportationCost", Configuration.CATEGORY_GENERAL, 150, 1, 9999, "The experience cost of a use of the return tome");
 		maxIterations = configuration.getInt("maxIterations", Configuration.CATEGORY_GENERAL, 512, 512, 8192, "The maximum depth for recursive functions. Changing this to high values may crash your game. If you really need to use bigger functions, use in conjunction with the java -Xss JVM option. [DO NOT MODIFY UNLESS YOU KNOW WHAT YOU ARE DOING - DO NOT REPORT BUGS WHEN THIS IS ENABLED]");
 		newPerkTreeCost = configuration.getInt("newPerkTreeCost", Configuration.CATEGORY_GENERAL, 100, -1, 9999, "The experience cost to unlock the first ability of a new tree. Setting this to a negative value disables the ability to unlock a second tree");
-
+		updateBranch = configuration.getString("updateBranch", Configuration.CATEGORY_GENERAL, "stable", "Use one between (stable,alpha,beta) to receive update notifications about them. Anything else will disable it");
 	}
 
 	@SubscribeEvent

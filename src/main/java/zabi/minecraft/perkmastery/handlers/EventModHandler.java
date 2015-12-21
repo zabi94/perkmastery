@@ -72,6 +72,12 @@ public class EventModHandler {
 				// Sincronizza al client connesso
 				ExtendedPlayer.syncToClient(player);
 
+			} else {
+				Thread updateChecker = new Thread(new UpdateHandler());
+				updateChecker.setDaemon(true);
+				updateChecker.setName("PerkMasteryUpdates");
+				updateChecker.setPriority(Thread.MIN_PRIORITY);
+				updateChecker.start();
 			}
 
 		}

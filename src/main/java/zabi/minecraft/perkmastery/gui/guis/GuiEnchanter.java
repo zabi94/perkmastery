@@ -9,7 +9,7 @@ import zabi.minecraft.perkmastery.tileentity.TileEntityEnchanter;
 
 public class GuiEnchanter extends GuiBase {
 
-	private static final ResourceLocation	texture	= new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/enchanter.png");// TODO
+	private static final ResourceLocation	texture	= new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/enchanter.png");
 	private TileEntityEnchanter				te;
 
 	public GuiEnchanter(Container cont, TileEntityEnchanter enchanter) {

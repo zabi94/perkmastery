@@ -22,10 +22,13 @@ public class Recipes {
 		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_leggings), "iii", "i i","i i", 'i', ItemList.chainmailCloth);
 		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_boots), "i i", "i i", 'i', ItemList.chainmailCloth);
 		GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_chestplate), "i i", "iii", "iii", 'i', ItemList.chainmailCloth);
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.goldenBow), "SG ","S D", "SG ", 'G', Items.gold_ingot, 'D', Items.diamond, 'S', Items.string);
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.goldenBow), " GS","D S", " GS", 'G', Items.gold_ingot, 'D', Items.diamond, 'S', Items.string);
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.hook), " B ","BIB", "LIL", 'B', Blocks.iron_bars, 'I', Items.iron_ingot, 'L', Items.lead);
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.scaffoldBuilder,1,0), "IWI","WPW","IWI", 'I', Items.iron_ingot, 'W', Items.stick, 'P', Items.diamond_pickaxe);
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.decanter), " B ","GCG","III", 'B', Blocks.brewing_stand, 'G', Items.gold_ingot, 'C', Blocks.cauldron, 'I', Items.iron_ingot);
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.enchanter), " E ","BLB","GGG", 'E', Blocks.enchanting_table, 'G', Items.gold_ingot, 'L', Blocks.lapis_block, 'B', Items.book);
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.disenchanter), " E ","SLS","CCC", 'E', Blocks.enchanting_table, 'C', Blocks.cobblestone, 'L', Blocks.lapis_block, 'S', Items.emerald);
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.tomeEvocation), Items.book, Items.fermented_spider_eye, Items.name_tag);
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.tomeExperience), Items.book, Items.poisonous_potato, Items.snowball);

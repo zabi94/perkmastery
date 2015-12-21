@@ -1,4 +1,3 @@
-item.masterybook.name=Heroes' Knowledge
 item.boneAmulet.name=Bone Amulet
 item.chainmailCloth.name=Chainmail
 item.goldenBow.name=Golden Bow
@@ -7,10 +6,12 @@ item.tomeExperience.name=Tome of Experience
 item.tomeReturn.name=Tome of Return
 item.scaffoldBuilder.name=Scaffold Builder
 item.soul.name=Soul
+item.grapplingHook.name=Grappling Hook
 
 tile.decanter.name=Decanter
 tile.scaffold.name=Scaffold
-tile.enchanter.name=Enchanter
+tile.enchanter.name=Enchanting Altar
+tile.disenchanter.name=Disenchanter
 
 itemGroup.perkmastery=Perk Mastery
 key.openGui=Open Perk Gui
@@ -24,7 +25,6 @@ general.allAbilitiesUnlocked=All Abilities unlocked
 general.cannotProcess=Cannot process the command
 general.notenoughexperience=You need more experience!
 general.scaffoldbuilder.boundto=Currently bound to:
-general.recursiveLimit=Limit reached, not all blocks have been processed
 general.scaffoldbuilder.cleanInstructions=Shift-Right click on a block to reset
 general.scaffoldbuilder.mode.empty=Empty cube [Place on a crafting grid to change]
 general.scaffoldbuilder.mode.full=Full cube [Place on a crafting grid to change]
@@ -33,26 +33,28 @@ general.soul.destroyed.nobook=A soul found no item to bind to and vanished in yo
 general.soul.destroyed.unable=The soul vanished in your hands
 general.collectedSouls=Collected Souls
 
-classes.mage=Mage (4/6 implemented)
+mod.updates=[Perk Mastery] Your mod is outdated! Go grab the latest one at %url%
+
+classes.mage=Mage
 classes.archer=Archer
-classes.miner=Miner (5.6/6 implemented)
+classes.miner=Miner
 classes.builder=Builder
 classes.warrior=Warrior
 classes.explorer=Explorer
 
 perk.mage.1=Decanter Mastery
-perk.mage.2=Enchanter Mastery [Not Implemented]
-perk.mage.3=Disenchanter [Not Implemented]
+perk.mage.2=Enchanter Mastery
+perk.mage.3=Disenchanter
 perk.mage.4=Knowledge of the Tomes
 perk.mage.5=Experience Mastery
 perk.mage.6=Overcome Death
 
 perk.desc.mage.1=Allows the use of a Decanter._It brews multiple ingredients and up to_12 potions simultaneously._A redstone signal should stop it
-perk.desc.mage.2=Allows the use of an Enchanting Altar._It's like an Enchanting Table,_but uses 66% less experience
-perk.desc.mage.3=Allows the use of a Disenchanting Altar._Unbinds enchantments from tools and stores_them in other containers, at the cost of experience
-perk.desc.mage.4=Allows the use of an Evocation Tome and a Return Tome._The Evocation tome collects the souls of those_you killed, to be summoned under your control._Place the book on the right of your weapon (or hand)._The Return tome teleports you near your_bed, at the cost of experience._Hold right click for a couple seconds, then release
+perk.desc.mage.2=Allows the use of an Enchanting Altar._It's like an Enchanting Table,_but uses no experience
+perk.desc.mage.3=Allows the use of a Disenchanting Altar._Unbinds enchantments from tools and stores_them in other containers
+perk.desc.mage.4=Allows the use of an Evocation Tome and a Return Tome._The Evocation tome collects the souls of those_you killed, to be summoned under your control._Place the book on the right of your weapon (or hand)._The Return tome teleports you near your_bed, at the cost of experience
 perk.desc.mage.5=Allows the use of a Tome of Experience._It destroys itself and any nearby bookshelf_converting them into pure experience._Right click once to see what bookshelves will be affected._Right click and hold to tranform
-perk.desc.mage.6=Allows the use of a Bone Talisman._It shatters when you are about to die, but_it will save and heal you a bit
+perk.desc.mage.6=Allows the use of a Bone Talisman._It shatters when you are about to die,_but_it will save and heal you a bit
 
 perk.archer.1=Power Shot
 perk.archer.2=Dodge
@@ -73,7 +75,7 @@ perk.miner.2=Joined Ores
 perk.miner.3=Expert Eye
 perk.miner.4=Lucky Miner
 perk.miner.5=Crumbling
-perk.miner.6=Pocket Instruments [2/3 Implemented]
+perk.miner.6=Pocket Instruments
 
 perk.desc.miner.1=When holding a pickaxe, grants you haste
 perk.desc.miner.2=You mine multiple ores of the same type at the same time

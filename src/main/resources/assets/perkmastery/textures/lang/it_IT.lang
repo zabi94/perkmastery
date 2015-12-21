@@ -1,17 +1,39 @@
-item.masterybook.name=Le Gesta degli Eroi
 item.boneAmulet.name=Amuleto d'Ossa
 item.chainmailCloth.name=Cotta di Maglia
 item.goldenBow.name=Arco d'Oro
 item.tomeEvocation.name=Tomo dell'Evocazione
 item.tomeExperience.name=Tomo dell'Esperienza
 item.tomeReturn.name=Tomo del Ritorno
+item.scaffoldBuilder.name=Monta-impalcature
+item.soul.name=Anima
+item.grapplingHook.name=Rampino
+
+tile.decanter.name=Decantatore
+tile.scaffold.name=Impalcature
+tile.enchanter.name=Altare degli Incantesimi
+tile.disenchanter.name=Altare delle Separazioni
 
 itemGroup.perkmastery=Perk Mastery
 key.openGui=Apri Finestra Abilita'
 
+mod.updates=[Perk Mastery] La tua versione è vecchia! Scaricane una più recente da %url%
+
 generic.requiredExp=Livelli Richiesti
 general.mustUnlockClass=Devi prima completare la classe iniziata!
 general.amuletShatter=Il tuo talismano d'ossa s'infrange
+general.machinery.notenabled=Non sei sicuro di come si usi questa cosa
+general.abilitiesReset=Le tue abilita' sono state resettate
+general.allAbilitiesUnlocked=Tutte le abilita' sono sbloccate
+general.cannotProcess=Impossibile eseguire
+general.notenoughexperience=Non hai abbastanza esperienza!
+general.scaffoldbuilder.boundto=Attualmente impostato a:
+general.scaffoldbuilder.cleanInstructions=Shift-Click destro su un blocco per resettare
+general.scaffoldbuilder.mode.empty=Cubo Vuoto [Metti in una griglia da craft per cambiare]
+general.scaffoldbuilder.mode.full=Cubo Pieno [Metti in una griglia da craft per cambiare]
+general.evocationNameTag=Evocazione
+general.soul.destroyed.nobook=Un'anima non ha trovato un oggetto a cui legarsi, ed e' svanita
+general.soul.destroyed.unable=L'anima si sgretola nelle tue mani inesperte
+general.collectedSouls=Anime Collezionate
 
 classes.mage=Mago
 classes.archer=Arcere
@@ -27,26 +49,26 @@ perk.mage.4=Conoscenza dei Tomi
 perk.mage.5=Maestro di Esperienza
 perk.mage.6=Supera la Morte
 
-perk.desc.mage.1=Ti permette di usare un decantatore
-perk.desc.mage.2=Ti permette di usare un altare degli incanti
-perk.desc.mage.3=Ti permette di usare un altare delle separazioni
-perk.desc.mage.4=Ti permette di usare i tomi dell'evocazione e del ritorno
-perk.desc.mage.5=Ti permette di usare i tomi dell'esperienza
-perk.desc.mage.6=Ti permette di usare l'amuleto d'ossa
+perk.desc.mage.1=Ti permette di usare un decantatore._Può creare fino a 12 pozioni contemporaneamente._Un segnale redstone lo ferma
+perk.desc.mage.2=Ti permette di usare un altare degli incanti._Incanta oggetti senza usare esperienza
+perk.desc.mage.3=Ti permette di usare un altare delle separazioni._Prende un incanto da un oggetto e lo trasferisce_in un libro non incantato
+perk.desc.mage.4=Ti permette di usare i tomi dell'evocazione e del ritorno._Il tomo delle evocazioni raccoglie le anime_di quelli che uccidi, per evocarli successivamente_sotto il tuo controllo._Metti il libro alla destra dello strumento che usi._Il Tomo del Ritorno ti teletrasporta nel_tuo letto, a costo di esperienza
+perk.desc.mage.5=Ti permette di usare i tomi dell'esperienza._Distrugge se stesso e ogni libreria vicina_convertendole in pura esperienza._Premi il tasto destro per vedere quali librerie distrugge._Tienilo premuto piu' a lungo per trasformarle
+perk.desc.mage.6=Ti permette di usare l'amuleto d'ossa._Si frantuma quando stai per morire,_ma ti cura e ti salva la vita
 
 perk.archer.1=Potenza di Tiro
 perk.archer.2=Schiva
 perk.archer.3=Forgiatore d'Archi
-perk.archer.4=Guida
+perk.archer.4=Shock
 perk.archer.5=Occhio di Falco
 perk.archer.6=Forma Umbrea
 
 perk.desc.archer.1=Ogni freccia colpisce 10% piu' forte
 perk.desc.archer.2=Hai il 70% di possibilita' di_evitare un proiettile
-perk.desc.archer.3=Ti permette di usare un arco d'oro
-perk.desc.archer.4=Aiuta a mirare
+perk.desc.archer.3=Ti permette di usare un arco d'oro_a fuoco rapido. Include un incantesimo a caso
+perk.desc.archer.4=Lanci piu' lontano e il nemico ha_una possibilita' di rimanere confuso
 perk.desc.archer.5=Mentre miri, ti garantisce la visione notturna
-perk.desc.archer.6=Se ti accovacci nell'ombra ti_rende piu' difficile da vedere
+perk.desc.archer.6=Se ti accovacci ti rende piu' difficile_da vedere. Mantenere questa forma costa_esperienza, e se non ne hai abbastanza le ombre_assorbiranno la tua vitalita'
 
 perk.miner.1=Mani Rapide
 perk.miner.2=Vene di Minerali
@@ -57,9 +79,9 @@ perk.miner.6=Strumenti Del Mestiere
 
 perk.desc.miner.1=Se tieni in mano un piccone scavi piu' veloce
 perk.desc.miner.2=Quando scavi un minerale, tutti i_minerali adiacenti vengono scavati insieme
-perk.desc.miner.3=Ti permette di individuare minerali dietro le pareti
+perk.desc.miner.3=Ti permette di individuare minerali dietro le pareti._Accovacciati con un piccone in mano per vedere
 perk.desc.miner.4=Quando scavi hai sempre un po di fortuna
-perk.desc.miner.5=Tutta la ghiaia si spacca quando scavi_Puoi filtrare i tipi di blocchi che raccogli_I blocchi filtrati vengono distrutti
+perk.desc.miner.5=Tutta la ghiaia si spacca quando scavi_Puoi filtrare i tipi di blocchi che raccogli._I blocchi filtrati vengono distrutti invece che raccolti._Considera i metadati, ignora dati NBT
 perk.desc.miner.6=Hai sempre con te una fornace e una tavola da lavoro_Ti permette di usare un rampino 
 
 perk.builder.1=Braccia Lunghe
@@ -70,11 +92,11 @@ perk.builder.5=Piastrellista
 perk.builder.6=Geometra
 
 perk.desc.builder.1=Riesci a raggiungere blocchi piu' lontani
-perk.desc.builder.2=Le tue mani scavano molto delicatamente,_anche cose come il vetro
-perk.desc.builder.3=Cambia lo stile di un blocco
+perk.desc.builder.2=Le tue mani scavano molto delicatamente,_anche cose come il vetro. Puoi usare qualsiasi_strumento, ma i picconi non sono delicati abbastanza
+perk.desc.builder.3=Cambia lo stile di un blocco._Piazzalo nella tua griglia giocatore 2x2
 perk.desc.builder.4=Ti puoi arrampicare sulle pareti_Atterri piu' delicatamente
-perk.desc.builder.5=Mentre sei accucciato piazza il blocco_che hai in mano sotto i tuoi piedi
-perk.desc.builder.6=Ti permette di piazzare ed interagire_con le impalcature
+perk.desc.builder.5=Mentre sei accucciato piazza il blocco_che hai in mano sotto i tuoi piedi._Funziona solo con blocchi opachi interi
+perk.desc.builder.6=Ti permette di usare un Monta-Impalcature._Piazzalo in una griglia per cambiare modalita'._Fai Shift-Click destro su un blocco per resettare._Clicca due blocchi per costruire un cubo fra quelli._Clicca col destro su un'impalcatura con un blocco solido_per sostituire tutte quelle adiacenti._Rompine una mentre sei accucciato per romperle tutte
 
 perk.warrior.1=Ira
 perk.warrior.2=Disarma
@@ -85,7 +107,7 @@ perk.warrior.6=Scarica di Adrenalina
 
 perk.desc.warrior.1=Colpisci piu' forte
 perk.desc.warrior.2=Hai il 10% di possibilita' di_disarmare un nemico quando lo attacchi
-perk.desc.warrior.3=Ti permette di indossare una sottoarmatura di cotta
+perk.desc.warrior.3=Ti permette di indossare una sottoarmatura di cotta._Gli incantesimi posti qua non funzionano
 perk.desc.warrior.4=Mentre sei in groppa a qualcosa_ferisci chi ti sta attorno
 perk.desc.warrior.5=I Boss prendono danni aggiuntivi dai_tuoi colpi
 perk.desc.warrior.6=Ti garantisce un po di vita in piu'_se vieni colpito da qualcuno
@@ -97,9 +119,9 @@ perk.explorer.4=In Forma
 perk.explorer.5=Atterraggio
 perk.explorer.6=Viaggiatore Esperto
 
-perk.desc.explorer.1=Ti permette di dormire in ogni condizione
+perk.desc.explorer.1=Ti permette di dormire in ogni condizione_eccetto la luce diurna
 perk.desc.explorer.2=Hai un po piu' di spazio per tenere_la tua roba mentre viaggi
-perk.desc.explorer.3=Sembra sempre che tu trovi qualcosa_per terra mentre viaggi
+perk.desc.explorer.3=Sembra sempre che tu trovi qualcosa mentre viaggi._Devi essere almeno a 64 blocchi dal tuo letto,_e intorno a te compaiono tesori
 perk.desc.explorer.4=Salti piu' alto e corri piu' veloce_Non devi piu' saltare sui gradini piu' alti
 perk.desc.explorer.5=Se cadi da molto in alto la tua agilita'_ti permette sempre di sopravvivere
-perk.desc.explorer.6=Sei ormai abituato ai lunghi viaggi_La tua sazieta' dimiuisce piu' lentamente
+perk.desc.explorer.6=Il tuo stomaco si riempie a costo di esperienza

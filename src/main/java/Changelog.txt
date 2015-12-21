@@ -93,4 +93,6 @@ Build 8
 
 - Fixed Stuff
 - Code Cleanup
-- Added hook, still kinda buggy
+- Implemented hook, still kinda buggy
+- Implemented Disenchanter
+- Added Update Checker
