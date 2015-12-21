@@ -106,3 +106,8 @@ Build 10
 - Added Thaumcraft and TConstruct Pickaxe compatibility
 - Fixed weird issue with brewing stands and cauldrons showing as fire in recipes. Minecraft code is weird, I swear, blocks and items are different for these 2
 - Registered Locked Recipes in Recipe Sorter. Derp
+
+Build 11
+
+- Fixed(tm) tinkers construct pickaxe recognition
+- Rewrote command to autocomplete. Split into multiple commands. Allow forcetoggling abilities by creative players 

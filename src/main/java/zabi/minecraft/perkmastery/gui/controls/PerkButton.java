@@ -42,10 +42,10 @@ public class PerkButton extends GuiButton {
 	}
 
 	public int getHoverState(boolean isHovered) {
+		if (isAbilityEnabled()) return 4;
 		if (!enabled) return 0;
 		if (isHovered) return 2;
 		if (!isAbilityPurchased()) return 1;
-		if (isAbilityEnabled()) return 4;
 		return 3;
 
 	}

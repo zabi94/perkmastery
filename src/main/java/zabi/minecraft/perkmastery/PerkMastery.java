@@ -20,8 +20,11 @@ import zabi.minecraft.perkmastery.handlers.IntegrationHandler;
 import zabi.minecraft.perkmastery.handlers.TickHandler;
 import zabi.minecraft.perkmastery.items.ItemList;
 import zabi.minecraft.perkmastery.libs.LibGeneral;
-import zabi.minecraft.perkmastery.misc.CommandControl;
 import zabi.minecraft.perkmastery.misc.Log;
+import zabi.minecraft.perkmastery.misc.commands.CommandForceEnable;
+import zabi.minecraft.perkmastery.misc.commands.CommandReset;
+import zabi.minecraft.perkmastery.misc.commands.CommandSetAbilityLevel;
+import zabi.minecraft.perkmastery.misc.commands.CommandUnlock;
 import zabi.minecraft.perkmastery.network.NetworkModRegistry;
 import zabi.minecraft.perkmastery.proxy.CommonProxy;
 import zabi.minecraft.perkmastery.tileentity.TileList;
@@ -87,7 +90,10 @@ public class PerkMastery {
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent event) {
 		Log.i("Registering server commands: use /perkmastery or /pema");
-		event.registerServerCommand(new CommandControl());
+		event.registerServerCommand(new CommandUnlock());
+		event.registerServerCommand(new CommandReset());
+		event.registerServerCommand(new CommandForceEnable());
+		event.registerServerCommand(new CommandSetAbilityLevel());
 	}
 
 }

@@ -28,9 +28,7 @@ import zabi.minecraft.perkmastery.visual.RenderHelper;
 public class GuiPerks extends GuiBase {
 
 	private static final ResourceLocation	texture			= new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/gui_book_frame.png");
-	private static final ResourceLocation[]	parallax		= new ResourceLocation[] {
-																		new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/gui_book_bg0.png"), new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/gui_book_bg1.png"), new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/gui_book_bg2.png")
-																};
+	private static final ResourceLocation[]	parallax		= new ResourceLocation[] { new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/gui_book_bg0.png"), new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/gui_book_bg1.png"), new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/gui_book_bg2.png") };
 
 	private static final char				ENDLINE_CHAR	= '_';
 
@@ -65,12 +63,7 @@ public class GuiPerks extends GuiBase {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-
-		// Log.i("mouseX:"+mouseX);
-		// Log.i("mouseY:"+mouseY);
-
 		ArrayList<String> tooltip = new ArrayList<String>();
-
 		for (Object b : buttonList) {
 			if (b instanceof ClassButton) {
 				ClassButton cb = (ClassButton) b;
@@ -115,9 +108,8 @@ public class GuiPerks extends GuiBase {
 			abilities[i].visible = false;
 			buttonList.add(classes[i]);
 			buttonList.add(abilities[i]);
-			;
 			if (ExtendedPlayer.hasUnfinishedTrees(player) && !ExtendedPlayer.isPlayer(player, PlayerClass.values()[i])) {
-				classes[i].enabled = false;
+				classes[i].enabled = ExtendedPlayer.getEnabledAbilities(player)[i] > 0;
 
 			}
 
@@ -165,7 +157,6 @@ public class GuiPerks extends GuiBase {
 
 	@Override
 	protected void actionPerformed(GuiButton guibutton) {
-		// Log.i("Action performed");
 		if (guibutton.id < 6) showSubMenu(guibutton.id);
 		else if (guibutton.id < 12) {
 			PerkButton btn = ((PerkButton) guibutton);
@@ -207,7 +198,7 @@ public class GuiPerks extends GuiBase {
 			classes[i].visible = true;
 			abilities[i].visible = false;
 			abilities[i].setdown();
-			if (ExtendedPlayer.hasUnfinishedTrees(player) && !ExtendedPlayer.isPlayer(player, PlayerClass.values()[i])) classes[i].enabled = false;
+			if (ExtendedPlayer.hasUnfinishedTrees(player) && !ExtendedPlayer.isPlayer(player, PlayerClass.values()[i])) classes[i].enabled = ExtendedPlayer.getEnabledAbilities(player)[i] > 0;
 		}
 
 	}
@@ -237,7 +228,6 @@ public class GuiPerks extends GuiBase {
 			// Filter
 			new ItemStack(Blocks.hopper),
 			// Chainmail
-			new ItemStack(Items.chainmail_helmet)
-	};
+			new ItemStack(Items.chainmail_helmet) };
 
 }

@@ -15,6 +15,7 @@ import zabi.minecraft.perkmastery.misc.Log;
 import zabi.minecraft.perkmastery.network.packets.AmuletShatter;
 import zabi.minecraft.perkmastery.network.packets.SyncPlayer;
 import zabi.minecraft.perkmastery.network.packets.ToggleAbility;
+import zabi.minecraft.perkmastery.network.packets.ToggleAbilityForce;
 import zabi.minecraft.perkmastery.network.packets.UnlockAbility;
 
 
@@ -155,6 +156,7 @@ public class ExtendedPlayer {
 		return false;
 	}
 
+	// level is 1 to 6
 	public static void unlockLevel(EntityPlayer p, int clazz, int level) {
 		if (!canAffordAbility(p, level)) { return; }
 
@@ -168,6 +170,7 @@ public class ExtendedPlayer {
 
 	}
 
+	// Level is 1 to 6
 	public static void setAbilityLevel(EntityPlayer p, int clas, int level) {
 		genKey(p);
 		int[] abs = getAbilities(p);
@@ -210,13 +213,28 @@ public class ExtendedPlayer {
 	}
 
 	public static void toggle(EntityPlayer p, boolean active, PlayerClass pc, int level) {
-		Log.i("Toggling to " + active);
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) PerkMastery.network.sendToServer(new ToggleAbility(active, pc.ordinal(), level));
 
 		if (getAbilityLevelFor(p, pc) < level) {
 			Log.e("Tried to toggle a non-owned ability");
 			return;
 		}
+
+		byte res = getEnabledAbilities(p)[pc.ordinal()];
+		if (active) res |= getBit(level);
+		else
+			res &= (~getBit(level));
+		setEnabledAbilities(p, pc.ordinal(), res);
+
+		if (pc.equals(PlayerClass.BUILDER) && level == 1) ToggleHandler.toggleReachDistance(p, active);
+		if (pc.equals(PlayerClass.EXPLORER) && level == 4) ToggleHandler.toggleWellTrained(p, active);
+		if (pc.equals(PlayerClass.MINER) && level == 3) ToggleHandler.toggleExpertEye(p, active);
+
+	}
+
+	public static void forceToggle(EntityPlayer p, boolean active, PlayerClass pc, int level) {
+
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) PerkMastery.network.sendToServer(new ToggleAbilityForce(active, pc.ordinal(), level));
 
 		byte res = getEnabledAbilities(p)[pc.ordinal()];
 		if (active) res |= getBit(level);

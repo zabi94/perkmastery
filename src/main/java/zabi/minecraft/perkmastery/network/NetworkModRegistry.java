@@ -8,6 +8,7 @@ import zabi.minecraft.perkmastery.network.packets.OpenGuiMessage;
 import zabi.minecraft.perkmastery.network.packets.ReloadConfig;
 import zabi.minecraft.perkmastery.network.packets.SyncPlayer;
 import zabi.minecraft.perkmastery.network.packets.ToggleAbility;
+import zabi.minecraft.perkmastery.network.packets.ToggleAbilityForce;
 import zabi.minecraft.perkmastery.network.packets.UnlockAbility;
 
 
@@ -24,6 +25,7 @@ public class NetworkModRegistry {
 
 		net.registerMessage(UnlockAbility.Handler.class, UnlockAbility.class, id++, Side.SERVER);
 		net.registerMessage(ToggleAbility.Handler.class, ToggleAbility.class, id++, Side.SERVER);
+		net.registerMessage(ToggleAbilityForce.Handler.class, ToggleAbilityForce.class, id++, Side.SERVER);
 		net.registerMessage(JumpBoost.Handler.class, JumpBoost.class, id++, Side.SERVER);
 		net.registerMessage(OpenGuiMessage.Handler.class, OpenGuiMessage.class, id++, Side.SERVER);
 
