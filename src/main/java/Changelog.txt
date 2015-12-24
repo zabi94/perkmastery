@@ -111,3 +111,7 @@ Build 11
 
 - Fixed(tm) tinkers construct pickaxe recognition
 - Rewrote command to autocomplete. Split into multiple commands. Allow forcetoggling abilities by creative players 
+
+Build 12
+
+-Shift clicking items in guis. yay [BETA]

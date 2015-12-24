@@ -19,18 +19,52 @@ public class ContainerDecanter extends ContainerBase {
 
 	public ContainerDecanter(EntityPlayer player, TileEntityDecanter te) {
 		tile = te;
-		addPlayerSlots(player.inventory, 8, 140);
-		addSlotToContainer(new SlotBucket(tile, 0, 8, 16));
-		addSlotToContainer(new SlotBottle(tile, 1, 79, 51));
+		addSlotToContainer(new SlotBucket(tile, 0, 8, 16)); // 0: bucket
+		addSlotToContainer(new SlotBottle(tile, 1, 79, 51)); // 1: bottles
 		for (int i = 0; i < 7; i++)
-			addSlotToContainer(new SlotIngredient(tile, i + 2, 32 + (i * 20), 16));
+			addSlotToContainer(new SlotIngredient(tile, i + 2, 32 + (i * 20), 16)); // 2->8: ingredienti
 		for (int i = 0; i < 12; i++)
-			addSlotToContainer(new SlotResult(tile, i + 9, xCb[i], yCb[i]));
+			addSlotToContainer(new SlotResult(tile, i + 9, xCb[i], yCb[i])); // 9->20: risultati
+		addPlayerSlots(player.inventory, 8, 140); // 21->56: player
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return ExtendedPlayer.isEnabled(player, PlayerClass.MAGE, 1);
+	}
+
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int _slot) {
+		ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(_slot);
+
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+			if (_slot < 21) {
+				if (!this.mergeItemStack(itemstack1, 21, 56, true)) return null;
+				slot.onSlotChange(itemstack1, itemstack);
+			} else {
+				if (itemstack.getItem().equals(Items.water_bucket)) {
+					if (!this.mergeItemStack(itemstack1, 0, 0, true)) return null;
+					slot.onSlotChange(itemstack1, itemstack);
+				} else if (itemstack.getItem().equals(Items.glass_bottle)) {
+					if (!this.mergeItemStack(itemstack1, 1, 1, true)) return null;
+					slot.onSlotChange(itemstack1, itemstack);
+				} else if (itemstack.getItem().isPotionIngredient(itemstack) && !itemstack.getItem().equals(Items.glass_bottle)) {
+					if (!this.mergeItemStack(itemstack1, 2, 8, false)) return null;
+					slot.onSlotChange(itemstack1, itemstack);
+				}
+			}
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
+			if (itemstack1.stackSize == itemstack.stackSize) { return null; }
+			slot.onPickupFromSlot(player, itemstack1);
+		}
+		return itemstack;
 	}
 
 	public class SlotBucket extends Slot {

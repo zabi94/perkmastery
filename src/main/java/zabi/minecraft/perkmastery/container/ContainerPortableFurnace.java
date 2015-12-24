@@ -95,17 +95,17 @@ public class ContainerPortableFurnace extends ContainerBase {
 			itemstack = itemstack1.copy();
 
 			if (slotNum == 2) {
-				if (!this.mergeItemStack(itemstack1, 3, 39, true)) return null;
+				if (!this.mergeItemStack(itemstack1, 3, 38, true)) return null;
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (slotNum != 1 && slotNum != 0) {
 				if (FurnaceRecipes.smelting().getSmeltingResult(itemstack1) != null) {
-					if (!this.mergeItemStack(itemstack1, 0, 1, false)) return null;
+					if (!this.mergeItemStack(itemstack1, 0, 0, false)) return null;
 				} else if (TileEntityFurnace.isItemFuel(itemstack1)) {
-					if (!this.mergeItemStack(itemstack1, 1, 2, false)) return null;
+					if (!this.mergeItemStack(itemstack1, 1, 1, false)) return null;
 				} else if (slotNum >= 3 && slotNum < 30) {
-					if (!this.mergeItemStack(itemstack1, 30, 39, false)) return null;
-				} else if (slotNum >= 30 && slotNum < 39 && !this.mergeItemStack(itemstack1, 3, 30, false)) return null;
-			} else if (!this.mergeItemStack(itemstack1, 3, 39, false)) return null;
+					if (!this.mergeItemStack(itemstack1, 30, 38, false)) return null;
+				} else if (slotNum >= 30 && slotNum < 39 && !this.mergeItemStack(itemstack1, 3, 29, false)) return null;
+			} else if (!this.mergeItemStack(itemstack1, 3, 38, false)) return null;
 
 			if (itemstack1.stackSize == 0) slot.putStack((ItemStack) null);
 			else
