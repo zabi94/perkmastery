@@ -5,7 +5,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import zabi.minecraft.perkmastery.misc.Log;
 
 
 public class ContainerBase extends Container {
@@ -50,7 +49,7 @@ public class ContainerBase extends Container {
 	protected boolean mergeItemStack(ItemStack givenStack, int slotFirst, int slotLast, boolean startFromLast) {
 
 		boolean successful = false;
-		Log.i("Merging");
+
 		int startSlot, endSlot;
 		if (startFromLast) {
 			startSlot = Math.max(slotLast, slotFirst);
@@ -60,24 +59,21 @@ public class ContainerBase extends Container {
 			endSlot = Math.max(slotLast, slotFirst);
 		}
 
-		Log.i(startSlot + " to " + endSlot);
 		for (int currentDestinationSlotNumber = startSlot; (!startFromLast && currentDestinationSlotNumber <= endSlot) || (startFromLast && currentDestinationSlotNumber >= endSlot); currentDestinationSlotNumber += startFromLast ? -1 : 1) {
 			Slot currentDestinationSlot = (Slot) this.inventorySlots.get(currentDestinationSlotNumber);
 			ItemStack stackAlreadyThere = currentDestinationSlot.getStack();
 			if (stackAlreadyThere != null && stackAlreadyThere.getItem() == givenStack.getItem() && (!givenStack.getHasSubtypes() || givenStack.getItemDamage() == stackAlreadyThere.getItemDamage()) && ItemStack.areItemStackTagsEqual(givenStack, stackAlreadyThere)) {
 				int maxFinalStackSize = Math.min(stackAlreadyThere.getMaxStackSize(), currentDestinationSlot.getSlotStackLimit());
 				if (stackAlreadyThere.stackSize < maxFinalStackSize) {
-					Log.i("Joining to existent stack in slot " + currentDestinationSlotNumber);
-					int transferrable = maxFinalStackSize - stackAlreadyThere.stackSize - 1;
-					Log.i("I can transfer at most" + transferrable + " items in this slot");
+					int transferrable = maxFinalStackSize - stackAlreadyThere.stackSize;
 					int transfering = Math.min(transferrable, givenStack.stackSize);
 					stackAlreadyThere.stackSize += transfering;
+					currentDestinationSlot.putStack(stackAlreadyThere);
 					givenStack.stackSize -= transfering;
 					currentDestinationSlot.onSlotChanged();
 					successful = true;
 				}
 			} else if (stackAlreadyThere == null) {
-				Log.i("Transfering to free slot " + currentDestinationSlotNumber);
 				int transferrable = currentDestinationSlot.getSlotStackLimit();
 				ItemStack taken = null;
 				if (givenStack.stackSize > transferrable) taken = givenStack.splitStack(transferrable);

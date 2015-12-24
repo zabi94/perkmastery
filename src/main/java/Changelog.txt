@@ -104,7 +104,7 @@ Build 9
 Build 10
 
 - Added Thaumcraft and TConstruct Pickaxe compatibility
-- Fixed weird issue with brewing stands and cauldrons showing as fire in recipes. Minecraft code is weird, I swear, blocks and items are different for these 2
+- Fixed weird issue with brewing stands and cauldrons showing as fire in NEI recipes. Minecraft code is weird, I swear, blocks and items are different for these 2
 - Registered Locked Recipes in Recipe Sorter. Derp
 
 Build 11
@@ -114,4 +114,5 @@ Build 11
 
 Build 12
 
--Shift clicking items in guis. yay [BETA]
+- Shift clicking items in guis. yay [BETA]
+- Rewrote grappling hook. Now it better

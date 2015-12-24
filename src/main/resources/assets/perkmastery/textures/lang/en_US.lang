@@ -82,7 +82,7 @@ perk.desc.miner.2=You mine multiple ores of the same type at the same time
 perk.desc.miner.3=You can sense nearby ores._Shift while holding a pick to activate
 perk.desc.miner.4=You are luckier when digging ores
 perk.desc.miner.5=Gravel drops together if you break the bottom block._All the items in the filter inventory are_destroyed instead of being picked up. This is_metadata aware, but ignores nbt.
-perk.desc.miner.6=Portable Furnace & Crafting table._Allows the creation of a grappling hook
+perk.desc.miner.6=Portable Furnace & Crafting table._Allows the creation of a grappling hook._Right click to launch, sneak to abort
 
 perk.builder.1=Long Arms
 perk.builder.2=Delicate digging
