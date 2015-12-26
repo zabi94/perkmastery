@@ -14,6 +14,7 @@ import zabi.minecraft.perkmastery.entity.ExtendedPlayer.InventoryType;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
 import zabi.minecraft.perkmastery.handlers.ToggleHandler;
 import zabi.minecraft.perkmastery.misc.Log;
+import zabi.minecraft.perkmastery.visual.effects.EffectRegistry;
 
 
 public class SyncPlayer implements IMessage {
@@ -117,6 +118,7 @@ public class SyncPlayer implements IMessage {
 			ExtendedPlayer.setInventory(p, message.inventory);
 			ExtendedPlayer.setFilter(p, message.filter);
 			ExtendedPlayer.setFurnaceData(p, message.furn);
+			EffectRegistry.purge();
 			ToggleHandler.toggleReachDistance(p, ExtendedPlayer.isEnabled(p, PlayerClass.BUILDER, 1));
 			ToggleHandler.toggleWellTrained(p, ExtendedPlayer.isEnabled(p, PlayerClass.EXPLORER, 4));
 			ToggleHandler.toggleExpertEye(p, ExtendedPlayer.isEnabled(p, PlayerClass.MINER, 3));

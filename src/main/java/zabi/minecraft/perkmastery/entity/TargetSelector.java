@@ -21,7 +21,7 @@ public class TargetSelector implements IEntitySelector {
 	public boolean isEntityApplicable(Entity entity) {
 
 		if (entity.equals(target)) return true;
-
+		if (entity.equals(player)) return false;
 		if (entity instanceof EntityLiving) {
 			EntityLiving e = (EntityLiving) entity;
 			if (player.equals(e.getAttackTarget())) return true;

@@ -9,22 +9,22 @@ import zabi.minecraft.perkmastery.libs.LibModIDs;
 import zabi.minecraft.perkmastery.misc.Log;
 
 
+// Rename to helper TODO
 public class IntegrationHandler {
 
-	public static boolean	thaumcraft_loaded	= false;
-	public static boolean	tconstruct_loaded	= false;
+	private static boolean[] loadedMods = new boolean[LibModIDs.values().length];
 
 	public static boolean isPickaxe(ItemStack stack) {
 		if (stack == null) return false;
 		if (stack.getItem() instanceof ItemPickaxe) return true;
 		try {
-			if (thaumcraft_loaded) {
-				if (testFor(stack, LibModIDs.THAUMCRAFT, "ItemPickVoid")) return true;
-				if (testFor(stack, LibModIDs.THAUMCRAFT, "ItemPickThaumium")) return true;
-				if (testFor(stack, LibModIDs.THAUMCRAFT, "ItemPickaxeElemental")) return true;
+			if (isModLoaded(LibModIDs.Thaumcraft)) {
+				if (testFor(stack, LibModIDs.Thaumcraft.name(), "ItemPickVoid")) return true;
+				if (testFor(stack, LibModIDs.Thaumcraft.name(), "ItemPickThaumium")) return true;
+				if (testFor(stack, LibModIDs.Thaumcraft.name(), "ItemPickaxeElemental")) return true;
 			}
-			if (tconstruct_loaded) {
-				if (testFor(stack, LibModIDs.TINKERS_CONSTRUCT, "InfiTool.Pickaxe")) return true;
+			if (isModLoaded(LibModIDs.TConstruct)) {
+				if (testFor(stack, LibModIDs.TConstruct.name(), "pickaxe")) return true;
 			}
 		} catch (Exception e) {
 			return false;
@@ -44,10 +44,17 @@ public class IntegrationHandler {
 	}
 
 	public static void checkLoadedMods() {
-		thaumcraft_loaded = Loader.isModLoaded(LibModIDs.THAUMCRAFT);
-		if (thaumcraft_loaded) Log.i("Thaumcraft Detected");
-		tconstruct_loaded = Loader.isModLoaded(LibModIDs.TINKERS_CONSTRUCT);
-		if (tconstruct_loaded) Log.i("TConstruct Detected");
+		for (LibModIDs id : LibModIDs.values())
+			if (Loader.isModLoaded(id.name())) {
+				loadedMods[id.ordinal()] = true;
+				Log.i("Supported Mod Detected: " + id.name() + " (aka: " + Loader.instance().getIndexedModList().get(id.name()).getName() + ")");
+			} else {
+				Log.d("Supported Mod not detected: " + id.name());
+			}
+	}
+
+	public static boolean isModLoaded(LibModIDs modId) {
+		return loadedMods[modId.ordinal()];
 	}
 
 }

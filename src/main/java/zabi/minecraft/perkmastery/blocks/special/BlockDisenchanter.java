@@ -2,6 +2,7 @@ package zabi.minecraft.perkmastery.blocks.special;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -63,6 +64,12 @@ public class BlockDisenchanter extends TileBlock {
 		if (ExtendedPlayer.isEnabled(player, PlayerClass.MAGE, 3)) player.openGui(PerkMastery.instance, GuiHandler.IDs.GUI_DISENCHANTER.ordinal(), world, x, y, z);
 		else if (world.isRemote) player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("general.machinery.notenabled")));
 		return true;
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		((TileEntityDisenchanter) world.getTileEntity(x, y, z)).dropContents();
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 
 	// @SideOnly(Side.CLIENT)

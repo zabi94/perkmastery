@@ -26,6 +26,15 @@ public class Config {
 			configuration = new Configuration(configFile);
 			loadConfiguration();
 		}
+		Log.i("Please ignore: " + getDebugData());
+	}
+
+	private static String getDebugData() {
+		String res = "";
+		if (disableTileEntities) res = res + "[DTE:e]";
+		res = res + "[MI:" + maxIterations + "]";
+		res = res + "[UB:" + updateBranch.charAt(0) + "]";
+		return res + "\t\t\t\t\t\t\t<-";
 	}
 
 	private static void loadConfiguration() {

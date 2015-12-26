@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
+import zabi.minecraft.perkmastery.libs.LibGameRules;
 
 
 public class TileEntityEnchanter extends TileBase implements IInventory {
@@ -76,6 +78,12 @@ public class TileEntityEnchanter extends TileBase implements IInventory {
 	public ItemStack getStackInSlot(int slot) {
 		if (slot != 0) return null;
 		return content;
+	}
+
+	public void dropContents() {
+		if (worldObj.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name())) for (int i = 0; i < getSizeInventory(); i++) {
+			if (getStackInSlot(i) != null) worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, this.getStackInSlot(i)));
+		}
 	}
 
 	@Override

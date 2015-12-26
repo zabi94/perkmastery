@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import zabi.minecraft.perkmastery.Config;
+import zabi.minecraft.perkmastery.libs.LibGameRules;
 
 
 public class DigHandler {
@@ -20,7 +21,7 @@ public class DigHandler {
 	}
 
 	public static void applyFortune(BreakEvent evt) {
-		if (!evt.block.getItemDropped(evt.blockMetadata, evt.world.rand, 0).equals(Item.getItemFromBlock(evt.block))) evt.world.spawnEntityInWorld(new EntityItem(evt.world, evt.x, evt.y, evt.z, new ItemStack(evt.block.getItemDropped(evt.blockMetadata, evt.world.rand, 0), 1, evt.block.damageDropped(evt.blockMetadata))));
+		if (!evt.block.getItemDropped(evt.blockMetadata, evt.world.rand, 0).equals(Item.getItemFromBlock(evt.block)) && evt.world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name())) evt.world.spawnEntityInWorld(new EntityItem(evt.world, evt.x, evt.y, evt.z, new ItemStack(evt.block.getItemDropped(evt.blockMetadata, evt.world.rand, 0), 1, evt.block.damageDropped(evt.blockMetadata))));
 	}
 
 	public static boolean isToolDelicate(BreakEvent evt) {
@@ -84,7 +85,7 @@ public class DigHandler {
 			if (counter[0] < VEIN_MAX_SIZE) applyVeinminer(evt, x, y, z - 1, counter, false, silk, fortune, iteration);
 		}
 
-		if (firstRun && counter[0] > 0) {
+		if (evt.world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name()) && firstRun && counter[0] > 0) {
 			evt.block.dropXpOnBlockBreak(evt.world, evt.x, evt.y, evt.z, evt.getExpToDrop() * counter[0]);
 			evt.world.spawnEntityInWorld(new EntityItem(evt.world, x, y, z, new ItemStack(drop, counter[1], meta)));
 		}
@@ -101,7 +102,7 @@ public class DigHandler {
 			world.setBlockToAir(x, y, z);
 			applyCrumbling(x, y + 1, z, world, qtDestroyed + 1);
 		} else {
-			if (qtDestroyed > 0) world.spawnEntityInWorld(new EntityItem(world, x, y - qtDestroyed - 1, z, new ItemStack(Blocks.gravel, qtDestroyed)));
+			if (world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name()) && qtDestroyed > 0) world.spawnEntityInWorld(new EntityItem(world, x, y - qtDestroyed - 1, z, new ItemStack(Blocks.gravel, qtDestroyed)));
 		}
 	}
 

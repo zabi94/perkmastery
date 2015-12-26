@@ -33,7 +33,7 @@ public class BlockScaffold extends Block6EqualFaces {
 					if (Block.getBlockFromItem(player.getHeldItem().getItem()).equals(BlockList.scaffold)) return false;
 					if (Block.getBlockFromItem(player.getHeldItem().getItem()).isOpaqueCube()) {
 						recursiveSubstitution(world, x, y, z, player.getHeldItem(), player.capabilities.isCreativeMode, 0);
-						if (player.getHeldItem().stackSize < 1) player.inventory.mainInventory[player.inventory.currentItem] = null;
+						if (player.getHeldItem().stackSize < 1) player.setCurrentItemOrArmor(0, null);
 						return true;
 					}
 				}

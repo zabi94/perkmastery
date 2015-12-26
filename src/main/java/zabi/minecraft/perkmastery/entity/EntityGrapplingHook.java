@@ -17,7 +17,7 @@ public class EntityGrapplingHook extends Entity {
 
 	private static final float	hookSpeed			= 1.1F;
 	private static final float	retractSpeed		= 0.3F;
-	private static final double	maxDist				= 20;
+	private static final double	maxDist				= 40;
 
 	private World				world;
 	private EntityPlayer		player;
@@ -48,7 +48,6 @@ public class EntityGrapplingHook extends Entity {
 	}
 
 	public void writeEntityToNBT(NBTTagCompound tag) {
-
 	}
 
 	@Override
@@ -93,7 +92,7 @@ public class EntityGrapplingHook extends Entity {
 	}
 
 	private boolean isCollisionValid() {
-		return this.isEntityInsideOpaqueBlock() || this.isInsideOfMaterial(Material.glass);
+		return (this.isEntityInsideOpaqueBlock() && !this.isInsideOfMaterial(Material.water) && !this.isInsideOfMaterial(Material.lava)) || this.isInsideOfMaterial(Material.glass);
 	}
 
 	public void setDead() {

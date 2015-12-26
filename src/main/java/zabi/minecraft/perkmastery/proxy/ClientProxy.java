@@ -13,7 +13,10 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.blocks.BlockList;
 import zabi.minecraft.perkmastery.entity.HackyPlayerControllerMP;
+import zabi.minecraft.perkmastery.handlers.IntegrationHandler;
 import zabi.minecraft.perkmastery.libs.LibGeneral;
+import zabi.minecraft.perkmastery.libs.LibModIDs;
+import zabi.minecraft.perkmastery.misc.Log;
 import zabi.minecraft.perkmastery.network.packets.SyncFilterToServer;
 import zabi.minecraft.perkmastery.network.packets.SyncInventoryToServer;
 import zabi.minecraft.perkmastery.tileentity.TileEntityDecanter;
@@ -54,8 +57,17 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void setupHackyController(boolean enable) {
 		PlayerControllerMP pc = Minecraft.getMinecraft().playerController;
+		if (IntegrationHandler.isModLoaded(LibModIDs.Botania) && isBotaniaController(pc)) Log.w("Botania is loaded, and modified reach distance at least one time. This means that the Long Hands perk may conflict with the Ring of Far Reach");
 		if (!(pc instanceof HackyPlayerControllerMP)) Minecraft.getMinecraft().playerController = new HackyPlayerControllerMP(Minecraft.getMinecraft().playerController);
 		((HackyPlayerControllerMP) Minecraft.getMinecraft().playerController).setExtended(enable);
+	}
+
+	private boolean isBotaniaController(PlayerControllerMP pc) {
+		Class<?>[] interfacce = pc.getClass().getInterfaces();
+		for (Class<?> cl : interfacce) {
+			if (cl.getName().contains("IExtendedPlayerController")) return true;
+		}
+		return false;
 	}
 
 	@Override

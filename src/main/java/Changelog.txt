@@ -115,4 +115,18 @@ Build 11
 Build 12
 
 - Shift clicking items in guis. yay [BETA]
-- Rewrote grappling hook. Now it better
+- Rewrote grappling hook
+
+Build 13
+
+- Grappling hook shoots farther
+- Fixed Grappling hook being able to be used by everyone
+- Partially rewrote target selection for evocations. It should fix entities stop targeting you if you nametagged them a special string
+- Fixed Skeletons and zombies always dropping souls
+- Fixed Tinkers Construct compatibility. For real this time
+- keepInventory, doMobLoot and doTileDrops gamerules are now respected 
+- Placing of blocks with floor layer and scaffold builder now checks if the block is replaceable or air
+- Fixed Enchanter and disenchanter not dropping contents when destroyed
+- Fixed Expert Eye Bug
+- Added WARNs in console about sensitive configs being modified
+- Added Check about Botania's Ring of Far Reach when enabling long hands

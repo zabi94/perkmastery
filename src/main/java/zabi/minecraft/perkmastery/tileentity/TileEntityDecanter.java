@@ -12,6 +12,7 @@ import net.minecraft.potion.PotionHelper;
 import net.minecraft.util.MathHelper;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
+import zabi.minecraft.perkmastery.libs.LibGameRules;
 
 
 public class TileEntityDecanter extends TileBase implements IInventory {
@@ -226,7 +227,7 @@ public class TileEntityDecanter extends TileBase implements IInventory {
 	}
 
 	public void dropContents() {
-		for (int i = 0; i < getSizeInventory(); i++) {
+		if (worldObj.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name())) for (int i = 0; i < getSizeInventory(); i++) {
 			if (getStackInSlot(i) != null) worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, this.getStackInSlot(i)));
 		}
 	}

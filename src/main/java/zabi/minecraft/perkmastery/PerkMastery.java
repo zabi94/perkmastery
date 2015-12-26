@@ -8,6 +8,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -53,7 +54,7 @@ public class PerkMastery {
 		Log.i("Registering classes on their bus");
 		tickHandler = new TickHandler();
 		FMLCommonHandler.instance().bus().register(tickHandler);
-		eventi = new zabi.minecraft.perkmastery.handlers.EventModHandler();
+		eventi = new EventModHandler();
 		MinecraftForge.EVENT_BUS.register(eventi);
 		proxy.registerAnimationHelper();
 
@@ -89,11 +90,17 @@ public class PerkMastery {
 
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent event) {
-		Log.i("Registering server commands: use /perkmastery or /pema");
+		Log.i("Registering server commands");
 		event.registerServerCommand(new CommandUnlock());
 		event.registerServerCommand(new CommandReset());
 		event.registerServerCommand(new CommandForceEnable());
 		event.registerServerCommand(new CommandSetAbilityLevel());
+	}
+
+	@EventHandler
+	public void serverLoaded(FMLServerStartedEvent event) {
+		if (Config.disableTileEntities) Log.w("Tile Entities from this mod are disabled and not ticking. To enable them use the config file!");
+		if (Config.maxIterations != 512) Log.w("\n\n\nRecursive functions limits are modified.\nAny bug report regarding java stack overflows will be immediately and promptly ignored.\nFurther attempts to contact dev(s) will result in blocking\n\n\n");
 	}
 
 }

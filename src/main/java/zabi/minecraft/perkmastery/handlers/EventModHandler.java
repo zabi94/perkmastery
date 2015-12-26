@@ -14,7 +14,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +31,6 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -48,6 +46,7 @@ import zabi.minecraft.perkmastery.items.ItemList;
 import zabi.minecraft.perkmastery.items.special.EvocationTome;
 import zabi.minecraft.perkmastery.items.special.UndeadSoul;
 import zabi.minecraft.perkmastery.items.special.UndeadSoul.UndeadType;
+import zabi.minecraft.perkmastery.libs.LibGameRules;
 import zabi.minecraft.perkmastery.misc.Log;
 import zabi.minecraft.perkmastery.network.packets.JumpBoost;
 import zabi.minecraft.perkmastery.visual.effects.EffectRegistry;
@@ -129,7 +128,7 @@ public class EventModHandler {
 			}
 
 		} else {
-			if (!event.entity.worldObj.isRemote && !event.isCanceled() && Math.random() < 2) {
+			if (!event.entity.worldObj.isRemote && event.entity.worldObj.getGameRules().getGameRuleBooleanValue(LibGameRules.doMobLoot.name()) && !event.isCanceled() && Math.random() < 0.1) {
 				if (event.source.getEntity() != null && event.source.getEntity() instanceof EntityPlayer && ExtendedPlayer.isEnabled((EntityPlayer) event.source.getEntity(), PlayerClass.MAGE, 4)) {
 					if ((event.entityLiving instanceof EntityZombie)) {
 						event.entityLiving.worldObj.spawnEntityInWorld(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, UndeadSoul.getNewSoul(UndeadType.ZOMBIE)));
@@ -225,7 +224,7 @@ public class EventModHandler {
 			if (evt.block.canSilkHarvest(evt.world, evt.getPlayer(), evt.x, evt.y, evt.z, evt.blockMetadata) && DigHandler.containsGlass(evt.block.getUnlocalizedName().toLowerCase())) {
 				evt.setCanceled(true);
 				evt.world.setBlockToAir(evt.x, evt.y, evt.z);
-				evt.world.spawnEntityInWorld(new EntityItem(evt.world, evt.x, evt.y, evt.z, new ItemStack(evt.block, 1, evt.blockMetadata)));
+				if (evt.world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name())) evt.world.spawnEntityInWorld(new EntityItem(evt.world, evt.x, evt.y, evt.z, new ItemStack(evt.block, 1, evt.blockMetadata)));
 			}
 		}
 
@@ -322,18 +321,18 @@ public class EventModHandler {
 		}
 	}
 
-	@SubscribeEvent
-	public void onTargetChanged(LivingSetAttackTargetEvent event) {
-		if (event.target instanceof EntityPlayer && event.entityLiving instanceof EntityMob) {
-			EntityPlayer p = (EntityPlayer) event.target;
-			if (event.entityLiving.getDataWatcher().getWatchableObjectString(10).indexOf(p.getDisplayName()) >= 0) {
-
-				((EntityMob) event.entityLiving).setAttackTarget(p.getLastAttacker());
-				((EntityMob) event.entityLiving).setTarget(p.getLastAttacker());
-				((EntityMob) event.entityLiving).setRevengeTarget(p.getLastAttacker());
-			}
-		}
-	}
+	// @SubscribeEvent
+	// public void onTargetChanged(LivingSetAttackTargetEvent event) {
+	// if (event.target instanceof EntityPlayer && event.entityLiving instanceof EntityMob) {
+	// EntityPlayer p = (EntityPlayer) event.target;
+	// if (event.entityLiving.getDataWatcher().getWatchableObjectString(10).indexOf(p.getDisplayName()) >= 0) {
+	//
+	// ((EntityMob) event.entityLiving).setAttackTarget(p.getLastAttacker());
+	// ((EntityMob) event.entityLiving).setTarget(p.getLastAttacker());
+	// ((EntityMob) event.entityLiving).setRevengeTarget(p.getLastAttacker());
+	// }
+	// }
+	// }
 
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event) {

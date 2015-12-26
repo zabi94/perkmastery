@@ -2,6 +2,7 @@ package zabi.minecraft.perkmastery.tileentity;
 
 import java.util.Random;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
+import zabi.minecraft.perkmastery.libs.LibGameRules;
 
 
 public class TileEntityDisenchanter extends TileBase implements IInventory {
@@ -72,6 +74,12 @@ public class TileEntityDisenchanter extends TileBase implements IInventory {
 		if (ticks >= REQUIRED_TICKS) {
 			disenchant();
 			ticks = 0;
+		}
+	}
+
+	public void dropContents() {
+		if (worldObj.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name())) for (int i = 0; i < getSizeInventory(); i++) {
+			if (getStackInSlot(i) != null) worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, this.getStackInSlot(i)));
 		}
 	}
 

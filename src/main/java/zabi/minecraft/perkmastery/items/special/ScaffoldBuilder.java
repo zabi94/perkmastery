@@ -49,7 +49,7 @@ public class ScaffoldBuilder extends ItemBase {
 					for (int dx = sx; dx <= ex; dx++)
 						for (int dy = sy; dy <= ey; dy++)
 							for (int dz = sz; dz <= ez; dz++)
-								if (world.isAirBlock(dx, dy, dz)) world.setBlock(dx, dy, dz, BlockList.scaffold);
+								if (world.isAirBlock(dx, dy, dz) || world.getBlock(dx, dy, dz).isReplaceable(world, dx, dy, dz)) world.setBlock(dx, dy, dz, BlockList.scaffold);
 				} else {
 					int sx = Math.min(x, coords.posX);
 					int ex = Math.max(x, coords.posX);
@@ -60,7 +60,7 @@ public class ScaffoldBuilder extends ItemBase {
 					for (int dx = sx; dx <= ex; dx++)
 						for (int dy = sy; dy <= ey; dy++)
 							for (int dz = sz; dz <= ez; dz++)
-								if ((is.getItemDamage() != 0 || dz == sz || dz == ez || dx == sx || dx == ex || dy == sy || dy == ey) && world.isAirBlock(dx, dy, dz)) world.setBlock(dx, dy, dz, BlockList.scaffold);
+								if ((is.getItemDamage() != 0 || dz == sz || dz == ez || dx == sx || dx == ex || dy == sy || dy == ey) && (world.isAirBlock(dx, dy, dz) || world.getBlock(dx, dy, dz).isReplaceable(world, dx, dy, dz))) world.setBlock(dx, dy, dz, BlockList.scaffold);
 				}
 				is.stackTagCompound.removeTag(NBT_TAG);
 			}

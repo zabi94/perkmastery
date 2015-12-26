@@ -141,7 +141,7 @@ public class TickHandler {
 		}
 	}
 
-	private static DamageSource shadowForm = new DamageSource("shadowForm").setDamageBypassesArmor();
+	private static DamageSource shadowForm = new DamageSource("shadowForm").setDamageBypassesArmor().setMagicDamage();
 
 	private void handleShadowForm(EntityPlayer player) { // ARCHER
 		if (ExtendedPlayer.isEnabled(player, PlayerClass.ARCHER, 6) && player.isSneaking()) {
@@ -278,11 +278,11 @@ public class TickHandler {
 	}
 
 	public void testAndPlace(ItemStack is, int px, int y, int pz, EntityPlayer player) {
-		if (is.stackSize > 0 && player.worldObj.isAirBlock(px, y, pz) && Block.getBlockFromItem(is.getItem()).renderAsNormalBlock()) {
+		if (is.stackSize > 0 && (player.worldObj.isAirBlock(px, y, pz) || player.worldObj.getBlock(px, y, pz).isReplaceable(player.worldObj, px, y, pz)) && Block.getBlockFromItem(is.getItem()).renderAsNormalBlock()) {
 			player.worldObj.setBlock(px, y, pz, Block.getBlockFromItem(player.getHeldItem().getItem()), player.getHeldItem().getItemDamage(), 3);
 			if (!player.capabilities.isCreativeMode) {
 				is.stackSize--;
-				if (is.stackSize == 0) player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+				if (is.stackSize == 0) player.setCurrentItemOrArmor(0, null);
 			}
 
 		}

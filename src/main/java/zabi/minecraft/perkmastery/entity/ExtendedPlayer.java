@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import zabi.minecraft.perkmastery.Config;
 import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.handlers.ToggleHandler;
+import zabi.minecraft.perkmastery.libs.LibGameRules;
 import zabi.minecraft.perkmastery.libs.LibGeneral;
 import zabi.minecraft.perkmastery.misc.Log;
 import zabi.minecraft.perkmastery.network.packets.AmuletShatter;
@@ -299,6 +300,7 @@ public class ExtendedPlayer {
 	}
 
 	public static void dropItemsOnDeath(EntityPlayer player) {
+		if (player.worldObj.getGameRules().getGameRuleBooleanValue(LibGameRules.keepInventory.name())) return;
 		for (int i = 0; i < getExtraInventory(player, InventoryType.REAL).length; i++) {
 			try {
 				player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, getExtraInventory(player, InventoryType.REAL)[i].copy()));

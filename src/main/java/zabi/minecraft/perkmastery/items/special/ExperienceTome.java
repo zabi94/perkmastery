@@ -59,7 +59,7 @@ public class ExperienceTome extends ItemBase {
 				world.setBlockToAir(coo.posX, coo.posY, coo.posZ);
 				world.spawnEntityInWorld(new EntityXPOrb(world, coo.posX, coo.posY, coo.posZ, 10));
 			}
-			player.inventory.mainInventory[player.inventory.currentItem] = null;
+			player.setCurrentItemOrArmor(0, null);
 		}
 
 	}
