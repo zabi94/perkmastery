@@ -1,5 +1,6 @@
 package zabi.minecraft.perkmastery.handlers;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -13,6 +14,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -27,11 +29,14 @@ import zabi.minecraft.perkmastery.entity.ExtendedPlayer.InventoryType;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
 import zabi.minecraft.perkmastery.entity.PortableFurnaceData;
 import zabi.minecraft.perkmastery.gui.GuiHandler;
+import zabi.minecraft.perkmastery.misc.Log;
 import zabi.minecraft.perkmastery.network.packets.OpenGuiMessage;
 import zabi.minecraft.perkmastery.proxy.ClientProxy;
 
 
 public class TickHandler {
+
+	public ArrayList<Item> updateBlackList = new ArrayList<Item>();
 
 	// Sezione eventi
 
@@ -46,6 +51,7 @@ public class TickHandler {
 			} catch (Exception e) {
 			} // If bed not set
 			handleSaturation(player);
+			handleBackpack(player);
 		}
 		if (ExtendedPlayer.isPlayer(player, PlayerClass.BUILDER)) {
 			this.handleParkour(player);
@@ -141,6 +147,22 @@ public class TickHandler {
 		}
 	}
 
+	private void handleBackpack(EntityPlayer player) {
+		if (!player.worldObj.isRemote && Config.extraInventoryTicks && ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 2)) {
+			ItemStack[] stacks = ExtendedPlayer.getExtraInventory(player, InventoryType.REAL);
+			for (ItemStack is : stacks)
+				if (is != null) try {
+					if (!updateBlackList.contains(is.getItem())) is.getItem().onUpdate(is, player.worldObj, player, -1, false);
+				} catch (Exception e) {
+					Log.e("Error trying to tick item");
+					Log.e(e);
+					Log.e("Adding " + is.getItem() + " to blacklist");
+					if (!UpdateHandler.outdated) Log.e("\n\n\nPlease report to https://github.com/zabi94/perkmastery/issues\n\n\n");
+					updateBlackList.add(is.getItem());
+				}
+		}
+	}
+
 	private static DamageSource shadowForm = new DamageSource("shadowForm").setDamageBypassesArmor().setMagicDamage();
 
 	private void handleShadowForm(EntityPlayer player) { // ARCHER
@@ -200,7 +222,7 @@ public class TickHandler {
 
 	private void handleFastMiner(EntityPlayer player) {// MINER
 		if (ExtendedPlayer.isEnabled(player, PlayerClass.MINER, 1)) {
-			if (player.getHeldItem() != null && (/* validItems.contains(player.getHeldItem().getItem()) || */IntegrationHandler.isPickaxe(player.getHeldItem())) && !player.isPotionActive(Potion.digSpeed.id)) {
+			if (player.getHeldItem() != null && (/* validItems.contains(player.getHeldItem().getItem()) || */IntegrationHelper.isPickaxe(player.getHeldItem())) && !player.isPotionActive(Potion.digSpeed.id)) {
 				PotionEffect pfx = new PotionEffect(Potion.digSpeed.id, 0, 0, false);// Haste
 				pfx.getCurativeItems().clear();
 				player.addPotionEffect(pfx);

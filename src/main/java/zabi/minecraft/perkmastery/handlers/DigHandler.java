@@ -27,7 +27,7 @@ public class DigHandler {
 	public static boolean isToolDelicate(BreakEvent evt) {
 		if (!(evt.block.canSilkHarvest(evt.world, evt.getPlayer(), evt.x, evt.y, evt.z, evt.blockMetadata) && containsGlass(evt.block.getUnlocalizedName().toLowerCase()))) return false;
 		ItemStack held = evt.getPlayer().getHeldItem();
-		if (held == null || !(IntegrationHandler.isPickaxe(held))) return true;
+		if (held == null || !(IntegrationHelper.isPickaxe(held))) return true;
 		return false;
 	}
 

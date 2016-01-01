@@ -92,7 +92,10 @@ public class PerkButton extends GuiButton {
 	}
 
 	public String getTooltip() {
+		return getTooltip(cls, lvl);
+	}
 
+	public static String getTooltip(int cls, int lvl) {
 		switch (cls) {
 		case 0:
 			return StatCollector.translateToLocal("perk.mage." + lvl);
@@ -110,8 +113,7 @@ public class PerkButton extends GuiButton {
 		return null;
 	}
 
-	public String getTooltipDescription() {
-
+	public static String getTooltipDescription(int cls, int lvl) {
 		switch (cls) {
 		case 0:
 			return StatCollector.translateToLocal("perk.desc.mage." + lvl);
@@ -127,6 +129,10 @@ public class PerkButton extends GuiButton {
 			return StatCollector.translateToLocal("perk.desc.explorer." + lvl);
 		}
 		return null;
+	}
+
+	public String getTooltipDescription() {
+		return getTooltipDescription(cls, lvl);
 	}
 
 	public boolean isHovered(int mouseX, int mouseY) {

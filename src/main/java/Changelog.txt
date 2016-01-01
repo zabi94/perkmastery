@@ -130,3 +130,6 @@ Build 13
 - Fixed Expert Eye Bug
 - Added WARNs in console about sensitive configs being modified
 - Added Check about Botania's Ring of Far Reach when enabling long hands
+- Compressed Information in Perks Gui with shift-hover
+- Extra inventories now have a tooltip that tells what ability the inventory is from
+- Implemented IMC messages to exclude items from ticking and pickaxe compatibility

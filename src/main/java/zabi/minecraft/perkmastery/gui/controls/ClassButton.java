@@ -20,13 +20,12 @@ public class ClassButton extends GuiButton {
 
 	protected static final ResourceLocation	buttonTexture	= new ResourceLocation(LibGeneral.MOD_ID, "textures/gui/gui_book_frame.png");
 	protected static final int				lato			= 26;
-	private static final ItemStack[]		stacks			= new ItemStack[] {
-																		new ItemStack(Blocks.enchanting_table),								// Mago
-																		new ItemStack(Items.bow),											// Arciere
-																		new ItemStack(Items.golden_pickaxe),								// Minatore
-																		new ItemStack(Blocks.brick_block),									// Costruttore
-																		new ItemStack(Items.golden_sword),									// Guerriero
-																		new ItemStack(Items.map, 1, 1)										// Esploratore
+	private static final ItemStack[]		stacks			= new ItemStack[] { new ItemStack(Blocks.enchanting_table),						// Mago
+															new ItemStack(Items.bow),														// Arciere
+															new ItemStack(Items.golden_pickaxe),											// Minatore
+															new ItemStack(Blocks.brick_block),												// Costruttore
+															new ItemStack(Items.golden_sword),												// Guerriero
+															new ItemStack(Items.map, 1, 1)													// Esploratore
 																};
 
 	public ClassButton(int id, int x, int y) {
@@ -65,7 +64,7 @@ public class ClassButton extends GuiButton {
 		return mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height && this.visible;
 	}
 
-	public String getTooltip() {
+	public static String getTooltip(int id) {
 		switch (id) {
 		case 0:
 			return StatCollector.translateToLocal("classes.mage");
@@ -81,6 +80,10 @@ public class ClassButton extends GuiButton {
 			return StatCollector.translateToLocal("classes.explorer");
 		}
 		return null;
+	}
+
+	public String getTooltip() {
+		return getTooltip(id);
 	}
 
 	public EnumChatFormatting getFormatting() {

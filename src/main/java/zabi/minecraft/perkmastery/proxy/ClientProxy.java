@@ -2,6 +2,7 @@ package zabi.minecraft.perkmastery.proxy;
 
 import org.lwjgl.input.Keyboard;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -12,8 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.blocks.BlockList;
+import zabi.minecraft.perkmastery.entity.EntityGrapplingHook;
 import zabi.minecraft.perkmastery.entity.HackyPlayerControllerMP;
-import zabi.minecraft.perkmastery.handlers.IntegrationHandler;
+import zabi.minecraft.perkmastery.handlers.IntegrationHelper;
 import zabi.minecraft.perkmastery.libs.LibGeneral;
 import zabi.minecraft.perkmastery.libs.LibModIDs;
 import zabi.minecraft.perkmastery.misc.Log;
@@ -22,6 +24,7 @@ import zabi.minecraft.perkmastery.network.packets.SyncInventoryToServer;
 import zabi.minecraft.perkmastery.tileentity.TileEntityDecanter;
 import zabi.minecraft.perkmastery.visual.AnimationHelper;
 import zabi.minecraft.perkmastery.visual.renderer.RendererDecanter;
+import zabi.minecraft.perkmastery.visual.renderer.RendererGrapplingHook;
 
 
 public class ClientProxy extends CommonProxy {
@@ -57,7 +60,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void setupHackyController(boolean enable) {
 		PlayerControllerMP pc = Minecraft.getMinecraft().playerController;
-		if (IntegrationHandler.isModLoaded(LibModIDs.Botania) && isBotaniaController(pc)) Log.w("Botania is loaded, and modified reach distance at least one time. This means that the Long Hands perk may conflict with the Ring of Far Reach");
+		if (IntegrationHelper.isModLoaded(LibModIDs.Botania) && isBotaniaController(pc)) Log.w("Botania is loaded, and modified reach distance at least one time. This means that the Long Hands perk may conflict with the Ring of Far Reach");
 		if (!(pc instanceof HackyPlayerControllerMP)) Minecraft.getMinecraft().playerController = new HackyPlayerControllerMP(Minecraft.getMinecraft().playerController);
 		((HackyPlayerControllerMP) Minecraft.getMinecraft().playerController).setExtended(enable);
 	}
@@ -71,10 +74,11 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void registerTESR() {
+	public void registerRenderers() {
 		RendererDecanter rendererDecanter = new RendererDecanter();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecanter.class, rendererDecanter);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.decanter), rendererDecanter);
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrapplingHook.class, new RendererGrapplingHook());
 	}
 
 }

@@ -32,7 +32,7 @@ public class OreDetectionHandler implements IRenderGeneral {
 
 	@Override
 	public void render(float ptick) {
-		if (player.isSneaking() && player.getHeldItem() != null && IntegrationHandler.isPickaxe(player.getHeldItem())) {
+		if (player.isSneaking() && player.getHeldItem() != null && IntegrationHelper.isPickaxe(player.getHeldItem())) {
 			for (int i = -RADIUS; i <= RADIUS; i++)
 				for (int j = -RADIUS; j <= RADIUS; j++)
 					for (int k = -RADIUS; k <= RADIUS; k++) {

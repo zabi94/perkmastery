@@ -12,6 +12,7 @@ public class Config {
 
 	public static Configuration	configuration;
 	public static boolean		disableTileEntities;
+	public static boolean		extraInventoryTicks;
 	public static int			experienceCost;
 	public static int			experienceCostTicksInterval;
 	public static int			maxBookshelvesScanned;
@@ -46,6 +47,7 @@ public class Config {
 
 	public static void reload() {
 		disableTileEntities = configuration.getBoolean("disableTileEntities", Configuration.CATEGORY_GENERAL, false, "Enable this to stop mod tile entities from ticking in case of world crash");
+		extraInventoryTicks = configuration.getBoolean("extraInventoryTicks", Configuration.CATEGORY_GENERAL, false, "Enable this to make the items in the backpack inventory receive tick updates");
 		experienceCost = configuration.getInt("experienceCost", Configuration.CATEGORY_GENERAL, 1, 1, 50, "Experience cost per tick of some abilities");
 		experienceCostTicksInterval = configuration.getInt("experienceTick", Configuration.CATEGORY_GENERAL, 100, 1, 500, "The interval in ticks between experience drain");
 		maxBookshelvesScanned = configuration.getInt("maxBookshelves", Configuration.CATEGORY_GENERAL, 30, -1, 100, "The max number of bookshelves scanned by the tome of experience. Setting this to a negative value disables the limit completely");

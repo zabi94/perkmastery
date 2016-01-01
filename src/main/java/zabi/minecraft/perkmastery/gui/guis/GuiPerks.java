@@ -69,13 +69,17 @@ public class GuiPerks extends GuiBase {
 				ClassButton cb = (ClassButton) b;
 				if (cb.isHovered(mouseX, mouseY)) tooltip.add(cb.getFormatting() + cb.getTooltip());
 				if (cb.isHovered(mouseX, mouseY) && !cb.enabled) tooltip.add(EnumChatFormatting.DARK_RED + StatCollector.translateToLocal("general.mustUnlockClass"));
-			}
-			if (b instanceof PerkButton) {
+			} else if (b instanceof PerkButton) {
 				PerkButton pb = (PerkButton) b;
 				if (pb.isHovered(mouseX, mouseY)) {
-					tooltip.add(EnumChatFormatting.UNDERLINE + pb.getTooltip());
+					tooltip.add(EnumChatFormatting.UNDERLINE.toString() + EnumChatFormatting.BOLD + pb.getTooltip());
 					if (!pb.isAbilityPurchased()) tooltip.add(getColorUnlocked(player, pb) + StatCollector.translateToLocal("generic.requiredExp") + ": " + ExtendedPlayer.getRequiredLevelsForAbility(player, pb.lvl));
 					addMultipleTooltip(tooltip, pb.getTooltipDescription());
+				}
+			} else if (b instanceof InventoryButton) {
+				InventoryButton ib = (InventoryButton) b;
+				if (ib.isHovered(mouseX, mouseY)) {
+					tooltip.add(InventoryTooltips[ib.id - 12]);
 				}
 			}
 
@@ -209,25 +213,47 @@ public class GuiPerks extends GuiBase {
 	}
 
 	private void addMultipleTooltip(ArrayList<String> tooltip, String rawString) {
-		while (rawString.contains("" + ENDLINE_CHAR)) {
-			tooltip.add(EnumChatFormatting.ITALIC + "" + EnumChatFormatting.GRAY + rawString.substring(0, rawString.indexOf(ENDLINE_CHAR)));
-			rawString = rawString.substring(rawString.indexOf(ENDLINE_CHAR) + 1);
+
+		if (GuiPerks.isShiftKeyDown()) {
+			while (rawString.contains("" + ENDLINE_CHAR)) {
+				tooltip.add(EnumChatFormatting.ITALIC + "" + EnumChatFormatting.GRAY + rawString.substring(0, rawString.indexOf(ENDLINE_CHAR)));
+				rawString = rawString.substring(rawString.indexOf(ENDLINE_CHAR) + 1);
+			}
+			tooltip.add(EnumChatFormatting.ITALIC + "" + EnumChatFormatting.GRAY + rawString);
+		} else {
+			tooltip.add((EnumChatFormatting.DARK_GRAY.toString() + EnumChatFormatting.ITALIC + StatCollector.translateToLocal("general.gui.holdShift")).trim());
 		}
-		tooltip.add(EnumChatFormatting.ITALIC + "" + EnumChatFormatting.GRAY + rawString);
 	}
 
-	private static final ItemStack[] icons = new ItemStack[] {
-			// Extra inventory
-			new ItemStack(Blocks.chest),
-			// Crafting Table
-			new ItemStack(Blocks.crafting_table),
-			// Furnace
-			new ItemStack(Blocks.furnace),
-			// Bone Amulet
-			new ItemStack(ItemList.boneAmulet),
-			// Filter
-			new ItemStack(Blocks.hopper),
-			// Chainmail
-			new ItemStack(Items.chainmail_helmet) };
+	private static final ItemStack[]	icons				= new ItemStack[] {
+																	// Extra inventory
+																	new ItemStack(Blocks.chest),
+																	// Crafting Table
+																	new ItemStack(Blocks.crafting_table),
+																	// Furnace
+																	new ItemStack(Blocks.furnace),
+																	// Bone Amulet
+																	new ItemStack(ItemList.boneAmulet),
+																	// Filter
+																	new ItemStack(Blocks.hopper),
+																	// Chainmail
+																	new ItemStack(Items.chainmail_helmet) };
 
+	private static final String[]		InventoryTooltips	= new String[] {
+																	// Extra inventory
+																	getFormatted(PlayerClass.EXPLORER, 2),
+																	// Crafting Table
+																	getFormatted(PlayerClass.MINER, 6),
+																	// Furnace
+																	getFormatted(PlayerClass.MINER, 6),
+																	// Bone Amulet
+																	getFormatted(PlayerClass.MAGE, 6),
+																	// Filter
+																	getFormatted(PlayerClass.MINER, 5),
+																	// Chainmail
+																	getFormatted(PlayerClass.WARRIOR, 3), };
+
+	private static String getFormatted(PlayerClass pc, int level) {
+		return PerkButton.getTooltip(pc.ordinal(), level) + " (" + ClassButton.getTooltip(pc.ordinal()) + ")";
+	}
 }

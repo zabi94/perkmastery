@@ -37,7 +37,7 @@ public class ServerProxy extends CommonProxy {
 	}
 
 	@Override
-	public void registerTESR() {
+	public void registerRenderers() {
 	}
 
 }

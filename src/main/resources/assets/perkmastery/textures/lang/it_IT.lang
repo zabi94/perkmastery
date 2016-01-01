@@ -16,7 +16,7 @@ tile.disenchanter.name=Altare delle Separazioni
 itemGroup.perkmastery=Perk Mastery
 key.openGui=Apri Finestra Abilita'
 
-mod.updates=[Perk Mastery] La tua versione è vecchia! Scaricane una più recente da %url%
+mod.updates=[Perk Mastery] La tua versione e' vecchia! Scaricane una piu' recente da %url%
 
 generic.requiredExp=Livelli Richiesti
 general.mustUnlockClass=Devi prima completare la classe iniziata!
@@ -34,6 +34,7 @@ general.evocationNameTag=Evocazione
 general.soul.destroyed.nobook=Un'anima non ha trovato un oggetto a cui legarsi, ed e' svanita
 general.soul.destroyed.unable=L'anima si sgretola nelle tue mani inesperte
 general.collectedSouls=Anime Collezionate
+general.gui.holdShift=Tieni premuto shift per piu' informazioni
 
 classes.mage=Mago
 classes.archer=Arcere

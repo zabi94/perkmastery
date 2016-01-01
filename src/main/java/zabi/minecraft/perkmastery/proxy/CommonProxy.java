@@ -18,5 +18,5 @@ public abstract class CommonProxy {
 
 	public abstract void setupHackyController(boolean enable);
 
-	public abstract void registerTESR();
+	public abstract void registerRenderers();
 }

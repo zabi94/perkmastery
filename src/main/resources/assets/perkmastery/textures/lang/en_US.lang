@@ -32,6 +32,7 @@ general.evocationNameTag=Evocation
 general.soul.destroyed.nobook=A soul found no item to bind to and vanished in your hands
 general.soul.destroyed.unable=The soul vanished in your hands
 general.collectedSouls=Collected Souls
+general.gui.holdShift=Hold shift for more info
 
 mod.updates=[Perk Mastery] Your mod is outdated! Go grab the latest one at %url%
 
