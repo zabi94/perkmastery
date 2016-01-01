@@ -36,37 +36,48 @@ import zabi.minecraft.perkmastery.proxy.ClientProxy;
 
 public class TickHandler {
 
-	public ArrayList<Item> updateBlackList = new ArrayList<Item>();
+	public ArrayList<Item>	updateBlackList	= new ArrayList<Item>();
+	public boolean			lock			= false;
 
 	// Sezione eventi
 
 	@SubscribeEvent
 	public void onPlayerTickEvent(TickEvent.PlayerTickEvent evt) {
 
+		if (lock) {
+			// Log.e("Tick Table Locked");
+			return;
+		}
+
+		lock = true;
 		EntityPlayer player = evt.player;
 
-		if (ExtendedPlayer.isPlayer(player, PlayerClass.EXPLORER)) {
-			try {
-				handleLootfinder(player);
-			} catch (Exception e) {
-			} // If bed not set
-			handleSaturation(player);
-			handleBackpack(player);
+		if (evt.side.equals(Side.SERVER)) {
+			if (ExtendedPlayer.isPlayer(player, PlayerClass.EXPLORER)) {
+				try {
+					handleLootfinder(player);
+				} catch (Exception e) {
+				} // If bed not set
+				handleSaturation(player);
+				handleBackpack(player);
+			}
+
+			if (ExtendedPlayer.isPlayer(player, PlayerClass.WARRIOR)) {
+				handleKnight(player);
+			}
+			if (ExtendedPlayer.isPlayer(player, PlayerClass.MINER)) {
+				handleFastMiner(player);
+				handleFurnace(player);
+			}
+			if (ExtendedPlayer.isPlayer(player, PlayerClass.ARCHER)) {
+				handleShadowForm(player);
+			}
 		}
 		if (ExtendedPlayer.isPlayer(player, PlayerClass.BUILDER)) {
 			this.handleParkour(player);
 			this.handleFloorLayer(player);
 		}
-		if (ExtendedPlayer.isPlayer(player, PlayerClass.WARRIOR)) {
-			handleKnight(player);
-		}
-		if (ExtendedPlayer.isPlayer(player, PlayerClass.MINER)) {
-			handleFastMiner(player);
-			handleFurnace(player);
-		}
-		if (ExtendedPlayer.isPlayer(player, PlayerClass.ARCHER)) {
-			handleShadowForm(player);
-		}
+		lock = false;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -139,7 +150,7 @@ public class TickHandler {
 			if (bed == null) return;
 			double distanceFromBed = player.getDistance(bed.posX, bed.posY, bed.posZ);
 			if (distanceFromBed > 64) {
-				if (player.worldObj.rand.nextInt(10000) < 2) {
+				if (player.worldObj.rand.nextInt(2) < 2) {
 					ItemStack loot = getRandomLoot(player.worldObj.rand);
 					if (loot != null) player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY + 1, player.posZ, loot));
 				}
@@ -294,8 +305,9 @@ public class TickHandler {
 
 	private ItemStack getRandomLoot(Random rnd) {
 		ItemStack res = null;
-		while (res == null)
-			ChestGenHooks.getOneItem(ChestGenHooks.STRONGHOLD_CORRIDOR, rnd);
+		while (res == null) {
+			res = ChestGenHooks.getOneItem(ChestGenHooks.STRONGHOLD_CORRIDOR, rnd);
+		}
 		return res;
 	}
 

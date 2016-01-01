@@ -133,3 +133,4 @@ Build 13
 - Compressed Information in Perks Gui with shift-hover
 - Extra inventories now have a tooltip that tells what ability the inventory is from
 - Implemented IMC messages to exclude items from ticking and pickaxe compatibility
+- Fixed server hanging bug
