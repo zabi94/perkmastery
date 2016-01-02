@@ -37,9 +37,11 @@ public class EntityGrapplingHook extends Entity {
 		this.setSize(0.2F, 0.2F);
 		this.noClip = true;
 		this.world = world;
-		this.player = player;
-		look = new double[] { player.getLookVec().xCoord * hookSpeed, player.getLookVec().yCoord * hookSpeed, player.getLookVec().zCoord * hookSpeed };
-		this.setPosition(player.posX, player.posY + 1.5, player.posZ);
+		if (player != null) {
+			this.player = player;
+			look = new double[] { player.getLookVec().xCoord * hookSpeed, player.getLookVec().yCoord * hookSpeed, player.getLookVec().zCoord * hookSpeed };
+			this.setPosition(player.posX, player.posY + 1.5, player.posZ);
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -60,6 +62,7 @@ public class EntityGrapplingHook extends Entity {
 	}
 
 	public void onUpdate() {
+
 		super.onUpdate();
 		if (player == null || world == null) {
 			this.setDead();
@@ -97,6 +100,7 @@ public class EntityGrapplingHook extends Entity {
 
 	public void setDead() {
 		if (!world.isRemote && !this.isDead) player.entityDropItem(new ItemStack(ItemList.hook), -1F);
+		player.fallDistance = -10;
 		super.setDead();
 	}
 

@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import zabi.minecraft.perkmastery.Config;
 import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer;
 import zabi.minecraft.perkmastery.entity.ExtendedPlayer.PlayerClass;
@@ -45,14 +46,18 @@ public class GuiPerks extends GuiBase {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float ptick, int mouseX, int mouseY) {
-		RenderHelper.enableBlend(true);
-		mc.getTextureManager().bindTexture(parallax[0]);
-		this.drawTexturedModalRect(guiLeft - 30, guiTop - 3, mouseX * 0.05, mouseY * 0.05, 236, 165);
+		if (!Config.fpsSavingMode) {
+			RenderHelper.enableBlend(true);
+			mc.getTextureManager().bindTexture(parallax[0]);
+			this.drawTexturedModalRect(guiLeft - 30, guiTop - 3, mouseX * 0.05, mouseY * 0.05, 236, 165);
+		}
 		mc.getTextureManager().bindTexture(parallax[1]);
 		this.drawTexturedModalRect(guiLeft - 30, guiTop - 3, 12 + (mouseX * 0.01), 45 + (mouseY * 0.01), 236, 165);
-		mc.getTextureManager().bindTexture(parallax[2]);
-		this.drawTexturedModalRect(guiLeft - 30, guiTop - 3, -mouseX * 0.07, -mouseY * 0.07, 236, 165);
-		this.drawTexturedModalRect(guiLeft - 30, guiTop - 3, -mouseX * 0.03 + 20, -mouseY * 0.03 + 20, 236, 165);
+		if (!Config.fpsSavingMode) {
+			mc.getTextureManager().bindTexture(parallax[2]);
+			this.drawTexturedModalRect(guiLeft - 30, guiTop - 3, -mouseX * 0.07, -mouseY * 0.07, 236, 165);
+			this.drawTexturedModalRect(guiLeft - 30, guiTop - 3, -mouseX * 0.03 + 20, -mouseY * 0.03 + 20, 236, 165);
+		}
 
 		GL11.glColor4d(1, 1, 1, 1);
 		mc.getTextureManager().bindTexture(texture);

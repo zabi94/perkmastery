@@ -9,12 +9,16 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class TargetSelector implements IEntitySelector {
 
-	EntityPlayer	player;
-	EntityLiving	target;
+	public static final String	TAG_OWNER	= "evocationOwnerPlayer";
 
-	public TargetSelector(EntityPlayer p, EntityLiving firstTarget) {
+	EntityPlayer				player;
+	EntityLiving				target;
+	EntityLiving				self;
+
+	public TargetSelector(EntityPlayer p, EntityLiving firstTarget, EntityLiving creature) {
 		player = p;
 		target = firstTarget;
+		self = creature;
 	}
 
 	@Override
@@ -24,6 +28,7 @@ public class TargetSelector implements IEntitySelector {
 		if (entity.equals(player)) return false;
 		if (entity instanceof EntityLiving) {
 			EntityLiving e = (EntityLiving) entity;
+			if (self.getEntityData() != null && self.getEntityData().hasKey(TAG_OWNER) && self.getEntityData().getString(TAG_OWNER).equals(player.getDisplayName())) return false;
 			if (player.equals(e.getAttackTarget())) return true;
 			if (e instanceof EntityMob && (e.getDataWatcher().getWatchableObjectString(10).indexOf(player.getDisplayName()) < 0)) return true;
 			if (e instanceof EntityMob && player.equals(((EntityMob) e).getAITarget())) return true;

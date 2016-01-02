@@ -15,7 +15,7 @@ import zabi.minecraft.perkmastery.libs.LibGeneral;
 
 public class Recipes {
 	public static void registerRecipes() {
-		RecipeSorter.register(LibGeneral.MOD_ID+":lockedRecipe", LockedRecipe.class, Category.UNKNOWN, "after:minecraft:shaped");
+		RecipeSorter.register(LibGeneral.MOD_ID+":lockedRecipe", LockedRecipe.class, Category.SHAPED, "before:minecraft:shaped");
 		registerVanilla();
 	}
 

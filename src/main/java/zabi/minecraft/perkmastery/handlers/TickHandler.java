@@ -36,48 +36,27 @@ import zabi.minecraft.perkmastery.proxy.ClientProxy;
 
 public class TickHandler {
 
-	public ArrayList<Item>	updateBlackList	= new ArrayList<Item>();
-	public boolean			lock			= false;
+	public ArrayList<Item> updateBlackList = new ArrayList<Item>();
 
 	// Sezione eventi
 
 	@SubscribeEvent
 	public void onPlayerTickEvent(TickEvent.PlayerTickEvent evt) {
 
-		if (lock) {
-			// Log.e("Tick Table Locked");
-			return;
-		}
-
-		lock = true;
 		EntityPlayer player = evt.player;
 
 		if (evt.side.equals(Side.SERVER)) {
-			if (ExtendedPlayer.isPlayer(player, PlayerClass.EXPLORER)) {
-				try {
-					handleLootfinder(player);
-				} catch (Exception e) {
-				} // If bed not set
-				handleSaturation(player);
-				handleBackpack(player);
-			}
+			handleLootfinder(player);
+			handleSaturation(player);
+			handleBackpack(player);
+			handleKnight(player);
+			handleFastMiner(player);
+			handleFurnace(player);
+			handleFloorLayer(player);
+			handleShadowForm(player);
+		}
+		handleParkour(player); // Has to run on client too
 
-			if (ExtendedPlayer.isPlayer(player, PlayerClass.WARRIOR)) {
-				handleKnight(player);
-			}
-			if (ExtendedPlayer.isPlayer(player, PlayerClass.MINER)) {
-				handleFastMiner(player);
-				handleFurnace(player);
-			}
-			if (ExtendedPlayer.isPlayer(player, PlayerClass.ARCHER)) {
-				handleShadowForm(player);
-			}
-		}
-		if (ExtendedPlayer.isPlayer(player, PlayerClass.BUILDER)) {
-			this.handleParkour(player);
-			this.handleFloorLayer(player);
-		}
-		lock = false;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -93,7 +72,7 @@ public class TickHandler {
 	// Sezione abilità
 
 	private void handleSaturation(EntityPlayer player) { // EXPLORER
-		if (!player.worldObj.isRemote && ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 6) && !player.isPotionActive(Potion.field_76443_y.id) && player.ticksExisted % Config.experienceCostTicksInterval == 0 && requestExperience(player)) {
+		if (ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 6) && !player.isPotionActive(Potion.field_76443_y.id) && player.ticksExisted % Config.experienceCostTicksInterval == 0 && requestExperience(player)) {
 			PotionEffect pfx = new PotionEffect(Potion.field_76443_y.id, Config.experienceCostTicksInterval, 0, false);// Saturation
 			pfx.getCurativeItems().clear();
 			player.addPotionEffect(pfx);
@@ -145,12 +124,12 @@ public class TickHandler {
 	}
 
 	private void handleLootfinder(EntityPlayer player) { // EXPLORER
-		if (!player.worldObj.isRemote && ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 3)) {
+		if (ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 3)) {
 			ChunkCoordinates bed = player.getBedLocation(player.worldObj.provider.dimensionId);
 			if (bed == null) return;
 			double distanceFromBed = player.getDistance(bed.posX, bed.posY, bed.posZ);
 			if (distanceFromBed > 64) {
-				if (player.worldObj.rand.nextInt(2) < 2) {
+				if (player.worldObj.rand.nextInt(2) < (1 / 20000)) {
 					ItemStack loot = getRandomLoot(player.worldObj.rand);
 					if (loot != null) player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY + 1, player.posZ, loot));
 				}
@@ -159,7 +138,7 @@ public class TickHandler {
 	}
 
 	private void handleBackpack(EntityPlayer player) {
-		if (!player.worldObj.isRemote && Config.extraInventoryTicks && ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 2)) {
+		if (Config.extraInventoryTicks && ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 2)) {
 			ItemStack[] stacks = ExtendedPlayer.getExtraInventory(player, InventoryType.REAL);
 			for (ItemStack is : stacks)
 				if (is != null) try {
@@ -192,16 +171,13 @@ public class TickHandler {
 
 	private void handleFurnace(EntityPlayer player) {// MINER
 
-		if (ExtendedPlayer.isEnabled(player, PlayerClass.MINER, 6) && !player.worldObj.isRemote) {
-
+		if (ExtendedPlayer.isEnabled(player, PlayerClass.MINER, 6)) {
 			PortableFurnaceData data = PortableFurnaceData.getDataFor(player);
 			ItemStack[] inv = ExtendedPlayer.getExtraInventory(player, InventoryType.REAL);
-
 			if (data.furnaceBurnTime > 0) {
 				--data.furnaceBurnTime;
 				data.write();
 			}
-
 			if (data.furnaceBurnTime != 0 || inv[23] != null && inv[25] != null) { // Se sta già cuocendo qualcosa || (c'è carbone + qualcosa da cucinare)
 				if (data.furnaceBurnTime == 0 && data.canSmelt()) { // Se deve iniziare una nuova operazione di smelting
 					data.currentItemBurnTime = data.furnaceBurnTime = TileEntityFurnace.getItemBurnTime(inv[25]); // Leggi il tempo necessario
@@ -257,7 +233,7 @@ public class TickHandler {
 	}
 
 	private void handleFloorLayer(EntityPlayer player) { // BUILDER
-		if (!player.worldObj.isRemote && ExtendedPlayer.isEnabled(player, PlayerClass.BUILDER, 5) && player.getHeldItem() != null && player.isSneaking() && Block.getBlockFromItem(player.getHeldItem().getItem()) != Blocks.air && player.onGround) {
+		if (ExtendedPlayer.isEnabled(player, PlayerClass.BUILDER, 5) && player.getHeldItem() != null && player.isSneaking() && Block.getBlockFromItem(player.getHeldItem().getItem()) != Blocks.air && player.onGround) {
 			int y = (int) (player.posY - 0.5);
 
 			ItemStack is = player.getHeldItem();

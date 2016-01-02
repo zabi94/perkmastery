@@ -1,6 +1,8 @@
 package zabi.minecraft.perkmastery.handlers;
 
 import java.util.Random;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
@@ -10,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import zabi.minecraft.perkmastery.Config;
 import zabi.minecraft.perkmastery.libs.LibGameRules;
+import zabi.minecraft.perkmastery.misc.Log;
 
 
 public class DigHandler {
@@ -93,7 +96,7 @@ public class DigHandler {
 	}
 
 	private static boolean checkVeinminer(BreakEvent evt, int x, int y, int z, int pass) {
-		return (evt.block.equals(evt.world.getBlock(x, y, z))) && (evt.blockMetadata == evt.world.getBlockMetadata(x, y, z)) && (pass <= VEIN_MAX_SIZE);
+		return areEquivalent(evt.block, evt.blockMetadata, evt.world.getBlock(x, y, z), evt.world.getBlockMetadata(x, y, z)) && (pass <= VEIN_MAX_SIZE);
 	}
 
 	public static void applyCrumbling(int x, int y, int z, World world, int qtDestroyed) {
@@ -104,6 +107,13 @@ public class DigHandler {
 		} else {
 			if (world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name()) && qtDestroyed > 0) world.spawnEntityInWorld(new EntityItem(world, x, y - qtDestroyed - 1, z, new ItemStack(Blocks.gravel, qtDestroyed)));
 		}
+	}
+
+	public static boolean areEquivalent(Block a, int ma, Block b, int mb) {
+		Log.i(a);
+		Log.i(b);
+		if (b instanceof BlockRedstoneOre && a instanceof BlockRedstoneOre) return true;
+		return (a.equals(b) && ma == mb);
 	}
 
 }

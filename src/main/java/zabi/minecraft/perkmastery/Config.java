@@ -13,6 +13,7 @@ public class Config {
 	public static Configuration	configuration;
 	public static boolean		disableTileEntities;
 	public static boolean		extraInventoryTicks;
+	public static boolean		fpsSavingMode;
 	public static int			experienceCost;
 	public static int			experienceCostTicksInterval;
 	public static int			maxBookshelvesScanned;
@@ -55,6 +56,7 @@ public class Config {
 		maxIterations = configuration.getInt("maxIterations", Configuration.CATEGORY_GENERAL, 512, 512, 8192, "The maximum depth for recursive functions. Changing this to high values may crash your game. If you really need to use bigger functions, use in conjunction with the java -Xss JVM option. [DO NOT MODIFY UNLESS YOU KNOW WHAT YOU ARE DOING - DO NOT REPORT BUGS WHEN THIS IS ENABLED]");
 		newPerkTreeCost = configuration.getInt("newPerkTreeCost", Configuration.CATEGORY_GENERAL, 100, -1, 9999, "The experience cost to unlock the first ability of a new tree. Setting this to a negative value disables the ability to unlock a second tree");
 		updateBranch = configuration.getString("updateBranch", Configuration.CATEGORY_GENERAL, "stable", "Use one between (stable,alpha,beta) to receive update notifications about them. Anything else will disable it");
+		fpsSavingMode = configuration.getBoolean("thisPcIsAPotato", Configuration.CATEGORY_GENERAL, false, "Set to true if you have a potato pc and would like to use less pretties in exchange for fps");
 	}
 
 	@SubscribeEvent

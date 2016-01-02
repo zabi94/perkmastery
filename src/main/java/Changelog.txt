@@ -134,3 +134,11 @@ Build 13
 - Extra inventories now have a tooltip that tells what ability the inventory is from
 - Implemented IMC messages to exclude items from ticking and pickaxe compatibility
 - Fixed server hanging bug
+
+Build 14
+
+- Fixed evocations revolting against the owner when the entity is unloaded and reloaded
+- Removed redundancy in condition checking, one time is enough to check where code is executed, isn't it? 
+- Fixed derp from debugging code
+- Fixed redstone not being able to be joined-mined because of metadata shifting for light
+- Fixed Designer not working with wood, making buttons instead. Recipe sorter to the rescue

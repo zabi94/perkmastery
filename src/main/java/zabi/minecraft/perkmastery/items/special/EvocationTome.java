@@ -75,10 +75,11 @@ public class EvocationTome extends ItemBase {
 				e.setPosition(p.posX, p.posY, p.posZ);
 				e.setHealth(6F);
 				p.worldObj.spawnEntityInWorld(e);
+				e.getEntityData().setString(TargetSelector.TAG_OWNER, p.getDisplayName());
 				e.setCustomNameTag(p.getDisplayName() + " - " + StatCollector.translateToLocal("general.evocationNameTag"));
 				e.tasks.addTask(0, new EntityAIAttackOnCollide((EntityCreature) e, EntityLiving.class, 1.6D, true));
 				e.targetTasks.taskEntries.clear();
-				e.targetTasks.addTask(1, new EntityAINearestAttackableTarget((EntityCreature) e, EntityLiving.class, 0, false, false, new TargetSelector(p, target)));
+				e.targetTasks.addTask(1, new EntityAINearestAttackableTarget((EntityCreature) e, EntityLiving.class, 0, false, false, new TargetSelector(p, target, e)));
 				e.setAttackTarget(target);
 			}
 		}

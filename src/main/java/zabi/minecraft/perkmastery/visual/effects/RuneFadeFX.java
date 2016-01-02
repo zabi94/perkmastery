@@ -2,6 +2,7 @@ package zabi.minecraft.perkmastery.visual.effects;
 
 import net.minecraft.client.particle.EntityEnchantmentTableParticleFX;
 import net.minecraft.world.World;
+import zabi.minecraft.perkmastery.Config;
 
 
 public class RuneFadeFX extends EntityEnchantmentTableParticleFX {
@@ -17,15 +18,27 @@ public class RuneFadeFX extends EntityEnchantmentTableParticleFX {
 		this.errored = errored;
 		this.particleMaxAge = 100;
 		this.motionY = 0.04;
-		this.radDev = rand.nextGaussian() * 0.1;
-		posY += rand.nextGaussian() * 0.2;
+
+		if (Config.fpsSavingMode) {
+			this.particleMaxAge = 90;
+			this.radDev = 0;
+			posY += 0.2;
+		} else {
+			this.radDev = rand.nextGaussian() * 0.1;
+			posY += rand.nextGaussian() * 0.2;
+		}
+
 		px = posX;
 		pz = posZ;
 		this.particleScale *= 1.8;
 
 		if (errored) {
+			if (Config.fpsSavingMode) {
+				this.particleRed = 0.6F;
+			} else {
+				this.particleRed = 0.5F + (float) (0.2 * rand.nextGaussian());
+			}
 			this.particleBlue = this.particleGreen = 0;
-			this.particleRed = 0.5F + (float) (0.2 * rand.nextGaussian());
 			this.motionY = -0.02;
 			this.posY += 0.5;
 			this.particleMaxAge *= 2;
@@ -40,6 +53,7 @@ public class RuneFadeFX extends EntityEnchantmentTableParticleFX {
 
 	public void onUpdate() {
 		float f = (float) this.particleAge / (float) this.particleMaxAge;
+		if (!Config.fpsSavingMode) this.particleAlpha = (1.2F - f * f);
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;

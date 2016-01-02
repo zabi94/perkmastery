@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import zabi.minecraft.perkmastery.Config;
 import zabi.minecraft.perkmastery.visual.AnimationHelper;
 import zabi.minecraft.perkmastery.visual.effects.IRenderGeneral;
 
@@ -49,11 +50,14 @@ public class OreDetectionHandler implements IRenderGeneral {
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		int disc = x * y * z;
+		int disc = 0;
+		if (!Config.fpsSavingMode) disc = x * y * z;
 		double angolo = AnimationHelper.rotation(0.3, ptick, disc);
 		GL11.glTranslated(x, y, z);
+
 		GL11.glScaled(0.5, 0.5, 0.5);
-		GL11.glTranslated(0.5, 0.5, 0.5);
+		GL11.glTranslated(0.5, 0.5, 1);// Scambia in caso di schifo con quello sotto
+
 		GL11.glTranslated(0.5, 0, 0);
 		GL11.glRotated(angolo, 0, 1, 0);
 		GL11.glTranslated(-0.5, 0, 0);
