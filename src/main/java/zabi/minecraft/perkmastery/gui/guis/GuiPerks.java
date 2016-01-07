@@ -119,7 +119,8 @@ public class GuiPerks extends GuiBase {
 			buttonList.add(abilities[i]);
 			if (ExtendedPlayer.hasUnfinishedTrees(player) && !ExtendedPlayer.isPlayer(player, PlayerClass.values()[i])) {
 				classes[i].enabled = ExtendedPlayer.getEnabledAbilities(player)[i] > 0;
-
+			} else {
+				if (ExtendedPlayer.hasAnyAbility(player) && Config.newPerkTreeCost < 0) classes[i].enabled = ExtendedPlayer.isPlayer(player, PlayerClass.values()[i]);
 			}
 
 		}
@@ -127,12 +128,6 @@ public class GuiPerks extends GuiBase {
 		for (int i = 0; i < inventories.length; i++) {
 			inventories[i] = new InventoryButton(12 + i, 5, (this.height / 2) + (40 * i) - (40 * inventories.length / 2) + 10, icons[i]);
 			buttonList.add(inventories[i]);
-		}
-		setActivationInventories();
-	}
-
-	private void setActivationInventories() {
-		for (int i = 0; i < inventories.length; i++) {
 			inventories[i].visible = isEnabledInventory(i);
 		}
 	}
@@ -171,7 +166,9 @@ public class GuiPerks extends GuiBase {
 			PerkButton btn = ((PerkButton) guibutton);
 			btn.clicked();
 			if (ExtendedPlayer.hasPlayerAquired(player, PlayerClass.values()[btn.getTree()], btn.getLevel()) && btn.getLevel() < 6) abilities[btn.getLevel()].enabled = true;
-			this.setActivationInventories();
+			for (int i = 0; i < inventories.length; i++) {
+				inventories[i].visible = isEnabledInventory(i);
+			}
 			this.updateScreen();
 		} else {
 			showExtraInv(guibutton.id % 6);
@@ -195,6 +192,7 @@ public class GuiPerks extends GuiBase {
 			abilities[i].setup(PlayerClass.values()[id], i + 1);
 			abilities[i].enabled = true;
 			if (ExtendedPlayer.getAbilityLevelFor(player, PlayerClass.values()[id]) < i) abilities[i].enabled = false;
+			if (ExtendedPlayer.getRequiredLevelsForAbility(player, i + 1) < 0 && !ExtendedPlayer.hasPlayerAquired(player, PlayerClass.values()[id], i + 1)) abilities[i].enabled = false;
 		}
 
 		this.updateScreen();
@@ -207,7 +205,11 @@ public class GuiPerks extends GuiBase {
 			classes[i].visible = true;
 			abilities[i].visible = false;
 			abilities[i].setdown();
-			if (ExtendedPlayer.hasUnfinishedTrees(player) && !ExtendedPlayer.isPlayer(player, PlayerClass.values()[i])) classes[i].enabled = ExtendedPlayer.getEnabledAbilities(player)[i] > 0;
+			if (ExtendedPlayer.hasUnfinishedTrees(player) && !ExtendedPlayer.isPlayer(player, PlayerClass.values()[i])) {
+				classes[i].enabled = ExtendedPlayer.getEnabledAbilities(player)[i] > 0;
+			} else {
+				if (ExtendedPlayer.hasAnyAbility(player) && Config.newPerkTreeCost < 0) classes[i].enabled = ExtendedPlayer.isPlayer(player, PlayerClass.values()[i]);
+			}
 		}
 
 	}

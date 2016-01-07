@@ -104,4 +104,11 @@ public class EntityGrapplingHook extends Entity {
 		super.setDead();
 	}
 
+	@SideOnly(Side.CLIENT)
+	public boolean isInRangeToRenderDist(double p_70112_1_) {
+		double d1 = this.boundingBox.getAverageEdgeLength() * 4.0D;
+		d1 *= 64.0D;
+		return p_70112_1_ < d1 * d1;
+	}
+
 }

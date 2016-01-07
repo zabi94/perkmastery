@@ -122,7 +122,7 @@ perk.explorer.6=Expert Traveller
 
 perk.desc.explorer.1=Allows you to sleep under any condition,_except daylight
 perk.desc.explorer.2=Get some extra inventory
-perk.desc.explorer.3=You always seem to find cool stuff on your adventures._When you are at least 64 blocks away from your bed_random loot generates around you
+perk.desc.explorer.3=You always seem to find cool stuff on your adventures._When you are at least 256 blocks away from your bed_random loot generates around you
 perk.desc.explorer.4=You jump higher, run faster and_are more agile on 1 block high steps
 perk.desc.explorer.5=If you are to die from falling, your agility_lets you always preserve half a heart
 perk.desc.explorer.6=Fills your stomach at the cost of experience

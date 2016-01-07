@@ -142,3 +142,7 @@ Build 14
 - Fixed derp from debugging code
 - Fixed redstone not being able to be joined-mined because of metadata shifting for light
 - Fixed Designer not working with wood, making buttons instead. Recipe sorter to the rescue
+- Fixed Lootfinder drowning player in loot (avg 1 every 3 ticks spawned loot, for a grand total of 7 pieces of loot per second. I can code, I swear)
+- Fixed Update checker ALWAYS notifying of new version if DISABLED (That's my masterpiece, tbh)
+- Fixed Perks GUI not disabling buttons if you disable multiple paths. Instead it just desynced.
+- Grappling Hook now renders

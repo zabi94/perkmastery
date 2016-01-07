@@ -17,6 +17,8 @@ public class UpdateHandler implements Runnable {
 
 	private void checkForUpdates() {
 		String remote = "";
+		String s = Config.updateBranch.toLowerCase();
+		if (!s.equals("stable") && !s.equals("alpha") && !s.equals("beta")) return;
 		try {
 			remote = urlbase + Config.updateBranch + "/" + LibGeneral.MOD_BUILD;
 		} catch (Throwable e) {

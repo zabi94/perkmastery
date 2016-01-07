@@ -128,8 +128,8 @@ public class TickHandler {
 			ChunkCoordinates bed = player.getBedLocation(player.worldObj.provider.dimensionId);
 			if (bed == null) return;
 			double distanceFromBed = player.getDistance(bed.posX, bed.posY, bed.posZ);
-			if (distanceFromBed > 64) {
-				if (player.worldObj.rand.nextInt(2) < (1 / 20000)) {
+			if (distanceFromBed > 256) {
+				if (player.worldObj.rand.nextInt(20000) == 1) {
 					ItemStack loot = getRandomLoot(player.worldObj.rand);
 					if (loot != null) player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY + 1, player.posZ, loot));
 				}

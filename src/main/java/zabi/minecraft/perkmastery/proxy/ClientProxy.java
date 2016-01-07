@@ -43,7 +43,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerKeyBindings() {
-		guiKey = new KeyBinding("key.openGui", Keyboard.KEY_C, LibGeneral.MOD_NAME);
+		guiKey = new KeyBinding("key.openGui", Keyboard.KEY_R, LibGeneral.MOD_NAME);
 		ClientRegistry.registerKeyBinding(guiKey);
 	}
 
