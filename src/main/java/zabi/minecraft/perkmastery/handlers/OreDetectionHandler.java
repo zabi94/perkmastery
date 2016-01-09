@@ -10,9 +10,12 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import zabi.minecraft.perkmastery.Config;
+import zabi.minecraft.perkmastery.PerkMastery;
 import zabi.minecraft.perkmastery.visual.AnimationHelper;
 import zabi.minecraft.perkmastery.visual.effects.IRenderGeneral;
 
@@ -22,7 +25,7 @@ public class OreDetectionHandler implements IRenderGeneral {
 
 	EntityPlayer				player;
 	World						worldObj;
-	private static final int	RADIUS	= 6;
+	private static final int	RADIUS	= 8;
 	private static IIcon		icon;
 
 	public OreDetectionHandler(EntityPlayer p, World world) {
@@ -52,11 +55,17 @@ public class OreDetectionHandler implements IRenderGeneral {
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		int disc = 0;
 		if (!Config.fpsSavingMode) disc = x * y * z;
-		double angolo = AnimationHelper.rotation(0.3, ptick, disc);
+		double speed = 0.5;
+		try {
+			ItemStack nextToSelected = PerkMastery.proxy.getSinglePlayer().inventory.mainInventory[(PerkMastery.proxy.getSinglePlayer().inventory.currentItem + 1) % 9];
+			if (nextToSelected != null && Item.getItemFromBlock(b).equals(nextToSelected.getItem()) && meta == nextToSelected.getItemDamage()) speed = 0.05;
+		} catch (NullPointerException ignore) {
+		}
+		double angolo = AnimationHelper.rotation(speed, ptick, disc);
 		GL11.glTranslated(x, y, z);
 
 		GL11.glScaled(0.5, 0.5, 0.5);
-		GL11.glTranslated(0.5, 0.5, 1);// Scambia in caso di schifo con quello sotto
+		GL11.glTranslated(0.5, 0.5, 1);
 
 		GL11.glTranslated(0.5, 0, 0);
 		GL11.glRotated(angolo, 0, 1, 0);

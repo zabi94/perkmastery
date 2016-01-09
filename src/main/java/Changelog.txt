@@ -146,3 +146,11 @@ Build 14
 - Fixed Update checker ALWAYS notifying of new version if DISABLED (That's my masterpiece, tbh)
 - Fixed Perks GUI not disabling buttons if you disable multiple paths. Instead it just desynced.
 - Grappling Hook now renders
+
+Build 15
+
+- Fixed crash when fortune is enabled and some blocks are mined
+- Rewrote Joined Ores
+- Rewrote gravel crumbling
+- Rewrote fortune interaction with Joined Ores
+- Now if you place an ore (silk touched) next to the pickaxe you are using Expert Eye with, corresponding block hints spin faster

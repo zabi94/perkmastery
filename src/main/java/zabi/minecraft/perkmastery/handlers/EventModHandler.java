@@ -3,6 +3,7 @@ package zabi.minecraft.perkmastery.handlers;
 import java.util.Iterator;
 import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -70,7 +71,6 @@ public class EventModHandler {
 
 				// Sincronizza al client connesso
 				ExtendedPlayer.syncToClient(player);
-
 			} else {
 				Thread updateChecker = new Thread(new UpdateHandler());
 				updateChecker.setDaemon(true);
@@ -78,9 +78,7 @@ public class EventModHandler {
 				updateChecker.setPriority(Thread.MIN_PRIORITY);
 				updateChecker.start();
 			}
-
 		}
-
 	}
 
 	@SubscribeEvent
@@ -92,9 +90,7 @@ public class EventModHandler {
 				player.fallDistance -= 0.15F;
 				PerkMastery.network.sendToServer(new JumpBoost());
 			}
-
 		}
-
 	}
 
 	@SubscribeEvent
@@ -111,22 +107,18 @@ public class EventModHandler {
 	public void onEntityDeath(LivingDeathEvent event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			EntityPlayer player = ((EntityPlayer) event.entityLiving);
-
 			if (ExtendedPlayer.isEnabled(player, PlayerClass.EXPLORER, 5) && event.source.equals(DamageSource.fall)) {
 				player.setHealth(1);
 				event.setCanceled(true);
 			}
-
 			if (ExtendedPlayer.isEnabled(player, PlayerClass.MAGE, 6) && ExtendedPlayer.hasDeathAmulet(player) && !event.isCanceled()) {
 				ExtendedPlayer.destroyAmulet(player);
 				player.setHealth(10);
 				event.setCanceled(true);
 			}
-
 			if (!player.worldObj.isRemote && !event.isCanceled()) {
 				ExtendedPlayer.dropItemsOnDeath(player);
 			}
-
 		} else {
 			if (!event.entity.worldObj.isRemote && event.entity.worldObj.getGameRules().getGameRuleBooleanValue(LibGameRules.doMobLoot.name()) && !event.isCanceled() && Math.random() < 0.1) {
 				if (event.source.getEntity() != null && event.source.getEntity() instanceof EntityPlayer && ExtendedPlayer.isEnabled((EntityPlayer) event.source.getEntity(), PlayerClass.MAGE, 4)) {
@@ -142,7 +134,6 @@ public class EventModHandler {
 
 	@SubscribeEvent
 	public void onLivingHurt(LivingHurtEvent event) {
-
 		// PLAYER BERSAGLIO
 		if (event.entityLiving instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
@@ -155,7 +146,6 @@ public class EventModHandler {
 					}
 				}
 			}
-
 			if (ExtendedPlayer.isEnabled(player, PlayerClass.WARRIOR, 3)) {
 				for (int i = 0; i < 4; i++)
 					if (ExtendedPlayer.getExtraInventory(player, InventoryType.REAL)[19 + i] != null) {
@@ -163,7 +153,6 @@ public class EventModHandler {
 						ExtendedPlayer.getExtraInventory(player, InventoryType.REAL)[19 + i].attemptDamageItem(2, player.getRNG());
 					}
 			}
-
 			if (ExtendedPlayer.isEnabled(player, PlayerClass.ARCHER, 2) && event.source.isProjectile() && !player.worldObj.isRemote && Math.random() < 0.7) {
 				event.setCanceled(true);
 			}
@@ -198,14 +187,12 @@ public class EventModHandler {
 						event.entityLiving.addPotionEffect(pfx);
 					}
 				}
-
 				if (ExtendedPlayer.isEnabled(player, PlayerClass.MAGE, 4) && !event.entityLiving.worldObj.isRemote) {
 					ItemStack ci = player.inventory.mainInventory[(player.inventory.currentItem + 1) % 9];
 					if (ci != null && ci.getItem().equals(ItemList.tomeEvocation)) {
 						EvocationTome.summonAtPlayer(ci, player, (EntityLiving) event.entityLiving);
 					}
 				}
-
 			}
 		}
 	}
@@ -213,13 +200,11 @@ public class EventModHandler {
 	@SubscribeEvent
 	public void onBlockBreakEvent(BreakEvent evt) {
 		if (evt.getPlayer() == null) return;
-		int fortuneLevel = EnchantmentHelper.getFortuneModifier(evt.getPlayer());
 		boolean delicate = (DigHandler.isToolDelicate(evt) && ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.BUILDER, 2));
 		boolean silk = EnchantmentHelper.getSilkTouchModifier(evt.getPlayer());
-		if (ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 4)) fortuneLevel++;
-		if (ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 5)) DigHandler.applyCrumbling(evt.x, evt.y + 1, evt.z, evt.world, 0);
-		if (ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 2)) DigHandler.applyVeinminer(evt, evt.x, evt.y, evt.z, new int[] { 0, 0 }, true, silk, fortuneLevel, 0);
-		else if (!silk && ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 4)) DigHandler.applyFortune(evt);
+		if (!evt.getResult().equals(Result.DENY) && ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 5)) DigHandler.applyCrumbling(evt.x, evt.y + 1, evt.z, evt.world, evt.getPlayer());
+		if (!evt.getResult().equals(Result.DENY) && ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 2) && !evt.world.isRemote) DigHandler.applyVeinminer(evt, evt.x, evt.y, evt.z, true);
+		else if (!silk && ExtendedPlayer.isEnabled(evt.getPlayer(), PlayerClass.MINER, 4) && !evt.world.isRemote && Math.random() < 0.3) DigHandler.applyFortune(evt);
 		if (delicate) {
 			if (evt.block.canSilkHarvest(evt.world, evt.getPlayer(), evt.x, evt.y, evt.z, evt.blockMetadata) && DigHandler.containsGlass(evt.block.getUnlocalizedName().toLowerCase())) {
 				evt.setCanceled(true);
@@ -227,7 +212,6 @@ public class EventModHandler {
 				if (evt.world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name())) evt.world.spawnEntityInWorld(new EntityItem(evt.world, evt.x, evt.y, evt.z, new ItemStack(evt.block, 1, evt.blockMetadata)));
 			}
 		}
-
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

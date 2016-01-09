@@ -1,30 +1,34 @@
 package zabi.minecraft.perkmastery.handlers;
 
-import java.util.Random;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneOre;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import zabi.minecraft.perkmastery.Config;
 import zabi.minecraft.perkmastery.libs.LibGameRules;
-import zabi.minecraft.perkmastery.misc.Log;
+import zabi.minecraft.perkmastery.proxy.ServerProxy;
 
 
 public class DigHandler {
 
-	private static final int VEIN_MAX_SIZE = 40;
+	private static final int										VEIN_MAX_SIZE	= 40;
+	private static final ConcurrentLinkedQueue<ChunkCoordinates>	visited			= new ConcurrentLinkedQueue<ChunkCoordinates>();
 
 	public static boolean containsGlass(String unlocalizedName) {
 		return unlocalizedName.contains("glass") || unlocalizedName.contains("pane") || unlocalizedName.contains("glowstone");
 	}
 
 	public static void applyFortune(BreakEvent evt) {
-		if (!evt.block.getItemDropped(evt.blockMetadata, evt.world.rand, 0).equals(Item.getItemFromBlock(evt.block)) && evt.world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name())) evt.world.spawnEntityInWorld(new EntityItem(evt.world, evt.x, evt.y, evt.z, new ItemStack(evt.block.getItemDropped(evt.blockMetadata, evt.world.rand, 0), 1, evt.block.damageDropped(evt.blockMetadata))));
+		try {
+			if (!evt.block.getItemDropped(evt.blockMetadata, evt.world.rand, 0).equals(Item.getItemFromBlock(evt.block)) && evt.world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name())) evt.world.spawnEntityInWorld(new EntityItem(evt.world, evt.x, evt.y, evt.z, new ItemStack(evt.block.getItemDropped(evt.blockMetadata, evt.world.rand, 0), 1, evt.block.damageDropped(evt.blockMetadata))));
+		} catch (NullPointerException e) {
+		}
 	}
 
 	public static boolean isToolDelicate(BreakEvent evt) {
@@ -34,84 +38,54 @@ public class DigHandler {
 		return false;
 	}
 
-	public static void applyVeinminer(BreakEvent evt, int x, int y, int z, int[] counter, boolean firstRun, boolean silk, int fortune, int iteration) {
-
-		iteration++;
-
-		if (iteration > Config.maxIterations) { return; }
-
-		if (!evt.block.getUnlocalizedName().toLowerCase().contains("ore") || evt.block instanceof ITileEntityProvider) return;
-
-		Item drop = silk ? Item.getItemFromBlock(evt.block) : evt.block.getItemDropped(evt.blockMetadata, evt.world.rand, fortune);
-		int meta = silk ? evt.blockMetadata : evt.block.damageDropped(evt.blockMetadata);
-		Random random = evt.world.rand;
-
-		if (checkVeinminer(evt, x + 1, y, z, counter[0])) {
-			counter[0]++;
-			counter[1] += silk ? 1 : evt.block.quantityDropped(meta, fortune, random);
-			evt.world.setBlockToAir(x + 1, y, z);
-			if (counter[0] < VEIN_MAX_SIZE) applyVeinminer(evt, x + 1, y, z, counter, false, silk, fortune, iteration);
+	public static void applyVeinminer(BreakEvent evt, int x, int y, int z, boolean baseRun) {
+		if (evt.world.isRemote) return;
+		if (!IntegrationHelper.isPickaxe(evt.getPlayer().getHeldItem())) return;
+		if (visited.size() > VEIN_MAX_SIZE) return;
+		visited.offer(new ChunkCoordinates(x, y, z));
+		for (int dx = -1; dx <= 1; dx++)
+			for (int dy = -1; dy <= 1; dy++)
+				for (int dz = -1; dz <= 1; dz++) {
+					ChunkCoordinates coords = new ChunkCoordinates(x + dx, y + dy, z + dz);
+					boolean isAlreadyVisited = visited.contains(coords);
+					boolean isEquivalentToMined = checkVeinminer(evt, x + dx, y + dy, z + dz);
+					boolean isValidCandidate = isOre(evt.world, x + dx, y + dy, z + dz);
+					if (!isAlreadyVisited && isEquivalentToMined && isValidCandidate) {
+						applyVeinminer(evt, x + dx, y + dy, z + dz, false);
+					}
+				}
+		if (baseRun) {
+			for (ChunkCoordinates cc : visited) {
+				boolean stop = ServerProxy.harvestBlockAt(cc.posX, cc.posY, cc.posZ, evt.getPlayer(), evt);
+				visited.remove(cc);
+				if (stop) {
+					visited.clear();
+					break;
+				}
+			}
 		}
-
-		if (checkVeinminer(evt, x - 1, y, z, counter[0])) {
-			counter[0]++;
-			counter[1] += silk ? 1 : evt.block.quantityDropped(meta, fortune, random);
-			evt.world.setBlockToAir(x - 1, y, z);
-			if (counter[0] < VEIN_MAX_SIZE) applyVeinminer(evt, x - 1, y, z, counter, false, silk, fortune, iteration);
-		}
-
-		if (checkVeinminer(evt, x, y + 1, z, counter[0])) {
-			counter[0]++;
-			counter[1] += silk ? 1 : evt.block.quantityDropped(meta, fortune, random);
-			evt.world.setBlockToAir(x, y + 1, z);
-			if (counter[0] < VEIN_MAX_SIZE) applyVeinminer(evt, x, y + 1, z, counter, false, silk, fortune, iteration);
-		}
-
-		if (checkVeinminer(evt, x, y - 1, z, counter[0])) {
-			counter[0]++;
-			counter[1] += silk ? 1 : evt.block.quantityDropped(meta, fortune, random);
-			evt.world.setBlockToAir(x, y - 1, z);
-			if (counter[0] < VEIN_MAX_SIZE) applyVeinminer(evt, x, y - 1, z, counter, false, silk, fortune, iteration);
-		}
-
-		if (checkVeinminer(evt, x, y, z + 1, counter[0])) {
-			counter[0]++;
-			counter[1] += silk ? 1 : evt.block.quantityDropped(meta, fortune, random);
-			evt.world.setBlockToAir(x, y, z + 1);
-			if (counter[0] < VEIN_MAX_SIZE) applyVeinminer(evt, x, y, z + 1, counter, false, silk, fortune, iteration);
-		}
-
-		if (checkVeinminer(evt, x, y, z - 1, counter[0])) {
-			counter[0]++;
-			counter[1] += silk ? 1 : evt.block.quantityDropped(meta, fortune, random);
-			evt.world.setBlockToAir(x, y, z - 1);
-			if (counter[0] < VEIN_MAX_SIZE) applyVeinminer(evt, x, y, z - 1, counter, false, silk, fortune, iteration);
-		}
-
-		if (evt.world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name()) && firstRun && counter[0] > 0) {
-			evt.block.dropXpOnBlockBreak(evt.world, evt.x, evt.y, evt.z, evt.getExpToDrop() * counter[0]);
-			evt.world.spawnEntityInWorld(new EntityItem(evt.world, x, y, z, new ItemStack(drop, counter[1], meta)));
-		}
-
 	}
 
-	private static boolean checkVeinminer(BreakEvent evt, int x, int y, int z, int pass) {
-		return areEquivalent(evt.block, evt.blockMetadata, evt.world.getBlock(x, y, z), evt.world.getBlockMetadata(x, y, z)) && (pass <= VEIN_MAX_SIZE);
+	private static boolean isOre(World world, int x, int y, int z) {
+		String blockName = world.getBlock(x, y, z).getUnlocalizedName().toLowerCase();
+		if (blockName.contains("ore")) return true;
+		if (blockName.contains("netherquartz")) return true;
+		if (world.getTileEntity(x, y, z) != null) return false;
+		return false;
 	}
 
-	public static void applyCrumbling(int x, int y, int z, World world, int qtDestroyed) {
-		if (qtDestroyed > Config.maxIterations) { return; }
+	private static boolean checkVeinminer(BreakEvent evt, int x, int y, int z) {
+		return areEquivalent(evt.block, evt.blockMetadata, evt.world.getBlock(x, y, z), evt.world.getBlockMetadata(x, y, z));
+	}
+
+	public static void applyCrumbling(int x, int y, int z, World world, EntityPlayer player) {
 		if (!world.isRemote && world.getBlock(x, y, z).equals(Blocks.gravel)) {
-			world.setBlockToAir(x, y, z);
-			applyCrumbling(x, y + 1, z, world, qtDestroyed + 1);
-		} else {
-			if (world.getGameRules().getGameRuleBooleanValue(LibGameRules.doTileDrops.name()) && qtDestroyed > 0) world.spawnEntityInWorld(new EntityItem(world, x, y - qtDestroyed - 1, z, new ItemStack(Blocks.gravel, qtDestroyed)));
+			ServerProxy.harvestBlockAt(x, y, z, null, null);
+			applyCrumbling(x, y + 1, z, world, player);
 		}
 	}
 
 	public static boolean areEquivalent(Block a, int ma, Block b, int mb) {
-		Log.i(a);
-		Log.i(b);
 		if (b instanceof BlockRedstoneOre && a instanceof BlockRedstoneOre) return true;
 		return (a.equals(b) && ma == mb);
 	}
